@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Profile View</p>
+        <h1>{{ profile["username"] }}</h1>
+        <p class="lead">
+            {% if visibility_scope == "all" %}
+                Full profile details are visible for administrator review.
+            {% else %}
+                Limited identity details are visible here. Private contact fields remain hidden.
+            {% endif %}
+        </p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.profile_directory') }}"><span class="icon-glyph">&lt;</span><span>Back to Directory</span></a>
+    </div>
+</header>
+
+<section class="panel profile-panel">
+    <div class="profile-layout">
+        <aside class="profile-sidebar">
+            <div class="profile-avatar-card">
+                <div class="profile-avatar-shell">
+                    {% if profile_photo_url %}
+                        <img class="profile-avatar-image" src="{{ profile_photo_url }}" alt="{{ profile['username'] }} profile photo">
+                    {% else %}
+                        <div class="profile-avatar-fallback">{{ profile['username'][:1]|upper }}</div>
+                    {% endif %}
+                </div>
+                <h3>{{ profile["username"] }}</h3>
+                <p class="muted">{{ profile["role"] }}</p>
+            </div>
+            <div class="profile-meta-card">
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Account Status</span>
+                    <strong class="status-badge {{ 'status-badge-danger' if profile['disabled'] else 'status-badge-good' }}">{{ account_status_label(profile) }}</strong>
+                </div>
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Campus ID</span>
+                    <strong>{{ profile["campus_id"] or "Not set" }}</strong>
+                </div>
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Role</span>
+                    <strong>{{ profile["role"] }}</strong>
+                </div>
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Joined</span>
+                    <strong>{{ format_local_time(profile["created_at"]) }}</strong>
+                </div>
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Last Login</span>
+                    <strong>{{ format_local_time(profile["last_login_at"]) or "No login recorded yet" }}</strong>
+                </div>
+            </div>
+        </aside>
+
+        <div class="profile-fields">
+            <label>Username</label>
+            <input value="{{ profile['username'] }}" disabled>
+
+            <label>About</label>
+            <textarea disabled>{{ profile["about_info"] or "No about info added yet." }}</textarea>
+
+            {% if visibility_scope == "all" %}
+                <label>Campus Email ID</label>
+                <input value="{{ profile['email'] or 'Not set' }}" disabled>
+
+                <label>Phone</label>
+                <input value="{{ profile['phone'] or 'Not set' }}" disabled>
+            {% else %}
+                <p class="compact-summary-text">Campus email ID and phone are hidden for privacy in this view.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

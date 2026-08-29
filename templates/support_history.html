@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Support History - HashVera{% endblock %}
+{% block content %}
+<main class="auth-container" style="max-width: 900px; padding-top: 60px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 40px;">
+        <h1 class="premium-gradient-text" style="font-size: 2.5rem;">My Support Center</h1>
+        <p class="lead">View your message history and administrative responses.</p>
+        <div style="margin-top: 24px; display: flex; justify-content: center;">
+            <a href="{{ url_for('main.support_new') }}" class="ghost-button" style="background: var(--primary); color: white; border: none; padding: 12px 24px;">Submit New Request</a>
+        </div>
+    </header>
+
+    {% if my_tickets %}
+    <section class="panel ui-reveal" style="margin-bottom: 40px;">
+        <div class="panel-heading" style="justify-content: center; text-align: center;">
+            <h2>Recent Conversations</h2>
+        </div>
+        <div class="dashboard-grid" style="grid-template-columns: 1fr; gap: 16px; margin-top: 20px;">
+            {% for ticket in my_tickets %}
+                <article class="user-admin-card" style="border-left: 4px solid {% if ticket.status == 'Open' %}var(--danger){% elif ticket.status == 'Resolved' %}var(--success){% else %}var(--primary){% endif %}; padding: 24px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--line);">
+                    <div class="block-head" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: start;">
+                        <div>
+                            <p class="eyebrow" style="margin-bottom: 4px; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">{{ ticket.category }} • {{ ticket.created_at.split('T')[0] }}</p>
+                            <h4 style="margin: 0; font-size: 1.15rem; line-height: 1.4;">{{ ticket.message }}</h4>
+                        </div>
+                        <span class="tag" style="padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; background: var(--bg); border: 1px solid var(--line); font-weight: 700;">{{ ticket.status }}</span>
+                    </div>
+                    {% if ticket.admin_note %}
+                        <div style="margin-top: 16px; padding: 16px; background: rgba(15, 118, 110, 0.05); border-radius: 12px; border: 1px dashed var(--primary);">
+                            <p style="font-size: 0.95rem; color: var(--ink); line-height: 1.6; margin: 0;"><strong>&#128172; Admin Reply:</strong> {{ ticket.admin_note }}</p>
+                        </div>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <section class="panel ui-reveal" style="text-align: center; padding: 60px;">
+        <div style="font-size: 3rem; margin-bottom: 20px;">&#128237;</div>
+        <h2>No tickets yet</h2>
+        <p>Your support inquiry history will appear here once you submit a request.</p>
+    </section>
+    {% endif %}
+
+    <section class="panel ui-reveal">
+        <div class="panel-heading" style="justify-content: center; text-align: center;">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list" style="margin-top: 20px;">
+            <details class="faq-item" style="padding: 16px; border-bottom: 1px solid var(--line);">
+                <summary style="font-weight: 600; cursor: pointer; padding: 8px 0;">How long does a response take?</summary>
+                <p style="margin-top: 12px; color: var(--muted); font-size: 0.95rem;">Typical response time is within 24-48 business hours.</p>
+            </details>
+            <details class="faq-item" style="padding: 16px; border-bottom: 1px solid var(--line);">
+                <summary style="font-weight: 600; cursor: pointer; padding: 8px 0;">Where can I find my blockchain verification ID?</summary>
+                <p style="margin-top: 12px; color: var(--muted); font-size: 0.95rem;">Check your "My Records" section; the ID is listed under each secure block.</p>
+            </details>
+        </div>
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="{{ url_for('records.dashboard') }}" class="ghost-button">Back to Dashboard</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

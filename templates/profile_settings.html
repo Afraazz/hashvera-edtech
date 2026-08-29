@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Account Settings</p>
+        <h1>Profile and Preferences</h1>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel profile-panel">
+    <div class="panel-heading">
+        <h2>Profile Details</h2>
+        <p>Update your username, campus email ID, phone details, and profile identity in one place.</p>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="auth-form profile-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="profile-layout">
+            <aside class="profile-sidebar">
+                <div class="profile-avatar-card">
+                    <div class="profile-avatar-shell">
+                        {% if profile_photo_url %}
+                            <img class="profile-avatar-image" src="{{ profile_photo_url }}" alt="{{ profile['username'] }} profile photo">
+                        {% else %}
+                            <div class="profile-avatar-fallback">{{ profile['username'][:1]|upper }}</div>
+                        {% endif %}
+                    </div>
+                    <h3>{{ profile['username'] }}</h3>
+                    <p class="muted">{{ profile['role'] }}</p>
+                    <label for="profile-photo">Profile Photo</label>
+                    <input id="profile-photo" type="file" name="profile_photo" accept=".png,.jpg,.jpeg">
+                    <p class="compact-summary-text">PNG, JPG, or JPEG only. A new image replaces the current one.</p>
+                    {% if profile_photo_url %}
+                        <button type="submit" name="profile_action" value="remove_photo" class="danger-button profile-remove-photo-button">Remove Profile Photo</button>
+                    {% endif %}
+                </div>
+                <div class="profile-meta-card">
+                    <div class="compact-summary-item">
+                        <span class="compact-summary-label">Account Status</span>
+                        <strong class="status-badge {{ 'status-badge-danger' if profile['disabled'] else 'status-badge-good' }}">{{ account_status_label(profile) }}</strong>
+                    </div>
+                    <div class="compact-summary-item">
+                        <span class="compact-summary-label">Campus ID</span>
+                        <strong>{{ profile['campus_id'] or "Not set" }}</strong>
+                    </div>
+                    <div class="compact-summary-item">
+                        <span class="compact-summary-label">Role</span>
+                        <strong>{{ profile['role'] }}</strong>
+                    </div>
+                    <div class="compact-summary-item">
+                        <span class="compact-summary-label">Joined</span>
+                        <strong>{{ format_local_time(profile['created_at']) }}</strong>
+                    </div>
+                    <div class="compact-summary-item">
+                        <span class="compact-summary-label">Last Login</span>
+                        <strong>{{ format_local_time(profile['last_login_at']) or "No login recorded yet" }}</strong>
+                    </div>
+                </div>
+                <div class="profile-meta-card">
+                    <div class="panel-heading">
+                        <h2>Profile Completeness</h2>
+                        <p>Fill the basics so your student or staff identity is easier to verify.</p>
+                    </div>
+                    <div class="compact-summary-item">
+                        <span class="compact-summary-label">Completed</span>
+                        <strong>{{ completeness.percent }}%</strong>
+                    </div>
+                    <div class="compact-summary-item">
+                        <span class="compact-summary-label">Filled Fields</span>
+                        <strong>{{ completeness.completed }} / {{ completeness.total }}</strong>
+                    </div>
+                    {% if completeness.missing %}
+                        <p class="compact-summary-text">Still missing: {{ completeness.missing|join(", ") }}</p>
+                    {% else %}
+                        <p class="compact-summary-text">Your profile is complete.</p>
+                    {% endif %}
+                </div>
+            </aside>
+
+            <div class="profile-fields">
+                <label for="profile-username">Username</label>
+                <input id="profile-username" type="text" name="username" value="{{ profile['username'] }}" minlength="3" placeholder="Choose your username">
+
+                <label for="profile-campus-id">Campus ID</label>
+                <input id="profile-campus-id" type="text" name="campus_id" value="{{ profile['campus_id'] or '' }}" maxlength="50" placeholder="Enter your campus ID">
+
+                <label for="profile-email">Campus Email ID</label>
+                <input id="profile-email" type="email" name="email" value="{{ profile['email'] or '' }}" placeholder="Enter your campus email ID">
+
+                <label for="profile-phone">Phone</label>
+                <input id="profile-phone" type="tel" name="phone" value="{{ profile['phone'] or '' }}" placeholder="Add your contact number">
+
+                <label for="profile-about">About</label>
+                <textarea id="profile-about" name="about_info" maxlength="300" placeholder="Add a short bio, class, department, or responsibility.">{{ profile['about_info'] or '' }}</textarea>
+                <p class="compact-summary-text">Keep this short and useful, like your department, class, or academic role.</p>
+
+                <div class="inline-actions">
+                    <button type="submit" name="profile_action" value="save">Save Profile</button>
+                    <a class="ghost-button" href="{{ url_for('auth.change_password') }}">Change Password</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+{% endblock %}

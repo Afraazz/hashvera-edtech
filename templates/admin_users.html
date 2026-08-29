@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+    <div>
+        <p class="eyebrow">Administrator Console</p>
+        <h1 style="font-size: 1.8rem; line-height: 1.1; margin-bottom: 10px;">User Management</h1>
+    </div>
+    <div class="topbar-actions" style="display: flex; gap: 10px; align-items: center;">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><ion-icon name="arrow-back-outline"></ion-icon><span>Dashboard</span></a>
+    </div>
+</header>
+
+<section id="users-list-panel" class="panel">
+    <div class="panel-heading">
+        <h2 style="font-size: 1.3rem;">Registered Users</h2>
+        <p>Manage campus identities, reset credentials, and assign administrative roles.</p>
+    </div>
+    <form class="filter-form admin-filter-form" method="get" action="{{ url_for('admin.admin_users') }}" style="display: flex; flex-wrap: wrap; gap: 15px;">
+        <div style="flex: 1; min-width: 250px;">
+            <input type="text" name="q" value="{{ search_query }}" placeholder="Search users..." style="height: 45px;">
+        </div>
+        <div style="width: 150px;">
+            <select name="sort" style="height: 45px;">
+                <option value="latest" {% if sort_key == "latest" %}selected{% endif %}>Latest</option>
+                <option value="username" {% if sort_key == "username" %}selected{% endif %}>Username</option>
+                <option value="role" {% if sort_key == "role" %}selected{% endif %}>Role</option>
+            </select>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" style="height: 45px;">Apply</button>
+            <a class="ghost-button" href="{{ url_for('admin.admin_users') }}" style="height: 45px; display: flex; align-items: center;">Reset</a>
+        </div>
+    </form>
+    {% if not users %}
+        <div class="empty-state-card">
+            <h3>No users found</h3>
+            <p>Try a different search or reset the filters to see all registered accounts.</p>
+        </div>
+    {% endif %}
+    <div class="admin-user-grid">
+        {% for user in users %}
+            <article class="user-admin-card">
+                <h3>{{ user["username"] }}</h3>
+                <div class="tag-row">
+                    <span class="tag">{{ user["role"] }}</span>
+                    {% if user["force_password_change"] %}
+                        <span class="tag">Password Change Pending</span>
+                    {% endif %}
+                    {% if user["disabled"] %}
+                        <span class="tag tag-danger">Disabled</span>
+                    {% endif %}
+                </div>
+                <p><strong>Campus ID:</strong> {{ user["campus_id"] or "Not set" }}</p>
+                <p><strong>Campus Email ID:</strong> {{ user["email"] or "Not set" }}</p>
+                <p><strong>Created:</strong> {{ format_local_time(user["created_at"]) }}</p>
+                <p><strong>Last Login:</strong> {{ format_local_time(user["last_login_at"]) or "No login recorded yet" }}</p>
+                {% if user["disabled_at"] %}
+                    <p><strong>Disabled:</strong> {{ format_local_time(user["disabled_at"]) }}</p>
+                {% endif %}
+                {% if user["role"] != "Administrator" %}
+                    <form class="admin-role-form" method="post" action="{{ url_for('admin.admin_update_user_campus_id', user_id=user['id']) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <label>Campus ID</label>
+                        <div class="role-assign-row">
+                            <input type="text" name="campus_id" value="{{ user['campus_id'] or '' }}" maxlength="50" placeholder="Set campus ID">
+                            <button type="submit">Save ID</button>
+                        </div>
+                    </form>
+                    <form class="admin-role-form" method="post" action="{{ url_for('admin.admin_update_user_role', user_id=user['id']) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <label>Assign Role</label>
+                        <div class="role-assign-row">
+                            <select name="role" aria-label="Assign role for {{ user['username'] }}">
+                                {% for role_name in ["Student", "Faculty", "Exam Cell", "Administrator"] %}
+                                    <option value="{{ role_name }}" {% if user["role"] == role_name %}selected{% endif %}>{{ role_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">Save Role</button>
+                        </div>
+                    </form>
+                {% endif %}
+                {% if not user["disabled"] %}
+                    <form class="admin-reset-form" method="post" action="{{ url_for('admin.admin_reset_user_password', user_id=user['id']) }}">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <label>Set Temporary Password</label>
+                        <div class="password-field">
+                            <input id="admin-reset-{{ user['id'] }}" type="password" name="new_password" placeholder="Minimum 8 characters" minlength="8" required>
+                            <button type="button" class="toggle-password" data-password-toggle="admin-reset-{{ user['id'] }}" aria-label="Toggle password visibility">
+                                <ion-icon name="eye-outline"></ion-icon>
+                            </button>
+                        </div>
+                        <p class="muted">If campus email delivery is configured, HashVera will send this temporary password automatically. Otherwise, the administrator must share it manually.</p>
+                        <div class="user-card-actions">
+                            <button type="submit">Reset Password</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <p class="muted">This account is disabled. Enable it again before issuing a temporary password.</p>
+                {% endif %}
+                <div class="user-card-actions user-card-actions-secondary">
+                    {% if user["id"] != session.get("user_id") %}
+                        {% if user["disabled"] %}
+                            <form method="post" action="{{ url_for('admin.admin_enable_user', user_id=user['id']) }}"
+                                  data-confirm-title="Enable User"
+                                  data-confirm-message="Enable the account for {{ user['username'] }} again?"
+                                  data-confirm-button="Enable User">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" style="display: flex; align-items: center; gap: 6px;">
+                                    <ion-icon name="checkmark-circle-outline"></ion-icon> Enable User
+                                </button>
+                            </form>
+                        {% else %}
+                            <form method="post" action="{{ url_for('admin.admin_disable_user', user_id=user['id']) }}"
+                                  data-confirm-title="Disable User"
+                                  data-confirm-message="Disable the account for {{ user['username'] }}? The user will be signed out on the next request."
+                                  data-confirm-button="Disable User">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="ghost-button" style="display: flex; align-items: center; gap: 6px;">
+                                    <ion-icon name="ban-outline"></ion-icon> Disable User
+                                </button>
+                            </form>
+                        {% endif %}
+                        <form method="post" action="{{ url_for('admin.admin_delete_user', user_id=user['id']) }}"
+                              data-confirm-title="Remove User"
+                              data-confirm-message="Delete the account for {{ user['username'] }}?"
+                              data-confirm-button="Delete User">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="danger-button" style="display: flex; align-items: center; gap: 6px;">
+                                <ion-icon name="trash-outline"></ion-icon> Remove User
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% if user["id"] == session.get("user_id") %}
+                    <p class="muted">Current signed-in account cannot be disabled or removed here.</p>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </div>
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+    {% if users_pagination.total_pages > 1 %}
+        <div class="pagination-bar">
+            {% if users_pagination.has_prev %}
+                <a class="ghost-button" href="{{ url_for('admin.admin_users', q=search_query, sort=sort_key, page=users_pagination.prev_page) }}#users-list-panel">Previous</a>
+            {% endif %}
+            <span class="pagination-summary">Page {{ users_pagination.page }} of {{ users_pagination.total_pages }}</span>
+            {% if users_pagination.has_next %}
+                <a class="ghost-button" href="{{ url_for('admin.admin_users', q=search_query, sort=sort_key, page=users_pagination.next_page) }}#users-list-panel">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

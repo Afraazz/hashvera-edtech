@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+{% block body_class %}admin-page dashboard-page{% endblock %}
+{% block content %}
+        <header class="topbar" style="display: flex; align-items: flex-start; margin-bottom: 40px; width: 100% !important;">
+            <div style="flex: 1 !important;">
+                <p class="eyebrow">Support Command Center</p>
+                <h1 style="font-size: 1.5rem; line-height: 1.2; margin-bottom: 10px;">Support Inbox</h1>
+                <p class="lead">Monitor student inquiries and provide secure administrative assistance.</p>
+            </div>
+            <div class="topbar-actions" style="display: flex; align-items: center; gap: 15px; flex-shrink: 0 !important; margin-left: 20px;">
+                <div class="user-chip" style="background: var(--panel-strong); border: 1px solid var(--line); padding: 8px 16px; border-radius: 12px; font-weight: 700;">
+                    <span class="status-dot"></span>
+                    {{ session["user"] }} (Admin)
+                </div>
+                <a href="{{ url_for('records.dashboard') }}" class="ghost-button icon-button" style="background: var(--panel-strong); border: 1px solid var(--line); border-radius: 12px;">
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- Ticket Metrics -->
+        <div class="metrics-ribbon ui-reveal" style="margin-bottom: 30px;">
+            <div class="metric-card" style="background: var(--panel); border: 1px solid var(--line); padding: 20px; border-radius: 20px;">
+                <p class="eyebrow" style="margin-bottom: 5px;">Total Tickets</p>
+                <div style="font-size: 2rem; font-weight: 800; font-family: 'Outfit', sans-serif;">{{ tickets|length }}</div>
+            </div>
+            <div class="metric-card" style="background: var(--panel); border: 1px solid var(--line); padding: 20px; border-radius: 20px;">
+                <p class="eyebrow" style="margin-bottom: 5px; color: var(--danger);">Open</p>
+                <div style="font-size: 2rem; font-weight: 800; font-family: 'Outfit', sans-serif; color: var(--danger);">
+                    {{ tickets|selectattr('status', 'equalto', 'Open')|list|length }}
+                </div>
+            </div>
+            <div class="metric-card" style="background: var(--panel); border: 1px solid var(--line); padding: 20px; border-radius: 20px;">
+                <p class="eyebrow" style="margin-bottom: 5px; color: var(--primary);">In Progress</p>
+                <div style="font-size: 2rem; font-weight: 800; font-family: 'Outfit', sans-serif; color: var(--primary);">
+                    {{ tickets|selectattr('status', 'equalto', 'In Progress')|list|length }}
+                </div>
+            </div>
+            <div class="metric-card" style="background: var(--panel); border: 1px solid var(--line); padding: 20px; border-radius: 20px;">
+                <p class="eyebrow" style="margin-bottom: 5px; color: var(--success);">Resolved</p>
+                <div style="font-size: 2rem; font-weight: 800; font-family: 'Outfit', sans-serif; color: var(--success);">
+                    {{ tickets|selectattr('status', 'equalto', 'Resolved')|list|length }}
+                </div>
+            </div>
+        </div>
+
+        <section class="panel ui-reveal" style="border-radius: 24px;">
+            <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 20px;">
+                <h2 style="font-size: 1.2rem; margin: 0;">Inbound Communication</h2>
+                
+                <form class="filter-group" method="get" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <div style="position: relative; flex: 1; min-width: 200px;">
+                        <input type="text" name="q" value="{{ search_query }}" placeholder="Search messages..." style="padding-left: 40px; border-radius: 12px; height: 40px; width: 100%;">
+                        <ion-icon name="search-outline" style="position: absolute; left: 12px; top: 12px; opacity: 0.5; font-size: 1.2rem;"></ion-icon>
+                    </div>
+                    <select name="status" style="height: 40px; border-radius: 12px; background: var(--bg);">
+                        <option value="" {% if not status_filter %}selected{% endif %}>All Status</option>
+                        <option value="Open" {% if status_filter == "Open" %}selected{% endif %}>Open</option>
+                        <option value="In Progress" {% if status_filter == "In Progress" %}selected{% endif %}>In Progress</option>
+                        <option value="Resolved" {% if status_filter == "Resolved" %}selected{% endif %}>Resolved</option>
+                    </select>
+                    <button type="submit" class="ghost-button" style="height: 40px; padding: 0 20px; border-radius: 12px; background: var(--panel-strong); font-weight: 700;">Apply</button>
+                    <a href="{{ url_for('admin.support_inbox', archived=1 if not show_archived else 0) }}" 
+                       class="ghost-button {% if show_archived %}active{% endif %}" 
+                       style="height: 40px; padding: 0 20px; border-radius: 12px; display: flex; align-items: center; gap: 8px; font-weight: 700; transition: all 0.3s ease;
+                              {% if show_archived %}background: var(--primary); color: white; border-color: var(--primary);{% else %}background: var(--panel-strong); border-color: var(--line);{% endif %}">
+                        <ion-icon name="{% if show_archived %}mail-outline{% else %}archive-outline{% endif %}"></ion-icon>
+                        <span>{{ 'Active Inbox' if show_archived else 'View Archive' }}</span>
+                    </a>
+                </form>
+            </div>
+
+            {% if not tickets %}
+                <div class="empty-state-card" style="padding: 100px 0; text-align: center;">
+                    <div style="font-size: 4rem; margin-bottom: 20px; opacity: 0.2; color: var(--primary);">
+                    <ion-icon name="mail-unread-outline"></ion-icon>
+                </div>
+                    <h3>Inbox is quiet</h3>
+                    <p class="muted">No support tickets match your current filters.</p>
+                </div>
+            {% else %}
+                <div class="ticket-list" style="display: grid; gap: 20px;">
+                    {% for ticket in tickets %}
+                        <article class="support-ticket-card ui-reveal" 
+                                 style="background: var(--panel-strong); border-radius: 24px; border: 2px solid {% if ticket.priority == 'Urgent' %}var(--danger){% elif ticket.priority == 'High' %}#f59e0b{% else %}var(--line){% endif %}; padding: 30px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; {% if ticket.priority == 'Urgent' %}box-shadow: 0 0 20px rgba(239, 68, 68, 0.05);{% endif %}">
+                            <div class="ticket-urgency-indicator" style="position: absolute; left: 0; top: 0; bottom: 0; width: 8px; background: {% if ticket.priority == 'Urgent' %}var(--danger){% elif ticket.priority == 'High' %}#f59e0b{% else %}var(--primary){% endif %};"></div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="font-family: 'Arista Pro', sans-serif; font-size: 0.8rem; background: var(--bg); padding: 4px 10px; border-radius: 8px; font-weight: 700; color: var(--muted); border: 1px solid var(--line);">#SV-26-{{ 1000 + ticket.id }}</div>
+                                    <div class="sla-badge" style="display: inline-flex; align-items: center; gap: 4px; font-size: 0.7rem; font-weight: 700; color: {% if ticket.status == 'Open' %}var(--danger){% else %}var(--success){% endif %}; text-transform: uppercase;">
+                                        <ion-icon name="timer-outline"></ion-icon>
+                                        {% if ticket.status == 'Open' %}SLA: 2H LEFT{% else %}SLA: MET{% endif %}
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 8px;">
+                                    {% if show_archived %}
+                                        <form action="{{ url_for('admin.unarchive_support_ticket', ticket_id=ticket.id) }}" method="post" data-confirm-title="Unarchive Ticket" data-confirm-message="Move this back to inbox?">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="ghost-button icon-button" style="padding: 6px; border-radius: 8px; color: var(--success);"><ion-icon name="arrow-undo-outline"></ion-icon></button>
+                                        </form>
+                                    {% else %}
+                                        <form action="{{ url_for('admin.archive_support_ticket', ticket_id=ticket.id) }}" method="post" data-confirm-title="Archive Ticket" data-confirm-message="Move this to archive?">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                            <button type="submit" class="ghost-button icon-button" style="padding: 6px; border-radius: 8px;"><ion-icon name="archive-outline"></ion-icon></button>
+                                        </form>
+                                    {% endif %}
+                                    <form action="{{ url_for('admin.delete_support_ticket', ticket_id=ticket.id) }}" method="post" 
+                                          data-confirm-title="Permanent Delete?" data-confirm-message="Remove this record forever? This cannot be undone.">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="ghost-button icon-button" style="padding: 6px; border-radius: 8px; color: var(--danger);">
+                                            <ion-icon name="trash-outline"></ion-icon>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 25px;">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <ion-icon name="person-circle-outline" style="font-size: 2rem; color: var(--primary);"></ion-icon>
+                                        <div>
+                                            <h3 style="margin: 0; font-size: 1.4rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                                                {{ ticket.name }}
+                                                <span class="tag" style="background: var(--primary-glow); color: var(--primary); font-size: 0.65rem; border-radius: 6px; font-weight: 900;">{{ ticket.category|upper }}</span>
+                                            </h3>
+                                            <div style="display: flex; gap: 15px; margin-top: 4px;">
+                                                <p class="muted" style="margin: 0; font-size: 0.85rem;"><ion-icon name="mail-outline" style="vertical-align: middle;"></ion-icon> {{ ticket.email }}</p>
+                                                {% if ticket.department %}
+                                                    <p class="muted" style="margin: 0; font-size: 0.85rem;"><ion-icon name="school-outline" style="vertical-align: middle;"></ion-icon> {{ ticket.department }}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: right;">
+                                        <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem; color: {% if ticket.status == 'Open' %}var(--danger){% elif ticket.status == 'Resolved' %}var(--success){% else %}var(--primary){% endif %};">{{ ticket.status|upper }}</div>
+                                        <div style="font-size: 0.75rem; color: var(--muted); margin-top: 4px;">{{ ticket.created_at[:16] }}</div>
+                                    </div>
+                            </div>
+
+                            <!-- Conversation Log -->
+                            <div class="conversation-log" style="display: grid; gap: 15px; margin-bottom: 30px;">
+                                <!-- Student Message -->
+                                <div class="message-bubble student-bubble" style="background: var(--bg); padding: 20px; border-radius: 0 20px 20px 20px; border: 1px solid var(--line); position: relative; max-width: 85%;">
+                                    <p class="eyebrow" style="font-size: 0.6rem; color: var(--primary); margin-bottom: 8px;">STUDENT MESSAGE</p>
+                                    <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink);">{{ ticket.message }}</p>
+                                </div>
+
+                                <!-- Admin Response -->
+                                {% if ticket.admin_note %}
+                                <div class="message-bubble admin-bubble" style="background: var(--primary-glow); padding: 20px; border-radius: 20px 0 20px 20px; border: 1px solid var(--primary); position: relative; max-width: 85%; margin-left: auto;">
+                                    <p class="eyebrow" style="font-size: 0.6rem; color: var(--primary); margin-bottom: 8px;">OFFICIAL RESPONSE</p>
+                                    <p style="margin: 0; font-size: 1rem; line-height: 1.6; color: var(--ink); font-weight: 500;">{{ ticket.admin_note }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Response Area -->
+                            <div class="response-panel" style="background: rgba(var(--primary-rgb), 0.03); border-top: 1px dashed var(--line); padding-top: 20px;">
+                                <form action="{{ url_for('admin.update_support_ticket', ticket_id=ticket.id) }}" method="post" class="response-grid">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    
+                                    <div class="form-field" style="margin: 0;">
+                                        <label class="eyebrow" style="display: block; margin-bottom: 8px;">Action Status</label>
+                                        <div style="position: relative;">
+                                            <select name="status" style="width: 100%; height: 45px; background: var(--panel-strong); padding-left: 35px;">
+                                                <option value="Open" {% if ticket.status == 'Open' %}selected{% endif %}>Open</option>
+                                                <option value="In Progress" {% if ticket.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                                <option value="Resolved" {% if ticket.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                                                <option value="Closed" {% if ticket.status == 'Closed' %}selected{% endif %}>Closed</option>
+                                            </select>
+                                            <div style="position: absolute; left: 12px; top: 13px; color: {% if ticket.status == 'Open' %}var(--danger){% elif ticket.status == 'Resolved' %}var(--success){% else %}var(--primary){% endif %};">
+                                                {% if ticket.status == 'Open' %}<ion-icon name="alert-circle"></ion-icon>
+                                                {% elif ticket.status == 'In Progress' %}<ion-icon name="time"></ion-icon>
+                                                {% elif ticket.status == 'Resolved' %}<ion-icon name="checkmark-circle"></ion-icon>
+                                                {% else %}<ion-icon name="close-circle"></ion-icon>{% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-field" style="margin: 0;">
+                                        <label class="eyebrow" style="display: block; margin-bottom: 8px;">Priority Level</label>
+                                        <select name="priority" style="width: 100%; height: 45px; background: var(--panel-strong);">
+                                            <option value="Low" {% if ticket.priority == 'Low' %}selected{% endif %}>Low</option>
+                                            <option value="Medium" {% if ticket.priority == 'Medium' or not ticket.priority %}selected{% endif %}>Medium</option>
+                                            <option value="High" {% if ticket.priority == 'High' %}selected{% endif %}>High</option>
+                                            <option value="Urgent" {% if ticket.priority == 'Urgent' %}selected{% endif %}>🔥 Urgent</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-field" style="margin: 0;">
+                                        <label class="eyebrow" style="display: block; margin-bottom: 8px;">Response Note (Student will be notified)</label>
+                                        <div style="position: relative;">
+                                            <input type="text" name="admin_note" id="note-{{ ticket.id }}" value="{{ ticket.admin_note or '' }}" 
+                                                   placeholder="Write your response here..." 
+                                                   style="width: 100%; height: 45px; background: var(--panel-strong); padding-right: 120px;">
+                                            <div style="position: absolute; right: 5px; top: 5px; display: flex; gap: 5px; height: 35px; align-items: center;">
+                                                <button type="button" class="pill-action" style="background: var(--bg); border: 1px solid var(--line); color: var(--ink);" onclick="document.getElementById('note-{{ ticket.id }}').value='Under Review'">Review</button>
+                                                <button type="button" class="pill-action" style="background: var(--success); color: white; border: none;" onclick="document.getElementById('note-{{ ticket.id }}').value='Resolved'">Done</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" style="height: 45px; padding: 0 25px; background: var(--primary); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        <ion-icon name="save-outline"></ion-icon>
+                                        Update
+                                    </button>
+                                </form>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </section>
+
+<style>
+    .support-ticket-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+        border-color: var(--primary);
+    }
+    .response-grid {
+        display: grid;
+        grid-template-columns: 160px 160px 1fr auto;
+        gap: 15px;
+        align-items: end;
+    }
+    @media (max-width: 1024px) {
+        .response-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    @media (max-width: 640px) {
+        .response-grid {
+            grid-template-columns: 1fr;
+        }
+        .response-grid button {
+            width: 100%;
+        }
+    }
+    .pill-action {
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .pill-action:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+    }
+    .pill-action:active {
+        transform: scale(0.95);
+    }
+</style>
+{% endblock %}

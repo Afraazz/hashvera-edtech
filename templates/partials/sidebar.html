@@ -1,0 +1,70 @@
+<aside class="sidebar no-print">
+    <nav class="sidebar-nav">
+        <p class="sidebar-section">Main</p>
+        <a href="{{ url_for('records.dashboard') }}" class="sidebar-link {% if request.endpoint == 'records.dashboard' %}active{% endif %}">
+            <ion-icon name="grid-outline" class="sidebar-icon"></ion-icon> Dashboard
+        </a>
+
+        <a href="{{ url_for('records.notifications_page') }}" class="sidebar-link {% if request.endpoint == 'records.notifications_page' %}active{% endif %}">
+            <ion-icon name="notifications-outline" class="sidebar-icon"></ion-icon> Notifications
+        </a>
+
+        {% if session.get("role") == "Student" %}
+            <p class="sidebar-section">Student</p>
+            <a href="{{ url_for('records.my_records') }}" class="sidebar-link {% if request.endpoint == 'records.my_records' %}active{% endif %}">
+                <ion-icon name="document-text-outline" class="sidebar-icon"></ion-icon> Records
+            </a>
+            <a href="{{ url_for('main.support') }}" class="sidebar-link {% if request.endpoint in ['main.support', 'main.support_new'] %}active{% endif %}">
+                <ion-icon name="chatbubbles-outline" class="sidebar-icon"></ion-icon> Support
+            </a>
+        {% endif %}
+
+        {% if session.get("role") in ["Faculty", "Exam Cell"] %}
+            <p class="sidebar-section">Academic</p>
+            <a href="{{ url_for('records.profile_directory') }}" class="sidebar-link {% if request.endpoint == 'records.profile_directory' %}active{% endif %}">
+                <ion-icon name="person-circle-outline" class="sidebar-icon"></ion-icon> Profiles
+            </a>
+            <a href="{{ url_for('records.review_queue') }}" class="sidebar-link {% if request.endpoint == 'records.review_queue' %}active{% endif %}">
+                <ion-icon name="file-tray-full-outline" class="sidebar-icon"></ion-icon> Review Queue
+            </a>
+            {% if session.get("role") == "Exam Cell" %}
+                <a href="{{ url_for('records.archived_records') }}" class="sidebar-link {% if request.endpoint == 'records.archived_records' %}active{% endif %}">
+                    <ion-icon name="archive-outline" class="sidebar-icon"></ion-icon> Archived Records
+                </a>
+            {% endif %}
+        {% endif %}
+
+        {% if session.get("role") == "Administrator" %}
+            <p class="sidebar-section">Administration</p>
+            <a href="{{ url_for('admin.admin_users') }}" class="sidebar-link {% if request.endpoint == 'admin.admin_users' %}active{% endif %}">
+                <ion-icon name="people-outline" class="sidebar-icon"></ion-icon> Users
+            </a>
+            <a href="{{ url_for('admin.support_inbox') }}" class="sidebar-link {% if request.endpoint == 'admin.support_inbox' %}active{% endif %}">
+                <ion-icon name="chatbubbles-outline" class="sidebar-icon"></ion-icon> Support Inbox
+            </a>
+            <a href="{{ url_for('admin.admin_peers') }}" class="sidebar-link {% if request.endpoint == 'admin.admin_peers' %}active{% endif %}">
+                <ion-icon name="planet-outline" class="sidebar-icon"></ion-icon> Peers
+            </a>
+
+            <p class="sidebar-section">Forensics</p>
+            <a href="{{ url_for('admin.security_audit') }}" class="sidebar-link {% if request.endpoint == 'admin.security_audit' %}active{% endif %}">
+                <ion-icon name="shield-checkmark-outline" class="sidebar-icon"></ion-icon> Security Audit
+            </a>
+            <a href="{{ url_for('admin.audit_logs') }}" class="sidebar-link {% if request.endpoint == 'admin.audit_logs' %}active{% endif %}">
+                <ion-icon name="receipt-outline" class="sidebar-icon"></ion-icon> Activity Logs
+            </a>
+
+            <p class="sidebar-section">System</p>
+            <a href="{{ url_for('admin.admin_system') }}" class="sidebar-link {% if request.endpoint == 'admin.admin_system' %}active{% endif %}">
+                <ion-icon name="settings-outline" class="sidebar-icon"></ion-icon> Tools & Backup
+            </a>
+        {% endif %}
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="status-badge" style="background: transparent; border: none; padding: 0;">
+            <span class="status-dot"></span>
+            Node: {{ config.LOCAL_NODE_NAME }}
+        </div>
+    </div>
+</aside>

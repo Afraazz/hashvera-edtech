@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="error-shell">
+    <article class="error-card">
+        <div class="error-code">403</div>
+        <p class="eyebrow">Access Restricted</p>
+        <h1>You do not have permission to open this page.</h1>
+        <p class="error-copy">HashVera blocked this request because your current role does not have access to the page or action you tried to use.</p>
+        <div class="error-actions">
+            <a class="ghost-button" href="{{ url_for('records.dashboard') }}">Back to Dashboard</a>
+            <a class="ghost-button" href="{{ url_for('auth.login') }}">Go to Login</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

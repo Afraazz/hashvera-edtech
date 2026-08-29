@@ -1,0 +1,260 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Student Records</p>
+        <h1>Records</h1>
+        <p class="lead">Review the academic records currently tied to your campus ID, open attachments, and request a correction when something looks wrong.</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section id="records-list-panel" class="panel profile-panel">
+    <div class="panel-heading">
+        <h2>Student Record Center</h2>
+        <p>Only records matching your campus ID are shown here. You can search them, check their current status, and request a review if something needs correction.</p>
+    </div>
+
+    <div class="profile-layout my-records-layout">
+        <div class="profile-fields">
+            <form class="filter-form admin-filter-form" method="get" action="{{ url_for('records.my_records') }}" data-live-search="true" data-live-target=".block-list">
+                <input type="text" name="q" value="{{ search_query }}" placeholder="Search by course, document, certificate, or note">
+                <select name="status">
+                    <option value="" {% if not status_filter %}selected{% endif %}>All Statuses</option>
+                    <option value="Active" {% if status_filter == "Active" %}selected{% endif %}>Active</option>
+                    <option value="Archived" {% if status_filter == "Archived" %}selected{% endif %}>Archived</option>
+                </select>
+                <div class="inline-actions">
+                    <button type="submit">Apply</button>
+                    <a class="ghost-button" href="{{ url_for('records.my_records') }}">Reset</a>
+                </div>
+            </form>
+            <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+
+            <div class="panel profile-meta-card student-request-panel">
+                <div class="panel-heading">
+                    <h3>Request a New Record</h3>
+                    <p>Need a new certificate, marksheet, or compliance document added to HashVera? Send a request and faculty or exam cell can review it.</p>
+                </div>
+                <form class="record-form" method="post" action="{{ url_for('records.submit_record_request') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input name="course" placeholder="Course / Program" required>
+                    <input name="document_name" placeholder="Document Name" required>
+                    <select name="record_type">
+                        <option value="Certificate">Certificate</option>
+                        <option value="Marksheet">Marksheet</option>
+                        <option value="Assignment">Assignment</option>
+                        <option value="Scholarship Letter">Scholarship Letter</option>
+                        <option value="Compliance Record">Compliance Record</option>
+                    </select>
+                    <input name="certificate_id" placeholder="Certificate / Verification ID (optional)">
+                    <textarea name="request_note" maxlength="300" placeholder="Explain what record you need and why it should be added." required></textarea>
+                    <button type="submit">Submit Record Request</button>
+                </form>
+            </div>
+
+            {% if not student_blocks %}
+                <div class="empty-state-card">
+                    <h3>No matching records yet</h3>
+                    <p>Your records will appear here when the academic team adds entries using your campus ID.</p>
+                </div>
+            {% endif %}
+
+            <style>
+                .wallet-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                    gap: 24px;
+                    margin-top: 20px;
+                }
+                .wallet-card {
+                    background: var(--panel);
+                    backdrop-filter: var(--glass-blur);
+                    -webkit-backdrop-filter: var(--glass-blur);
+                    border: 1px solid var(--line);
+                    border-radius: 20px;
+                    padding: 24px;
+                    box-shadow: var(--shadow-soft);
+                    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    overflow: hidden;
+                }
+                .wallet-card::before {
+                    content: '';
+                    position: absolute;
+                    top: 0; left: 0; right: 0; height: 6px;
+                    background: linear-gradient(90deg, var(--primary), var(--secondary));
+                    opacity: 0.8;
+                }
+                .wallet-card:hover {
+                    transform: translateY(-6px);
+                    box-shadow: var(--shadow);
+                    border-color: rgba(15, 118, 110, 0.3);
+                }
+                .wallet-header {
+                    margin-bottom: 16px;
+                }
+                .wallet-header h3 {
+                    margin: 0 0 4px 0;
+                    color: var(--primary);
+                    font-size: 1.25rem;
+                    line-height: 1.3;
+                }
+                .wallet-meta {
+                    font-size: 0.85rem;
+                    color: var(--muted);
+                    margin-bottom: 16px;
+                }
+                .wallet-body {
+                    flex-grow: 1;
+                    font-size: 0.95rem;
+                    display: grid;
+                    gap: 8px;
+                    margin-bottom: 20px;
+                }
+                .wallet-body p {
+                    margin: 0;
+                    display: flex;
+                    justify-content: space-between;
+                    border-bottom: 1px dashed rgba(15, 23, 42, 0.1);
+                    padding-bottom: 4px;
+                }
+                .wallet-body p strong {
+                    color: var(--muted);
+                    font-weight: 600;
+                }
+                body[data-theme="dark"] .wallet-body p {
+                    border-bottom-color: rgba(255, 255, 255, 0.1);
+                }
+                .wallet-footer {
+                    display: flex;
+                    gap: 10px;
+                    flex-direction: column;
+                }
+                .wallet-footer .ghost-button {
+                    width: 100%;
+                    padding: 10px;
+                }
+                .compact-correction {
+                    margin-top: 10px;
+                    padding-top: 10px;
+                    border-top: 1px solid var(--line);
+                }
+                .compact-correction textarea {
+                    min-height: 60px;
+                    margin-bottom: 8px;
+                    font-size: 0.85rem;
+                }
+            </style>
+            <div class="wallet-grid">
+                {% for block in student_blocks %}
+                    <article class="wallet-card status-{{ block['record_status']|lower }}">
+                        <div class="wallet-header">
+                            <h3>{{ block["document_name"] }}</h3>
+                            <div class="wallet-meta">Issued: {{ format_local_time(block["timestamp"]) }}</div>
+                            <div class="tag-row" style="margin-top: 8px;">
+                                <span class="tag">{{ block["record_type"] }}</span>
+                                {% if block["record_status"] == "Active" %}
+                                <span class="tag" style="background: rgba(16, 185, 129, 0.1); color: var(--success);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px; vertical-align:-2px;"><polyline points="20 6 9 17 4 12"></polyline></svg>Verified</span>
+                                {% else %}
+                                <span class="tag" style="background: rgba(239, 68, 68, 0.1); color: var(--danger);">Archived</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="wallet-body">
+                            <p><strong>Course</strong> <span style="text-align: right; max-width: 60%;">{{ block["course"] }}</span></p>
+                            {% if block["certificate_id"] %}
+                                <p><strong>Cert ID</strong> <span style="font-family: monospace;">{{ block["certificate_id"] }}</span></p>
+                            {% endif %}
+                            <p><strong>Issuer</strong> <span>{{ block["submitted_by"] }}</span></p>
+                        </div>
+                        
+                        <div class="wallet-footer">
+                            <a class="ghost-button" href="{{ url_for('records.view_record', block_id=block['id']) }}" style="background: linear-gradient(135deg, var(--primary) 0%, #14b8a6 100%); color: white; border: none; box-shadow: 0 4px 12px var(--primary-glow);">Open Record</a>
+                            
+                            {% if block["file_name"] %}
+                                <a class="ghost-button" href="{{ url_for('main.uploaded_file', stored_name=block['file_path'], download=1) }}">Download PDF</a>
+                            {% endif %}
+                        </div>
+
+                        <details class="compact-correction">
+                            <summary style="font-size: 0.85rem; color: var(--muted); cursor: pointer; user-select: none;">Need a correction?</summary>
+                            <form method="post" action="{{ url_for('records.request_record_correction', block_id=block['id']) }}" class="student-correction-form" style="margin-top: 8px;">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <textarea name="correction_note" maxlength="300" placeholder="Explain what needs correction..." required></textarea>
+                                <button type="submit" class="ghost-button" style="font-size: 0.85rem; padding: 6px;">Send Request</button>
+                            </form>
+                        </details>
+                    </article>
+                {% endfor %}
+            </div>
+
+            {% if records_pagination.total_pages > 1 %}
+                <div class="pagination-bar">
+                    {% if records_pagination.has_prev %}
+                        <a class="ghost-button" href="{{ url_for('records.my_records', q=search_query, status=status_filter, page=records_pagination.prev_page) }}#records-list-panel">Previous</a>
+                    {% endif %}
+                    <span class="pagination-summary">Showing {{ records_pagination.start_item }}-{{ records_pagination.end_item }} of {{ records_pagination.total_items }} records</span>
+                    {% if records_pagination.has_next %}
+                        <a class="ghost-button" href="{{ url_for('records.my_records', q=search_query, status=status_filter, page=records_pagination.next_page) }}#records-list-panel">Next</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+
+        <aside class="profile-sidebar">
+            <div class="profile-meta-card">
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Records Visible</span>
+                    <strong>{{ records_pagination.total_items }}</strong>
+                </div>
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Filters</span>
+                    <strong>{{ status_filter or "All statuses" }}</strong>
+                </div>
+                <div class="compact-summary-item">
+                    <span class="compact-summary-label">Correction Help</span>
+                    <strong>Use the note field below each record</strong>
+                </div>
+            </div>
+            <div class="profile-meta-card">
+                <div class="panel-heading">
+                    <h3>Recent Requests</h3>
+                    <p>Track your latest new-record and correction requests.</p>
+                </div>
+                {% if student_requests %}
+                    <div class="request-history-list">
+                        {% for item in student_requests %}
+                            <article class="request-history-card request-status-{{ item['status']|lower }}">
+                                <div class="request-history-top">
+                                    <strong>{{ item["request_type"].replace("_", " ").title() }}</strong>
+                                    <span class="tag">{{ item["status"] }}</span>
+                                </div>
+                                <p><strong>Campus ID:</strong> {{ item["campus_id"] }}</p>
+                                <p><strong>Created:</strong> {{ format_local_time(item["created_at"]) }}</p>
+                                {% if item["request_note"] %}
+                                    <p>{{ item["request_note"] }}</p>
+                                {% endif %}
+                                {% if item["reviewer_note"] %}
+                                    <p><strong>Reviewer Note:</strong> {{ item["reviewer_note"] }}</p>
+                                {% endif %}
+                            </article>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state-card">
+                        <h3>No requests sent yet</h3>
+                        <p>Your latest record requests will appear here after you submit one.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </aside>
+    </div>
+</section>
+{% endblock %}

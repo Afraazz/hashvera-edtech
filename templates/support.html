@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="auth-layout wide-layout">
+    <div class="brand-panel">
+        <p class="eyebrow">HashVera Support</p>
+        <h1>How can we help you today?</h1>
+        <p class="lead">
+            Whether you're a student, faculty member, or employer, our team is here to 
+            ensure your blockchain records are accessible and secure.
+        </p>
+        <div class="feature-list" style="margin-top: 40px;">
+            <span>Submit correction requests</span>
+            <span>Account recovery help</span>
+            <span>API & Integration support</span>
+        </div>
+    </div>
+
+    <div class="auth-card">
+        <h2>Contact Support</h2>
+        {% if success %}
+            <script>window.addEventListener('DOMContentLoaded', () => window.showToast('Support request submitted successfully!', 'success'));</script>
+        {% endif %}
+        <form method="post" class="auth-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Full Name" required>
+            
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="email@university.edu" required>
+            
+            <label>Category</label>
+            <select name="category" required>
+                <option value="">Select a category</option>
+                <option value="access">Account Access Issue</option>
+                <option value="correction">Record Correction</option>
+                <option value="verification">Verification Assistance</option>
+                <option value="technical">Technical Bug</option>
+                <option value="other">Other</option>
+            </select>
+            
+            <label>Message</label>
+            <textarea name="message" placeholder="Describe your issue in detail..." style="min-height: 120px; width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); font-family: inherit; margin-bottom: 20px;"></textarea>
+            
+            <button type="submit">Send Message</button>
+        </form>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--line); text-align: center;">
+            <p class="muted">Prefer email? Contact us at <strong>support@hashvera.edu</strong></p>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <a href="{{ url_for('records.dashboard') }}" class="ghost-button" style="width: 100%; justify-content: center;">Back to Dashboard</a>
+        </div>
+    </div>
+</section>
+
+{% if my_tickets %}
+<section class="panel ui-reveal" style="max-width: 900px; margin: 40px auto; --reveal-delay: 100ms;">
+    <div class="panel-heading">
+        <h2>My Support History</h2>
+        <p>Track your recent inquiries and read replies from the HashVera staff.</p>
+    </div>
+    <div class="dashboard-grid" style="grid-template-columns: 1fr; gap: 16px; margin-top: 20px;">
+        {% for ticket in my_tickets %}
+            <article class="user-admin-card" style="border-left: 4px solid {% if ticket.status == 'Open' %}var(--danger){% elif ticket.status == 'Resolved' %}var(--success){% else %}var(--primary){% endif %}; padding: 20px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--line);">
+                <div class="block-head" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <p class="eyebrow" style="margin-bottom: 4px; font-size: 0.7rem; color: var(--muted); text-transform: uppercase; font-weight: 700;">{{ ticket.category }} • {{ ticket.created_at.split('T')[0] }}</p>
+                        <h4 style="margin: 0; font-size: 1.1rem;">{{ ticket.message }}</h4>
+                    </div>
+                    <span class="tag" style="padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; background: var(--bg); border: 1px solid var(--line); font-weight: 700;">{{ ticket.status }}</span>
+                </div>
+                {% if ticket.admin_note %}
+                    <div style="margin-top: 16px; padding: 16px; background: rgba(15, 118, 110, 0.05); border-radius: 12px; border: 1px dashed var(--primary);">
+                        <p style="font-size: 0.95rem; color: var(--ink); line-height: 1.5; margin: 0;"><strong>&#128172; Admin Reply:</strong> {{ ticket.admin_note }}</p>
+                    </div>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="panel ui-reveal" style="max-width: 900px; margin: 40px auto;">
+    <div class="panel-heading">
+        <h2>Frequently Asked Questions</h2>
+    </div>
+    <div style="display: grid; gap: 24px; margin-top: 20px;">
+        <article>
+            <h4 style="margin-bottom: 8px; color: var(--primary);">How do I verify a certificate?</h4>
+            <p class="muted">You can use the 'Verify Certificate' link on the login page or scan the QR code on any official Digital ID issued by our network.</p>
+        </article>
+        <article>
+            <h4 style="margin-bottom: 8px; color: var(--primary);">What if my record is incorrect?</h4>
+            <p class="muted">Students can submit a 'Correction Request' directly from their dashboard. Our staff will review the request and mint a corrected block if approved.</p>
+        </article>
+        <article>
+            <h4 style="margin-bottom: 8px; color: var(--primary);">Is my data public on the blockchain?</h4>
+            <p class="muted">No. Only specific verification hashes are public. Detailed PII (Personally Identifiable Information) is encrypted and only accessible to authorized university personnel and yourself.</p>
+        </article>
+    </div>
+</section>
+{% endblock %}

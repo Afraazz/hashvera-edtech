@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+  <p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr><p:sp>
+  <p:nvSpPr><p:cNvPr id="2" name="Shape 2"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="12191695" cy="6858000"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="0B1020"/></a:solidFill><a:ln><a:noFill/></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="3" name="Shape 3"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="12191695" cy="164592"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill><a:ln><a:noFill/></a:ln></p:spPr>
+</p:sp><p:pic>
+  <p:nvPicPr><p:cNvPr id="4" name="Image 4"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr>
+  <p:blipFill><a:blip r:embed="rLogo"/><a:stretch><a:fillRect/></a:stretch></p:blipFill>
+  <p:spPr><a:xfrm><a:off x="11137392" y="310896"/><a:ext cx="512064" cy="512064"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr>
+</p:pic><p:sp>
+  <p:nvSpPr><p:cNvPr id="5" name="Text 5"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="585216" y="347472"/><a:ext cx="9052560" cy="411480"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="2700" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Student Record Request Workflow</a:t></a:r><a:endParaRPr lang="en-US" sz="2700" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="6" name="Shape 6"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="585216" y="868680"/><a:ext cx="1417320" cy="54864"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill><a:ln><a:noFill/></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="20" name="Text 20"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="804672" y="1170432"/><a:ext cx="5440680" cy="502920"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="2400" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>From request to verified academic record</a:t></a:r><a:endParaRPr lang="en-US" sz="2400" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="21" name="Text 21"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="841248" y="1700784"/><a:ext cx="5120640" cy="438912"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="1400"><a:solidFill><a:srgbClr val="C9D7E8"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>This workflow shows how HashVera keeps students involved while official approval stays with authorized staff.</a:t></a:r><a:endParaRPr lang="en-US" sz="1400"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="30" name="Shape 30"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="804672" y="2487168"/><a:ext cx="2331720" cy="1298448"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="111D33"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="314B67"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="31" name="Shape 31"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="1005840" y="2724912"/><a:ext cx="493776" cy="493776"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="32" name="Text 32"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="1088136" y="2834640"/><a:ext cx="329184" cy="146304"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000" b="1"><a:solidFill><a:srgbClr val="0B1020"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>01</a:t></a:r><a:endParaRPr lang="en-US" sz="1000" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="33" name="Text 33"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="1627632" y="2670048"/><a:ext cx="1261872" cy="274320"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Student Request</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="34" name="Text 34"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="1024128" y="3172968"/><a:ext cx="1865376" cy="384048"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000"><a:solidFill><a:srgbClr val="C9D7E8"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Student submits a new record request or correction request from the portal.</a:t></a:r><a:endParaRPr lang="en-US" sz="1000"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="35" name="Text 35"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3182112" y="2926080"/><a:ext cx="384048" cy="201168"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="2000" b="1"><a:solidFill><a:srgbClr val="9FEAF5"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>-&gt;</a:t></a:r><a:endParaRPr lang="en-US" sz="2000" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="37" name="Shape 37"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3575304" y="2487168"/><a:ext cx="2331720" cy="1298448"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="111D33"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="314B67"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="38" name="Shape 38"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3776472" y="2724912"/><a:ext cx="493776" cy="493776"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="39" name="Text 39"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3858768" y="2834640"/><a:ext cx="329184" cy="146304"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000" b="1"><a:solidFill><a:srgbClr val="0B1020"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>02</a:t></a:r><a:endParaRPr lang="en-US" sz="1000" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="40" name="Text 40"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="4398264" y="2670048"/><a:ext cx="1261872" cy="274320"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Review Queue</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="41" name="Text 41"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3794760" y="3172968"/><a:ext cx="1865376" cy="384048"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000"><a:solidFill><a:srgbClr val="C9D7E8"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Faculty or Exam Cell verifies the request details before approval.</a:t></a:r><a:endParaRPr lang="en-US" sz="1000"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="42" name="Text 42"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="5952744" y="2926080"/><a:ext cx="384048" cy="201168"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="2000" b="1"><a:solidFill><a:srgbClr val="9FEAF5"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>-&gt;</a:t></a:r><a:endParaRPr lang="en-US" sz="2000" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="44" name="Shape 44"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="6345936" y="2487168"/><a:ext cx="2331720" cy="1298448"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="111D33"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="314B67"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="45" name="Shape 45"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="6547104" y="2724912"/><a:ext cx="493776" cy="493776"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="46" name="Text 46"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="6629400" y="2834640"/><a:ext cx="329184" cy="146304"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000" b="1"><a:solidFill><a:srgbClr val="0B1020"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>03</a:t></a:r><a:endParaRPr lang="en-US" sz="1000" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="47" name="Text 47"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="7168896" y="2670048"/><a:ext cx="1261872" cy="274320"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Record Minting</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="48" name="Text 48"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="6565392" y="3172968"/><a:ext cx="1865376" cy="384048"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000"><a:solidFill><a:srgbClr val="C9D7E8"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Approved data is added to the tamper-evident HashVera ledger.</a:t></a:r><a:endParaRPr lang="en-US" sz="1000"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="49" name="Text 49"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="8723376" y="2926080"/><a:ext cx="384048" cy="201168"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="2000" b="1"><a:solidFill><a:srgbClr val="9FEAF5"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>-&gt;</a:t></a:r><a:endParaRPr lang="en-US" sz="2000" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="51" name="Shape 51"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="9116568" y="2487168"/><a:ext cx="2331720" cy="1298448"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="111D33"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="314B67"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="52" name="Shape 52"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="9317736" y="2724912"/><a:ext cx="493776" cy="493776"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="2CB67D"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="53" name="Text 53"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="9400032" y="2834640"/><a:ext cx="329184" cy="146304"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000" b="1"><a:solidFill><a:srgbClr val="0B1020"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>04</a:t></a:r><a:endParaRPr lang="en-US" sz="1000" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="54" name="Text 54"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="9939528" y="2670048"/><a:ext cx="1261872" cy="274320"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Notification</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="55" name="Text 55"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="9336024" y="3172968"/><a:ext cx="1865376" cy="384048"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1000"><a:solidFill><a:srgbClr val="C9D7E8"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Student receives an update and can verify the issued certificate.</a:t></a:r><a:endParaRPr lang="en-US" sz="1000"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="70" name="Shape 70"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="1234440" y="4754880"/><a:ext cx="9692640" cy="749808"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="102135"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="2E6A7B"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="71" name="Text 71"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="1572768" y="4983480"/><a:ext cx="9006840" cy="219456"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1400"><a:solidFill><a:srgbClr val="9FEAF5"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Result: requests become approved, traceable, tamper-evident records that students can present and external users can verify.</a:t></a:r><a:endParaRPr lang="en-US" sz="1400"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="990" name="Text 990"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="10012680" y="6355080"/><a:ext cx="1417320" cy="228600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="r"/><a:r><a:rPr lang="en-US" sz="900"><a:solidFill><a:srgbClr val="7D91AA"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Slide 11 / 15</a:t></a:r><a:endParaRPr lang="en-US" sz="900"/></a:p>
+  </p:txBody>
+</p:sp></p:spTree></p:cSld>
+  <p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>
+</p:sld>

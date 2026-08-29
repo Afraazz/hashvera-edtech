@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block body_class %}auth-page{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="brand-panel">
+        <p class="eyebrow">Project Scope</p>
+        <h1>Activate campus accounts through verified campus identity.</h1>
+        <p class="lead">
+            Enter your official campus ID to find your stored campus profile.
+            HashVera will display your registered name, campus email, and role before you set a password.
+        </p>
+    </div>
+
+    <div class="auth-card">
+        <h2>Create Campus Account</h2>
+        <form method="post" class="auth-form" id="campus-register-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label>Campus ID</label>
+            <input id="register-campus-id" name="campus_id" placeholder="Enter your campus ID" required autocomplete="off">
+            <p class="compact-summary-text">One campus ID can activate only one HashVera account.</p>
+
+            <div class="directory-lookup-panel">
+                <label>Full Name</label>
+                <input id="register-full-name" placeholder="Name will appear automatically" readonly>
+
+                <label>Campus Email ID</label>
+                <input id="register-campus-email" placeholder="Campus email will appear automatically" readonly>
+
+                <label>Role</label>
+                <input id="register-role" placeholder="Role will appear automatically" readonly>
+
+                <p class="compact-summary-text directory-lookup-status" id="register-lookup-status">
+                    Type your campus ID to load the stored campus profile.
+                </p>
+            </div>
+
+            <label>Password</label>
+            <div class="password-field">
+                <input id="register-password" type="password" name="password" placeholder="Minimum 8 characters" required>
+                <button type="button" class="toggle-password" data-password-toggle="register-password" aria-label="Toggle password visibility">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>
+                </button>
+            </div>
+            <button type="submit">Activate Campus Account</button>
+        </form>
+        <p class="switch-link">Already registered? <a href="{{ url_for('auth.login') }}">Back to login</a></p>
+    </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const campusIdInput = document.getElementById("register-campus-id");
+    const fullNameInput = document.getElementById("register-full-name");
+    const campusEmailInput = document.getElementById("register-campus-email");
+    const roleInput = document.getElementById("register-role");
+    const statusText = document.getElementById("register-lookup-status");
+    let lookupTimer = null;
+
+    function resetLookup(message) {
+        fullNameInput.value = "";
+        campusEmailInput.value = "";
+        roleInput.value = "";
+        statusText.textContent = message;
+        statusText.dataset.state = "";
+    }
+
+    async function runLookup() {
+        const rawCampusId = campusIdInput.value.trim();
+        if (!rawCampusId) {
+            resetLookup("Type your campus ID to load the stored campus profile.");
+            return;
+        }
+
+        statusText.textContent = "Checking campus directory...";
+        statusText.dataset.state = "loading";
+
+        try {
+            const response = await fetch(`{{ url_for('auth.register_campus_lookup') }}?campus_id=${encodeURIComponent(rawCampusId)}`);
+            const payload = await response.json();
+
+            if (payload.status === "ok") {
+                fullNameInput.value = payload.full_name || "";
+                campusEmailInput.value = payload.campus_email || "";
+                roleInput.value = payload.role || "";
+                if (payload.is_registered) {
+                    statusText.textContent = "This campus ID already has an activated account.";
+                    statusText.dataset.state = "error";
+                } else {
+                    statusText.textContent = "Campus ID found. Set your password to activate this account.";
+                    statusText.dataset.state = "success";
+                }
+                return;
+            }
+
+            if (payload.status === "not_found") {
+                resetLookup("Campus ID not found in campus records.");
+                statusText.dataset.state = "error";
+                return;
+            }
+
+            resetLookup("Type your campus ID to load the stored campus profile.");
+        } catch (error) {
+            resetLookup("Campus lookup is unavailable right now. Please try again.");
+            statusText.dataset.state = "error";
+        }
+    }
+
+    campusIdInput.addEventListener("input", function () {
+        window.clearTimeout(lookupTimer);
+        lookupTimer = window.setTimeout(runLookup, 240);
+    });
+
+    campusIdInput.addEventListener("blur", runLookup);
+});
+</script>
+{% endblock %}

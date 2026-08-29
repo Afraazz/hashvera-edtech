@@ -1,0 +1,21 @@
+CAMPUS_ID, FULL_NAME  , CAMPUS_EMAIL         , ROLE     , DEPARTMENT
+    10482, Aswin Raj  , 10482@hashvera.edu.in, Student  , BCA
+    15837, Rifan      , 15837@hashvera.edu.in, Student  , BCA
+    20391, Thoufeeq   , 20391@hashvera.edu.in, Student  , BCA
+    24716, Afnan      , 24716@hashvera.edu.in, Student  , BSc Computer Science
+    28450, Mahshooq   , 28450@hashvera.edu.in, Student  , BSc Computer Science
+    31974, Raazy      , 31974@hashvera.edu.in, Student  , BCom
+    35218, Abshar     , 35218@hashvera.edu.in, Student  , BBA
+    38605, Adil       , 38605@hashvera.edu.in, Student  , BSc Mathematics
+    41267, Alfaz      , 41267@hashvera.edu.in, Student  , BCA
+    45820, Rijaz      , 45820@hashvera.edu.in, Student  , BCom
+    50314, Arun Das   , 50314@hashvera.edu.in, Faculty  , Computer Science
+    52896, Yashwini   , 52896@hashvera.edu.in, Faculty  , Computer Science
+    56103, Kavitha    , 56103@hashvera.edu.in, Faculty  , Mathematics
+    60477, Thejaswini , 60477@hashvera.edu.in, Faculty  , Commerce
+    64825, Arpitha    , 64825@hashvera.edu.in, Faculty  , Physics
+    68341, Pratheeksha, 68341@hashvera.edu.in, Faculty  , English
+    72458, Param      , 72458@hashvera.edu.in, Exam Cell, Examination Cell
+    76892, Bindhya    , 76892@hashvera.edu.in, Exam Cell, Examination Cell
+    80367, Vasudev    , 80367@hashvera.edu.in, Exam Cell, Examination Cell
+    84519, Ashwini    , 84519@hashvera.edu.in, Exam Cell, Examination Cell

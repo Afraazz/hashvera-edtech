@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HashVera</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+    <link rel="icon" type="image/svg+xml" href="/static/hashvera-mark.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/static/hashvera-mark.svg">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link rel="stylesheet" href="/static/style.css?v=6.0">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule defer src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3"></path><path d="M12 19v3"></path><path d="M4.93 4.93l2.12 2.12"></path><path d="M16.95 16.95l2.12 2.12"></path><path d="M2 12h3"></path><path d="M19 12h3"></path><path d="M4.93 19.07l2.12-2.12"></path><path d="M16.95 7.05l2.12-2.12"></path></svg>
+            </span>
+            <span class="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 9 9 0 1 0 20 15.2z"></path></svg>
+            </span>
+            <span class="theme-toggle-thumb" aria-hidden="true"></span>
+        </span>
+    </button>
+    <div class="page-shell">
+        <main class="main-content">
+            <header class="no-print header-logo-bar" aria-label="HashVera header">
+                <a class="header-logo" href="/login" aria-label="HashVera home">
+                    <img class="header-logo-mark" src="/static/hashvera-mark.svg" alt="">
+                    <span class="header-logo-wordmark">
+                        <span class="brand-text-primary">Hash</span><span class="brand-text-secondary">Vera</span>
+                    </span>
+                </a>
+                <div class="header-nav-actions">
+                    <a class="header-verify-link" href="/verify">
+                        <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+                        <span>Verify Credentials</span>
+                    </a>
+                    
+                </div>
+            </header>
+            
+            
+        
+        
+<main class="auth-container" style="max-width: 900px; padding-top: 60px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 40px;">
+        <h1 class="premium-gradient-text" style="font-size: 2.5rem;">My Support Center</h1>
+        <p class="lead">View your message history and administrative responses.</p>
+        <div style="margin-top: 24px; display: flex; justify-content: center;">
+            <a href="/support/new" class="ghost-button" style="background: var(--primary); color: white; border: none; padding: 12px 24px;">Submit New Request</a>
+        </div>
+    </header>
+
+    
+    <section class="panel ui-reveal" style="text-align: center; padding: 60px;">
+        <div style="font-size: 3rem; margin-bottom: 20px;">&#128237;</div>
+        <h2>No tickets yet</h2>
+        <p>Your support inquiry history will appear here once you submit a request.</p>
+    </section>
+    
+
+    <section class="panel ui-reveal">
+        <div class="panel-heading" style="justify-content: center; text-align: center;">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+        <div class="faq-list" style="margin-top: 20px;">
+            <details class="faq-item" style="padding: 16px; border-bottom: 1px solid var(--line);">
+                <summary style="font-weight: 600; cursor: pointer; padding: 8px 0;">How long does a response take?</summary>
+                <p style="margin-top: 12px; color: var(--muted); font-size: 0.95rem;">Typical response time is within 24-48 business hours.</p>
+            </details>
+            <details class="faq-item" style="padding: 16px; border-bottom: 1px solid var(--line);">
+                <summary style="font-weight: 600; cursor: pointer; padding: 8px 0;">Where can I find my blockchain verification ID?</summary>
+                <p style="margin-top: 12px; color: var(--muted); font-size: 0.95rem;">Check your "My Records" section; the ID is listed under each secure block.</p>
+            </details>
+        </div>
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="/dashboard" class="ghost-button">Back to Dashboard</a>
+        </div>
+    </section>
+</main>
+
+        <footer class="app-footer no-print">
+            <div class="footer-container">
+                <div class="footer-left">
+                    <p>&copy; <span id="current-year"></span> <span class="brand-text-primary">Hash</span><span class="brand-text-secondary">Vera</span> Academic Network.</p>
+                </div>
+                <div class="footer-right">
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        Blockchain Secured
+                    </div>
+                    <nav class="footer-nav">
+                        <a href="/support">Support</a>
+                        <a href="/faq">FAQ</a>
+                        <a href="/network/audit">Network Audit</a>
+                        <a href="/terms">Terms</a>
+                        <a href="/privacy">Privacy</a>
+                    </nav>
+                </div>
+            </div>
+        </footer>
+        </main>
+    </div>
+    <div class="modal-overlay" id="action-modal" hidden>
+        <div class="modal-card">
+            <p class="eyebrow">Confirm Action</p>
+            <h2 id="modal-title">Please Confirm</h2>
+            <p class="muted" id="modal-message">Do you want to continue?</p>
+            <div class="inline-actions modal-actions">
+                <button type="button" class="ghost-button" id="modal-cancel">Cancel</button>
+                <button type="button" class="ghost-button" id="modal-download" hidden>Download</button>
+                <button type="button" id="modal-confirm">Continue</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.showToast = function(message, category = 'success') {
+            let stack = document.querySelector('.flash-stack');
+            if (!stack) {
+                stack = document.createElement('div');
+                stack.className = 'flash-stack';
+                const shell = document.querySelector('.page-shell');
+                if (shell) shell.insertBefore(stack, shell.firstChild);
+                else document.body.appendChild(stack);
+            }
+            const flash = document.createElement('div');
+            flash.className = `flash flash-${category} ui-reveal`;
+            flash.innerHTML = `
+                <span class="toast-icon">${category === 'success' ? '&#10003;' : '&#10005;'}</span>
+                <span>${message}</span>
+                <button type="button" class="toast-close" aria-label="Dismiss notification" onclick="this.closest('.flash').remove()">x</button>
+            `;
+            stack.appendChild(flash);
+            setTimeout(() => {
+                flash.style.opacity = "0";
+                flash.style.transform = "translateX(12px)";
+                setTimeout(() => flash.remove(), 220);
+            }, 3000);
+        };
+
+        // Update footer year
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const savedTheme = localStorage.getItem("hashvera-theme") || "light";
+            const themeToggle = document.getElementById("theme-toggle");
+            function applyTheme(theme) {
+                document.body.setAttribute("data-theme", theme);
+                themeToggle.setAttribute("aria-pressed", theme === "dark" ? "true" : "false");
+                themeToggle.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+                if (window.renderDashboardCharts) {
+                    window.renderDashboardCharts();
+                }
+            }
+
+            applyTheme(savedTheme);
+
+            themeToggle.addEventListener("click", function () {
+                const currentTheme = document.body.getAttribute("data-theme") === "dark" ? "dark" : "light";
+                const nextTheme = currentTheme === "dark" ? "light" : "dark";
+                applyTheme(nextTheme);
+                localStorage.setItem("hashvera-theme", nextTheme);
+            });
+
+            const animatedItems = document.querySelectorAll(".panel, .metric-card, .block-card, .node-card, .chart-card, .audit-card, .user-admin-card, .auth-card, .brand-panel");
+
+            animatedItems.forEach(function (item, index) {
+                item.classList.add("ui-reveal");
+                item.style.setProperty("--reveal-delay", (index * 45) + "ms");
+            });
+
+            document.querySelectorAll("[data-counter]").forEach(function (counter) {
+                const target = Number(counter.getAttribute("data-counter")) || 0;
+                const suffix = counter.getAttribute("data-counter-suffix") || "";
+                const duration = 700;
+                const startTime = performance.now();
+
+                function updateCounter(timestamp) {
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.round(target * eased) + suffix;
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+
+                requestAnimationFrame(updateCounter);
+            });
+
+            document.querySelectorAll("[data-collapsible-trigger]").forEach(function (trigger) {
+                trigger.addEventListener("click", function () {
+                    const targetId = trigger.getAttribute("data-collapsible-trigger");
+                    const panel = document.getElementById(targetId);
+                    if (!panel) {
+                        return;
+                    }
+
+                    const isOpen = panel.getAttribute("data-open") === "true";
+                    panel.setAttribute("data-open", String(!isOpen));
+                    const openLabel = trigger.getAttribute("data-open-label") || "Open Filters";
+                    const closeLabel = trigger.getAttribute("data-close-label") || "Close Filters";
+                    trigger.textContent = isOpen ? openLabel : closeLabel;
+
+                    const layout = document.getElementById("filter-chart-grid");
+                    if (layout) {
+                        layout.classList.toggle("filter-chart-grid-collapsed", isOpen);
+                    }
+                });
+            });
+
+            document.querySelectorAll(".toast-close").forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const flash = button.closest(".flash");
+                    if (flash) {
+                        flash.remove();
+                    }
+                });
+            });
+
+            document.querySelectorAll(".flash").forEach(function (flash, index) {
+                setTimeout(function () {
+                    flash.style.opacity = "0";
+                    flash.style.transform = "translateX(12px)";
+                    setTimeout(function () {
+                    flash.remove();
+                }, 220);
+            }, 2200 + (index * 180));
+        });
+
+        document.querySelectorAll("form[data-live-search='true']").forEach(function (form) {
+            const textInput = form.querySelector("input[name='q']");
+            const sortSelect = form.querySelector("select[name='sort']");
+            const targetSelector = form.getAttribute("data-live-target");
+            const targetGrid = targetSelector ? document.querySelector(targetSelector) : null;
+            const emptyState = form.closest(".panel")?.querySelector(".page-live-empty");
+            const applyButton = form.querySelector("button[type='submit']");
+
+            function updateLiveFilter() {
+                if (!textInput || !targetGrid) {
+                    return;
+                }
+
+                const query = textInput.value.trim().toLowerCase();
+                const items = Array.from(targetGrid.children).filter(function (item) {
+                    return item.matches("article, .audit-card, .block-card, .user-admin-card");
+                });
+                let visibleCount = 0;
+
+                items.forEach(function (item) {
+                    const matches = !query || item.textContent.toLowerCase().includes(query);
+                    item.hidden = !matches;
+                    if (matches) {
+                        visibleCount += 1;
+                    }
+                });
+
+                if (emptyState) {
+                    emptyState.hidden = visibleCount !== 0 || !query;
+                }
+            }
+
+            if (textInput) {
+                textInput.addEventListener("input", updateLiveFilter);
+            }
+
+            if (sortSelect) {
+                sortSelect.addEventListener("change", function () {
+                    form.submit();
+                });
+            }
+
+            if (applyButton && textInput) {
+                applyButton.addEventListener("click", function (event) {
+                    if (textInput.value.trim()) {
+                        event.preventDefault();
+                        updateLiveFilter();
+                    }
+                });
+            }
+        });
+        });
+
+        document.addEventListener("click", function (event) {
+            const toggle = event.target.closest("[data-password-toggle]");
+            if (!toggle) {
+                return;
+            }
+
+            const targetId = toggle.getAttribute("data-password-toggle");
+            const input = document.getElementById(targetId);
+            if (!input) {
+                return;
+            }
+
+            const showing = input.type === "text";
+            input.type = showing ? "password" : "text";
+            toggle.innerHTML = showing
+                ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18" /><path d="M10.6 10.7a3 3 0 0 0 4 4" /><path d="M9.9 5.2A10.9 10.9 0 0 1 12 5c5 0 9.3 3.1 11 7-1 2.3-2.8 4.2-5 5.4" /><path d="M6.2 6.3C4.3 7.6 2.8 9.5 2 12c.7 1.7 1.9 3.3 3.4 4.5A10.5 10.5 0 0 0 12 19c1.5 0 2.9-.3 4.2-.8" /></svg>'
+                : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>';
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("action-modal");
+            const modalTitle = document.getElementById("modal-title");
+            const modalMessage = document.getElementById("modal-message");
+            const modalCancel = document.getElementById("modal-cancel");
+            const modalDownload = document.getElementById("modal-download");
+            const modalConfirm = document.getElementById("modal-confirm");
+            let pendingAction = null;
+            let pendingAttachment = null;
+
+            modal.hidden = true;
+
+            function closeModal() {
+                modal.hidden = true;
+                pendingAction = null;
+                pendingAttachment = null;
+                modalDownload.hidden = true;
+                modalConfirm.hidden = false;
+                modalConfirm.textContent = "Continue";
+            }
+
+            document.addEventListener("click", function (event) {
+                const attachment = event.target.closest("[data-attachment-link='true']");
+                if (attachment) {
+                    event.preventDefault();
+                    pendingAction = null;
+                    pendingAttachment = {
+                        openUrl: attachment.getAttribute("data-attachment-open-url"),
+                        downloadUrl: attachment.getAttribute("data-attachment-download-url"),
+                        name: attachment.getAttribute("data-attachment-name") || "this attachment",
+                        inlinePreview: attachment.getAttribute("data-attachment-inline") === "true"
+                    };
+                    modalTitle.textContent = "Attachment Options";
+                    if (pendingAttachment.inlinePreview) {
+                        modalMessage.textContent = `What do you want to do with ${pendingAttachment.name}?`;
+                        modalConfirm.textContent = "Open";
+                        modalConfirm.hidden = false;
+                    } else {
+                        modalMessage.textContent = `${pendingAttachment.name} cannot be previewed directly in most browsers, so download it to open it with the right app.`;
+                        modalConfirm.hidden = true;
+                    }
+                    modalDownload.hidden = false;
+                    modal.hidden = false;
+                    return;
+                }
+
+                const trigger = event.target.closest("[data-confirm-message]");
+                if (!trigger) {
+                    return;
+                }
+
+                event.preventDefault();
+                pendingAction = trigger;
+                pendingAttachment = null;
+                modalTitle.textContent = trigger.getAttribute("data-confirm-title") || "Please Confirm";
+                modalMessage.textContent = trigger.getAttribute("data-confirm-message");
+                modalConfirm.textContent = trigger.getAttribute("data-confirm-button") || "Continue";
+                modalConfirm.hidden = false;
+                modalDownload.hidden = true;
+                modal.hidden = false;
+            });
+
+            modalCancel.addEventListener("click", closeModal);
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            modalConfirm.addEventListener("click", function () {
+                if (pendingAttachment) {
+                    const openUrl = pendingAttachment.openUrl;
+                    closeModal();
+                    if (openUrl) {
+                        window.open(openUrl, "_blank", "noopener");
+                    }
+                    return;
+                }
+
+                if (!pendingAction) {
+                    return;
+                }
+
+                if (pendingAction.tagName === "A") {
+                    window.location.href = pendingAction.href;
+                    return;
+                }
+
+                const form = pendingAction.tagName === "FORM" ? pendingAction : pendingAction.closest("form");
+                if (form) {
+                    if (form.hasAttribute("data-ajax-action")) {
+                        closeModal();
+                        const formData = new FormData(form);
+                        fetch(form.action, {
+                            method: form.method,
+                            body: formData,
+                            headers: { "X-Requested-With": "XMLHttpRequest" }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const event = new CustomEvent("ajax-action-success", { detail: { form, data } });
+                                document.dispatchEvent(event);
+                            } else {
+                                alert(data.message || "Action failed.");
+                            }
+                        })
+                        .catch(err => {
+                            console.error("AJAX error:", err);
+                            alert("A network error occurred.");
+                        });
+                        return;
+                    }
+                    form.submit();
+                    return;
+                }
+            });
+
+            modalDownload.addEventListener("click", function () {
+                if (!pendingAttachment) {
+                    return;
+                }
+
+                const downloadUrl = pendingAttachment.downloadUrl;
+                closeModal();
+                if (downloadUrl) {
+                    window.location.href = downloadUrl;
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

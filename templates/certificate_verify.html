@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block body_class %}auth-page{% endblock %}
+{% block content %}
+<section class="auth-layout wide-layout">
+    <div class="brand-panel">
+        <p class="eyebrow">Certificate Verification</p>
+        <h1>Validate student certificates against the blockchain ledger.</h1>
+        <p class="lead">
+            Enter a certificate or verification ID to confirm whether the record exists,
+            remains active, and still matches the blockchain integrity checks.
+        </p>
+        <div class="feature-list">
+            <span>Certificate ID lookup</span>
+            <span>Blockchain-backed validation</span>
+            <span>Tamper detection support</span>
+        </div>
+    </div>
+
+    <div class="auth-card">
+        <h2>Verify Certificate</h2>
+        <form method="get" class="auth-form">
+            <label>Certificate / Verification ID</label>
+            <input name="certificate_id" value="{{ certificate_id }}" placeholder="Enter certificate ID, for example CERT-AB12CD34" required>
+            <button type="submit">Verify Record</button>
+        </form>
+
+        {% if verification_result %}
+            <div class="verification-toolbar">
+                <span class="muted">Verification portal result</span>
+                <button type="button" class="ghost-button verification-print-button" onclick="window.print()">Print Result</button>
+            </div>
+            <div class="verification-result {% if verification_result.valid %}verification-valid{% else %}verification-invalid{% endif %}">
+                <div class="verification-banner">
+                    <div class="verification-badge {% if verification_result.found and verification_result.valid %}verification-badge-valid{% else %}verification-badge-invalid{% endif %}">
+                        {% if verification_result.found and verification_result.valid %}
+                            VALID
+                        {% elif verification_result.found %}
+                            REVIEW
+                        {% else %}
+                            INVALID
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p class="eyebrow">Verification Result</p>
+                        <h3 class="verification-title">
+                            {% if verification_result.found and verification_result.valid %}
+                                Official Record Confirmed
+                            {% elif verification_result.found %}
+                                Record Found but Requires Review
+                            {% else %}
+                                No Matching Blockchain Record
+                            {% endif %}
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="verification-meta-strip">
+                    <div>
+                        <span>Verification ID</span>
+                        <strong>{{ certificate_id or "Not Provided" }}</strong>
+                    </div>
+                    <div>
+                        <span>Verification Source</span>
+                    <strong>HashVera Blockchain Portal</strong>
+                    </div>
+                </div>
+
+                {% if verification_result.found and verification_result.valid %}
+                    <div class="verification-seal-row">
+                        <div class="verification-seal">
+                            <div class="verification-seal-inner">
+                                <span class="verification-seal-check">OK</span>
+                                <span class="verification-seal-text">Blockchain Verified</span>
+                            </div>
+                        </div>
+                        <div class="verification-seal-copy">
+                            <p class="eyebrow">Institution Check</p>
+                        <h3 class="verification-title">Official HashVera Validation Seal</h3>
+                            <p class="muted">This certificate record is active, linked to the blockchain, and has passed the current integrity verification.</p>
+                        </div>
+                    </div>
+                    <p class="muted">This record is active and matches the current blockchain ledger.</p>
+                    <div class="verification-grid">
+                        <div class="verification-item">
+                            <span>Student</span>
+                            <strong>{{ verification_result.record["student_name"] }}</strong>
+                        </div>
+                        <div class="verification-item">
+                            <span>Campus ID</span>
+                            <strong>{{ verification_result.record["student_id"] }}</strong>
+                        </div>
+                        <div class="verification-item">
+                            <span>Course</span>
+                            <strong>{{ verification_result.record["course"] }}</strong>
+                        </div>
+                        <div class="verification-item">
+                            <span>Document</span>
+                            <strong>{{ verification_result.record["document_name"] }}</strong>
+                        </div>
+                        <div class="verification-item">
+                            <span>Record Type</span>
+                            <strong>{{ verification_result.record["record_type"] }}</strong>
+                        </div>
+                        <div class="verification-item">
+                            <span>Certificate ID</span>
+                            <strong>{{ verification_result.record["certificate_id"] }}</strong>
+                        </div>
+                    </div>
+                    {% if verification_result.record["marks_obtained"] and verification_result.record["max_marks"] %}
+                        <div class="verification-grid verification-grid-single">
+                            <div class="verification-item">
+                                <span>Marks</span>
+                                <strong>{{ verification_result.record["marks_obtained"] }} / {{ verification_result.record["max_marks"] }}</strong>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="verification-grid verification-grid-single">
+                        <div class="verification-item">
+                            <span>Issued In Block</span>
+                            <strong>{{ verification_result.record["block_index"] }}</strong>
+                        </div>
+                    </div>
+                    <div class="verification-hash">
+                        <span>Blockchain Hash</span>
+                        <strong class="hash">{{ verification_result.record["block_hash"] }}</strong>
+                    </div>
+                    <div class="inline-actions verification-actions" style="margin-top: 24px;">
+                        <a class="ghost-button" href="{{ url_for('records.certificate_preview', block_id=verification_result.record['id']) }}">Open Certificate Preview</a>
+                    </div>
+                {% elif verification_result.found %}
+                    <p class="muted">The ID exists, but the record is archived or the chain integrity check failed.</p>
+                    <div class="verification-grid verification-grid-single">
+                        <div class="verification-item">
+                            <span>Student</span>
+                            <strong>{{ verification_result.record["student_name"] }}</strong>
+                        </div>
+                        <div class="verification-item">
+                            <span>Document</span>
+                            <strong>{{ verification_result.record["document_name"] }}</strong>
+                        </div>
+                        <div class="verification-item">
+                            <span>Record Status</span>
+                            <strong>{{ verification_result.record["record_status"] }}</strong>
+                        </div>
+                    </div>
+                    {% if verification_result.issues %}
+                        <div class="verification-notes">
+                            <p><strong>Integrity Notes</strong></p>
+                            {% for issue in verification_result.issues %}
+                                <p class="muted">{{ issue }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <p class="muted">No blockchain record matched that certificate ID.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if session.get("user") %}
+            <div style="margin-top: 24px;">
+                <a href="{{ url_for('records.dashboard') }}" class="ghost-button" style="width: 100%; justify-content: center;">Back to Dashboard</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

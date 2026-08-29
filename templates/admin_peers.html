@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+    <div>
+        <p class="eyebrow">Peer Network</p>
+        <h1 style="font-size: 1.8rem; line-height: 1.1; margin-bottom: 10px;">Node Management</h1>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} (Admin)</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><ion-icon name="arrow-back-outline"></ion-icon><span>Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Register Peer Node</h2>
+        <p>Add a real remote HashVera instance with its API token and signing identity so this node can sync and verify blocks across the network.</p>
+    </div>
+    <form method="post" class="record-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input name="name" placeholder="Peer node name" required>
+        <input name="location" placeholder="Peer location">
+        <input name="peer_url" placeholder="Peer base URL (for example http://127.0.0.1:5001)" required>
+        <input name="api_token" placeholder="Peer API token (optional if shared globally)">
+        <input name="signing_key_id" placeholder="Peer signing key ID">
+        <input name="signing_secret" placeholder="Peer signing secret for block verification">
+        <label class="checkbox-row">
+            <input type="checkbox" name="is_active" value="1" checked>
+            <span>Enable this peer for sync and verification</span>
+        </label>
+        <button type="submit">Add Peer Node</button>
+    </form>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Local Node</h2>
+        <p>This node signs blocks with key ID <strong>{{ local_signing_key_id }}</strong> and is controlled by local environment settings and secret files.</p>
+    </div>
+    <div class="peer-node-grid">
+        {% for node in local_nodes %}
+            <article class="user-admin-card peer-node-card">
+                <h3>{{ node["name"] }}</h3>
+                <div class="tag-row">
+                    <span class="tag">Local</span>
+                    <span class="tag">{{ node["status"] }}</span>
+                </div>
+                <p><strong>Location:</strong> {{ node["location"] }}</p>
+                <p><strong>Signing Key ID:</strong> {{ node["signing_key_id"] or "Not set" }}</p>
+                <p><strong>Last Synced Block:</strong> {{ node["last_synced_block"] }}</p>
+                <p><strong>Last Sync Time:</strong> {{ format_local_time(node["last_sync_time"]) }}</p>
+                <p class="muted">Managed locally. This entry is not editable from the admin UI.</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Registered Peer Nodes</h2>
+        <p>Only real remote peers appear here. These entries are used for authenticated sync and signature verification.</p>
+    </div>
+    <form class="filter-form admin-filter-form" method="get" action="{{ url_for('admin.admin_peers') }}" data-live-search="true" data-live-target="#registered-peer-grid">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search peer name, URL, location, or sync result">
+        <select name="sort">
+            <option value="name" {% if sort_key == "name" %}selected{% endif %}>Name</option>
+            <option value="status" {% if sort_key == "status" %}selected{% endif %}>Status</option>
+            <option value="latest_sync" {% if sort_key == "latest_sync" %}selected{% endif %}>Latest Sync Attempt</option>
+        </select>
+        <div class="inline-actions">
+            <button type="submit">Apply</button>
+            <a class="ghost-button" href="{{ url_for('admin.admin_peers') }}">Reset</a>
+        </div>
+    </form>
+    {% if not peer_nodes %}
+        <div class="audit-card">
+            <p><strong>No peer nodes registered yet.</strong></p>
+            <p class="muted">Add a remote HashVera instance above to enable distributed replication.</p>
+        </div>
+    {% endif %}
+    <div class="peer-node-grid" id="registered-peer-grid">
+        {% for node in peer_nodes %}
+            <article class="user-admin-card peer-node-card">
+                <h3>{{ node["name"] }}</h3>
+                <div class="tag-row">
+                    <span class="tag">Peer</span>
+                    <span class="tag">{{ node["status"] }}</span>
+                    {% if node["last_sync_status"] %}
+                        <span class="tag">{{ node["last_sync_status"].title() }}</span>
+                    {% endif %}
+                    {% if node["is_active"] %}
+                        <span class="tag">Active</span>
+                    {% else %}
+                        <span class="tag">Disabled</span>
+                    {% endif %}
+                </div>
+                <p><strong>Location:</strong> {{ node["location"] }}</p>
+                <p><strong>Last Synced Block:</strong> {{ node["last_synced_block"] }}</p>
+                <p><strong>Last Sync Time:</strong> {{ format_local_time(node["last_sync_time"]) }}</p>
+                <p><strong>Last Sync Attempt:</strong> {{ format_local_time(node["last_sync_attempt_at"]) or "Not run yet" }}</p>
+                <p><strong>Last Sync Result:</strong> {{ node["last_sync_result"] or "No test or sync has been run yet." }}</p>
+                <form class="admin-reset-form" method="post" action="{{ url_for('admin.save_peer_node', node_id=node['id']) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input name="name" value="{{ node['name'] }}" placeholder="Peer node name" required>
+                    <input name="location" value="{{ node['location'] }}" placeholder="Peer location">
+                    <input name="peer_url" value="{{ node['peer_url'] }}" placeholder="Peer base URL" required>
+                    <input name="api_token" value="{{ node['api_token'] or '' }}" placeholder="Peer API token">
+                    <input name="signing_key_id" value="{{ node['signing_key_id'] or '' }}" placeholder="Peer signing key ID">
+                    <input name="signing_secret" value="{{ node['signing_secret'] or '' }}" placeholder="Peer signing secret">
+                    <label class="checkbox-row">
+                        <input type="checkbox" name="is_active" value="1" {% if node["is_active"] %}checked{% endif %}>
+                        <span>Enable this peer</span>
+                    </label>
+                    <div class="peer-node-actions">
+                        <button type="submit">Save Peer</button>
+                    </div>
+                </form>
+                <div class="peer-node-utility-actions">
+                    <form method="post" action="{{ url_for('admin.test_peer_node', node_id=node['id']) }}"
+                          data-confirm-title="Test Peer Connection"
+                          data-confirm-message="Contact {{ node['name'] }} and check whether the peer health endpoint responds?"
+                          data-confirm-button="Test Peer">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="ghost-button">Test Peer Connection</button>
+                    </form>
+                    <form method="post" action="{{ url_for('admin.sync_peer_node', node_id=node['id']) }}"
+                          data-confirm-title="Sync Peer Now"
+                          data-confirm-message="Connect to {{ node['name'] }} and try to sync from its latest valid chain now?"
+                          data-confirm-button="Sync Now">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit">Sync Now</button>
+                    </form>
+                </div>
+                <form class="peer-delete-form" method="post" action="{{ url_for('admin.delete_peer_node', node_id=node['id']) }}"
+                      data-confirm-title="Delete Peer"
+                      data-confirm-message="Remove peer node {{ node['name'] }} from this instance?"
+                      data-confirm-button="Delete Peer">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="danger-button">Delete</button>
+                </form>
+            </article>
+        {% endfor %}
+    </div>
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+</section>
+
+{% if simulated_nodes %}
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Legacy Demo Nodes</h2>
+        <p>These simulated rows are kept only for backward compatibility with older demo data. They are read-only and are not treated as real peer endpoints.</p>
+    </div>
+    <div class="peer-node-grid">
+        {% for node in simulated_nodes %}
+            <article class="user-admin-card peer-node-card">
+                <h3>{{ node["name"] }}</h3>
+                <div class="tag-row">
+                    <span class="tag">Simulated</span>
+                    <span class="tag">{{ node["status"] }}</span>
+                </div>
+                <p><strong>Location:</strong> {{ node["location"] }}</p>
+                <p><strong>Peer URL:</strong> Not configured</p>
+                <p><strong>Last Synced Block:</strong> {{ node["last_synced_block"] }}</p>
+                <p><strong>Last Sync Time:</strong> {{ format_local_time(node["last_sync_time"]) }}</p>
+                <p class="muted">This is a demo-only compatibility row and cannot be edited as a distributed peer.</p>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+{% endblock %}

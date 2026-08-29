@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+{% block title %}Verified: {{ block.document_name }} - HashVera Blockchain{% endblock %}
+{% block content %}
+<main class="verify-results-shell" id="main-content-area" style="display: none; min-height: 100vh; padding: 60px 20px; opacity: 0; transition: opacity 0.6s ease;">
+    <div class="verify-results-container" style="max-width: 1100px; margin: 0 auto;">
+        <nav style="margin-bottom: 30px; display: flex; justify-content: flex-end;">
+            <a href="{{ url_for('records.dashboard') if session.get('user') else url_for('auth.login') }}" style="display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s;">
+                <ion-icon name="arrow-back-outline" style="font-size: 1.1rem;"></ion-icon>
+                Back to Dashboard
+            </a>
+        </nav>
+        
+        <div class="verify-results-grid" style="display: grid; grid-template-columns: 380px 1fr; gap: 40px;">
+        
+        <!-- Left Column: Trust Metadata -->
+        <aside class="trust-sidebar panel" style="color: var(--ink); padding: 40px; border-radius: 32px; box-shadow: var(--shadow); position: sticky; top: 40px;">
+            <div style="text-align: center; margin-bottom: 40px;">
+                {% if is_valid %}
+                <div style="width: 80px; height: 80px; background: #22c55e; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; box-shadow: 0 0 30px rgba(34, 197, 94, 0.4); font-size: 2.5rem; color: white;">
+                    <ion-icon name="checkmark-outline"></ion-icon>
+                </div>
+                <h2 style="font-family: 'Outfit', sans-serif; color: var(--success); font-size: 1.8rem; letter-spacing: -0.5px;">AUTHENTIC</h2>
+                <p style="color: var(--muted); font-size: 0.9rem; font-family: 'Outfit', sans-serif;">Cryptographically Validated</p>
+                
+                <a href="{{ url_for('main.verify_portal') }}" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; color: var(--primary); text-decoration: none; font-weight: 700; font-size: 0.9rem; background: var(--primary-glow); padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line);">
+                    <ion-icon name="search-outline"></ion-icon>
+                    New Search
+                </a>
+                {% else %}
+                <div style="width: 80px; height: 80px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; box-shadow: 0 0 30px rgba(239, 68, 68, 0.4); font-size: 2.5rem; color: white;">
+                    <ion-icon name="close-outline"></ion-icon>
+                </div>
+                <h2 style="color: #f87171; font-size: 1.5rem; letter-spacing: -0.5px;">INVALID</h2>
+                <p style="color: #94a3b8; font-size: 0.9rem;">Integrity Check Failed</p>
+                
+                <a href="{{ url_for('main.verify_portal') }}" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; color: var(--danger); text-decoration: none; font-weight: 700; font-size: 0.9rem; background: rgba(239, 68, 68, 0.1); padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(239, 68, 68, 0.2);">
+                    <ion-icon name="refresh-outline"></ion-icon>
+                    Try Again
+                </a>
+{% endif %}
+            </div>
+
+            <div style="display: grid; gap: 24px; font-size: 0.85rem;">
+                <div style="border-top: 1px solid var(--line); padding-top: 20px;">
+                    <label style="display: block; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px;">Blockchain Hash</label>
+                    <code style="word-break: break-all; color: var(--ink); font-family: monospace; line-height: 1.4;">{{ block.block_hash }}</code>
+                </div>
+                <div style="border-top: 1px solid var(--line); padding-top: 20px;">
+                    <label style="display: block; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px;">Proof Details</label>
+                    <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; color: var(--muted);">
+                        <li style="display: flex; justify-content: space-between;"><span>Block Index</span> <span style="color: var(--ink);">#{{ block.block_index }}</span></li>
+                        <li style="display: flex; justify-content: space-between;"><span>Node ID</span> <span style="color: var(--ink);">{{ block.signer_node or "Genesis" }}</span></li>
+                        <li style="display: flex; justify-content: space-between;"><span>Timestamp</span> <span style="color: var(--ink);">{{ format_local_time(block.timestamp) }}</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px; padding: 24px; background: var(--primary-glow); border-radius: 20px; border: 1px solid var(--line);">
+                <p style="margin: 0; color: var(--muted); line-height: 1.5;">This record is stored on a private blockchain network. It cannot be edited, deleted, or falsified by any unauthorized entity.</p>
+            </div>
+        </aside>
+
+        <!-- Right Column: Record Data -->
+        <section class="record-data-main" style="background: var(--panel-strong); padding: 60px; border-radius: 32px; box-shadow: var(--shadow); border: 1px solid var(--line);">
+            <header style="border-bottom: 2px solid var(--line); padding-bottom: 30px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: start;">
+                <div>
+                    <h1 style="font-family: 'Outfit', sans-serif; font-size: 2.5rem; color: var(--ink); margin-bottom: 8px;">{{ block.document_name }}</h1>
+                    <p style="color: var(--muted); font-size: 1.1rem; font-family: 'Outfit', sans-serif;">Official Academic Credential Report</p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--primary);">{{ block.certificate_id or "SEC-ALPHA-882" }}</div>
+                    <div style="font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;">Serial Number</div>
+                </div>
+            </header>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 60px; font-family: 'Outfit', sans-serif;">
+                <div>
+                    <h4 style="color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; margin-bottom: 12px;">Recipient Information</h4>
+                    <div style="font-size: 1.4rem; font-weight: 700; color: var(--ink);">{{ block.student_name }}</div>
+                    <div style="color: var(--muted); margin-top: 4px;">Campus ID: {{ block.student_id }}</div>
+                </div>
+                <div>
+                    <h4 style="color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; margin-bottom: 12px;">Program/Course</h4>
+                    <div style="font-size: 1.4rem; font-weight: 700; color: var(--ink);">{{ block.course }}</div>
+                </div>
+            </div>
+
+            <div style="background: var(--bg); padding: 40px; border-radius: 24px; border: 1px solid var(--line); margin-bottom: 40px;">
+                <h4 style="color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; margin-bottom: 20px;">Verification Result Summary</h4>
+                <div style="display: grid; gap: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 12px;">
+                        <span style="color: var(--muted);">Record Status</span>
+                        <span style="font-weight: 700; color: {% if block.record_status == 'Active' %}#22c55e{% else %}#ef4444{% endif %};">{{ block.record_status }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 12px;">
+                        <span style="color: var(--muted);">Credential Type</span>
+                        <span style="font-weight: 700; color: var(--ink);">{{ block.record_type }}</span>
+                    </div>
+                    {% if block.marks_obtained %}
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 12px;">
+                        <span style="color: var(--muted);">Performance Metrics</span>
+                        <span style="font-weight: 700; color: var(--ink);">{{ block.marks_obtained }} / {{ block.max_marks }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if is_valid and block.file_path %}
+            <footer style="display: flex; gap: 20px;">
+                <a href="{{ url_for('main.uploaded_file', stored_name=block.file_path, download=1) }}" style="flex: 1; height: 60px; display: flex; align-items: center; justify-content: center; background: var(--primary); color: white; border-radius: 16px; font-weight: 700; text-decoration: none; transition: transform 0.2s ease; font-family: 'Outfit', sans-serif;">
+                    Download Original Attachment
+                </a>
+                <button onclick="window.print()" style="width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--line); border-radius: 16px; cursor: pointer;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                </button>
+            </footer>
+            {% endif %}
+        </section>
+    </div>
+</main>
+
+<!-- High-Tech Cryptographic Verification Sequence -->
+<div id="verification-sequence" style="position: fixed; inset: 0; background: var(--panel-strong); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--primary); font-family: monospace;">
+    <div style="width: 450px; max-width: 90%;">
+        <div style="text-align: center; margin-bottom: 50px;">
+            <div style="width: 64px; height: 64px; border: 2px solid var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; animation: pulse-ring 2s infinite;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h2 style="color: var(--ink); letter-spacing: 4px; font-size: 1.2rem;">INITIATING SECURE AUDIT</h2>
+        </div>
+
+        <div id="v-console" style="background: var(--bg); padding: 24px; border-radius: 16px; border: 1px solid var(--line); font-size: 0.85rem; min-height: 200px;">
+            <div id="v-line-1" style="opacity:0; margin-bottom: 8px;">[SYSTEM] Connecting to decentralized nodes...</div>
+            <div id="v-line-2" style="opacity:0; margin-bottom: 8px;">[LEDGER] Locating Block Hash: <span style="color: var(--ink);">{{ block.block_hash[:16] }}...</span></div>
+            <div id="v-line-3" style="opacity:0; margin-bottom: 8px;">[CRYPTO] Recalculating Merkle Proofs...</div>
+            <div id="v-line-4" style="opacity:0; margin-bottom: 8px;">[SIGN] Validating node signature [{{ block.signer_node or 'HUB-1' }}]</div>
+            <div id="v-line-5" style="opacity:0; margin-top: 20px; font-weight: 800; font-size: 1rem; color: var(--success);">
+                {% if is_valid %}> INTEGRITY VERIFIED: MATCH FOUND{% else %}> INTEGRITY FAILED: TAMPERING DETECTED{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; display: flex; align-items: center; gap: 15px;">
+            <div style="flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden;">
+                <div id="v-progress" style="width: 0%; height: 100%; background: var(--primary); box-shadow: 0 0 15px var(--primary-glow); transition: width 0.2s;"></div>
+            </div>
+            <div id="v-percent" style="font-size: 1.2rem; font-weight: 800; width: 60px; text-align: right;">0%</div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(14, 165, 233, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const seq = document.getElementById("verification-sequence");
+    const main = document.getElementById("main-content-area");
+    const bar = document.getElementById("v-progress");
+    
+    const percentText = document.getElementById("v-percent");
+    
+    const showLine = (id, width, delay, percentValue) => {
+        setTimeout(() => {
+            document.getElementById(id).style.opacity = 1;
+            bar.style.width = width;
+            if (percentValue) {
+                let start = parseInt(percentText.innerText);
+                let end = percentValue;
+                let duration = 400;
+                let startTime = null;
+                
+                function animate(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    let progress = Math.min((timestamp - startTime) / duration, 1);
+                    percentText.innerText = Math.floor(progress * (end - start) + start) + "%";
+                    if (progress < 1) requestAnimationFrame(animate);
+                }
+                requestAnimationFrame(animate);
+            }
+        }, delay);
+    };
+
+    showLine("v-line-1", "20%", 500, 20);
+    showLine("v-line-2", "45%", 1200, 45);
+    showLine("v-line-3", "65%", 2000, 65);
+    showLine("v-line-4", "85%", 2800, 85);
+    showLine("v-line-5", "100%", 3800, 100);
+
+    setTimeout(() => {
+        seq.style.transition = "all 0.8s ease-in-out";
+        seq.style.transform = "translateY(-100%)";
+        seq.style.opacity = 0;
+        main.style.display = "block";
+        setTimeout(() => { main.style.opacity = 1; }, 50);
+    }, 5000);
+});
+</script>
+{% endblock %}

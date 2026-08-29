@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar no-print">
+    <div>
+        <p class="eyebrow">Legal</p>
+        <h1>Terms of Service</h1>
+        <p class="lead">Please read these terms carefully before using the HashVera Academic Network.</p>
+    </div>
+    <div class="topbar-actions">
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') if session.get('user') else url_for('auth.login') }}"><span class="icon-glyph">&lt;</span><span>Back</span></a>
+    </div>
+</header>
+
+<section class="panel ui-reveal" style="max-width: 800px; margin: 40px auto; line-height: 1.6;">
+    <div class="panel-heading">
+        <h2>1. Acceptance of Terms</h2>
+    </div>
+    <p class="muted">
+        By accessing or using the HashVera Academic Record Network, you agree to be bound by these Terms of Service. 
+        The network is provided as a secure decentralized ledger for academic verification.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 40px;">
+        <h2>2. Data Integrity & Blockchain</h2>
+    </div>
+    <p class="muted">
+        Records minted onto the HashVera blockchain are designed to be immutable. You acknowledge that 
+        once a record is verified and committed to the ledger, it cannot be deleted, only superseded 
+        by a corrective block if authorized by the issuing institution.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 40px;">
+        <h2>3. User Responsibilities</h2>
+    </div>
+    <p class="muted">
+        Users are responsible for maintaining the confidentiality of their account credentials. 
+        Any unauthorized use of your account must be reported to the system administrator immediately.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 40px;">
+        <h2>4. Institutional Rights</h2>
+    </div>
+    <p class="muted">
+        The issuing institution (University/College) remains the final authority on all academic 
+        data. HashVera provides the technological framework for securing and verifying that data.
+    </p>
+
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); text-align: center;">
+        <p class="muted">Last Updated: April 2026</p>
+    </div>
+</section>
+{% endblock %}

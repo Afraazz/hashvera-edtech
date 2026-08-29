@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">System Tools</p>
+        <h1>Backup and Recovery</h1>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Campus Email Test</h2>
+        <p>{{ mail_status_message }}</p>
+    </div>
+    <form method="post" action="{{ url_for('admin.admin_test_email') }}" class="auth-form"
+          data-confirm-title="Send Test Campus Email"
+          data-confirm-message="Send a HashVera test campus email to confirm the mail service is working?"
+          data-confirm-button="Send Test Campus Email">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>Recipient Campus Email ID</label>
+        <input type="email" name="recipient_email" value="{{ default_test_email }}" placeholder="Enter destination campus email ID" required>
+        <button type="submit">Send Test Campus Email</button>
+    </form>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Database Backup</h2>
+        <p>Create a full SQLite backup before major edits, imports, or deployments.</p>
+    </div>
+    <form method="post" action="{{ url_for('admin.admin_backup_database') }}" class="auth-form"
+          data-confirm-title="Create Backup"
+          data-confirm-message="Create and download a fresh database backup now?"
+          data-confirm-button="Download Backup">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit">Download Fresh Backup</button>
+    </form>
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Database Import</h2>
+        <p>Import a previous backup file. The app automatically creates a safety backup before replacing the active database.</p>
+        <p class="muted">Warning: this replaces the live HashVera database on this instance immediately. Verify the backup name, date, and source before continuing.</p>
+    </div>
+    <form method="post" action="{{ url_for('admin.admin_import_database') }}" class="auth-form" enctype="multipart/form-data"
+          data-confirm-title="Import Backup"
+          data-confirm-message="Warning: this will replace the active HashVera database on this instance. A safety backup will be created first, but you should continue only if you trust this file."
+          data-confirm-button="Import Backup">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label>Backup File</label>
+        <input type="file" name="database_file" accept=".db,.sqlite,.sqlite3,.bak" required>
+        <button type="submit">Import Backup</button>
+    </form>
+</section>
+
+<section id="backups-list-panel" class="panel">
+    <div class="panel-heading">
+        <h2>Stored Backups</h2>
+        <p>Recent database snapshots available on this instance.</p>
+    </div>
+    <form class="filter-form admin-filter-form" method="get" action="{{ url_for('admin.admin_system') }}" data-live-search="true" data-live-target=".admin-user-grid">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search backups by name, size, or date">
+        <select name="sort">
+            <option value="latest" {% if sort_key == "latest" %}selected{% endif %}>Latest First</option>
+            <option value="oldest" {% if sort_key == "oldest" %}selected{% endif %}>Oldest First</option>
+            <option value="name" {% if sort_key == "name" %}selected{% endif %}>Name</option>
+        </select>
+        <div class="inline-actions">
+            <button type="submit">Apply</button>
+            <a class="ghost-button" href="{{ url_for('admin.admin_system') }}">Reset</a>
+        </div>
+    </form>
+    {% if not backups %}
+        <div class="audit-card">
+            <p><strong>No local backups found yet.</strong></p>
+            <p class="muted">Create a backup first and it will appear here.</p>
+        </div>
+    {% endif %}
+    <div class="admin-user-grid">
+        {% for backup in backups %}
+            <article class="user-admin-card">
+                <h3>{{ backup["name"] }}</h3>
+                <p><strong>Created:</strong> {{ format_local_time(backup["created_at"]) }}</p>
+                <p><strong>Size:</strong> {{ backup["size"] }}</p>
+                <div class="user-card-actions">
+                    <a class="ghost-button" href="{{ url_for('admin.admin_download_backup', file_name=backup['name']) }}"
+                       data-confirm-title="Download Backup"
+                       data-confirm-message="Download backup file {{ backup['name'] }} now?"
+                       data-confirm-button="Download Backup">Download</a>
+                    <form method="post" action="{{ url_for('admin.admin_delete_backup', file_name=backup['name']) }}"
+                          data-confirm-title="Delete Backup"
+                          data-confirm-message="Delete backup file {{ backup['name'] }} from this instance?"
+                          data-confirm-button="Delete Backup">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="danger-button">Delete</button>
+                    </form>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+    {% if backups_pagination.total_pages > 1 %}
+        <div class="pagination-bar">
+            {% if backups_pagination.has_prev %}
+                <a class="ghost-button" href="{{ url_for('admin.admin_system', q=search_query, sort=sort_key, page=backups_pagination.prev_page) }}#backups-list-panel">Previous</a>
+            {% endif %}
+            <span class="pagination-summary">Page {{ backups_pagination.page }} of {{ backups_pagination.total_pages }}</span>
+            {% if backups_pagination.has_next %}
+                <a class="ghost-button" href="{{ url_for('admin.admin_system', q=search_query, sort=sort_key, page=backups_pagination.next_page) }}#backups-list-panel">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Export and Backup History</h2>
+        <p>Recent system-tool events for backups, imports, exports, and campus email checks.</p>
+    </div>
+    <button type="button"
+            class="ghost-button filter-toggle"
+            data-collapsible-trigger="system-history-panel"
+            data-open-label="Open Export and Backup History"
+            data-close-label="Close Export and Backup History">Open Export and Backup History</button>
+    <div class="collapsible-panel" id="system-history-panel" data-open="false">
+        {% if not system_history %}
+            <div class="empty-state-card">
+                <h3>No system history yet</h3>
+                <p>Create a backup, run an export, or send a test campus email and the latest successful activity will appear here.</p>
+            </div>
+        {% else %}
+            <div class="system-history-grid">
+                {% for item in system_history %}
+                    <article class="system-history-card">
+                        <div class="system-history-top">
+                            <span class="tag">{{ item["action"].replace("_", " ").title() }}</span>
+                            <span class="system-history-time">{{ format_local_time(item["created_at"]) }}</span>
+                        </div>
+                        <p class="system-history-user"><strong>User:</strong> {{ item["user_name"] }}</p>
+                        <p class="system-history-target"><strong>Target:</strong> {{ item["target_id"] }}</p>
+                        <p class="system-history-details">{{ item["details"] }}</p>
+                    </article>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

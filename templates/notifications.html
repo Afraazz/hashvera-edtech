@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Notifications</p>
+        <h1>Activity Updates</h1>
+        <p class="lead">See account, record, request, and system updates related to your HashVera access.</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section id="notifications-list-panel" class="panel">
+    <div class="panel-heading">
+        <h2>Your Notifications</h2>
+        <p>Unread notifications help you track record updates, corrections, and account changes.</p>
+    </div>
+    <form class="filter-form admin-filter-form" method="get" action="{{ url_for('records.notifications_page') }}" data-live-search="true" data-live-target=".notifications-list">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search title, message, or category">
+        <select name="category">
+            <option value="" {% if not category_filter %}selected{% endif %}>All Categories</option>
+            <option value="record" {% if category_filter == "record" %}selected{% endif %}>Record</option>
+            <option value="request" {% if category_filter == "request" %}selected{% endif %}>Request</option>
+            <option value="account" {% if category_filter == "account" %}selected{% endif %}>Account</option>
+            <option value="system" {% if category_filter == "system" %}selected{% endif %}>System</option>
+        </select>
+        <select name="read">
+            <option value="" {% if not read_filter %}selected{% endif %}>All Statuses</option>
+            <option value="unread" {% if read_filter == "unread" %}selected{% endif %}>Unread Only</option>
+            <option value="read" {% if read_filter == "read" %}selected{% endif %}>Read Only</option>
+        </select>
+        <select name="sort">
+            <option value="latest" {% if sort_key == "latest" %}selected{% endif %}>Latest First</option>
+            <option value="oldest" {% if sort_key == "oldest" %}selected{% endif %}>Oldest First</option>
+        </select>
+        <div class="inline-actions">
+            <button type="submit">Apply</button>
+            <a class="ghost-button" href="{{ url_for('records.notifications_page') }}">Reset</a>
+        </div>
+    </form>
+    <div class="notifications-toolbar">
+        <span class="muted">Unread notifications: <strong>{{ unread_total }}</strong></span>
+        <form method="post" action="{{ url_for('records.mark_notifications_read') }}" class="inline-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="ghost-button">Mark All as Read</button>
+        </form>
+    </div>
+
+    {% if not notifications %}
+        <div class="empty-state-card">
+            <h3>No notifications yet</h3>
+            <p>When records change or staff review your requests, the latest updates will appear here.</p>
+        </div>
+    {% else %}
+        <div class="notifications-list">
+            {% for item in notifications %}
+                <article class="user-admin-card notification-card {% if not item['is_read'] %}notification-card-unread{% endif %}">
+                    <div class="notification-top">
+                        <div>
+                            <h3>{{ item["title"] }}</h3>
+                            <p class="muted">{{ item["category"].title() }}</p>
+                        </div>
+                        <span class="tag">{% if item["is_read"] %}Read{% else %}Unread{% endif %}</span>
+                    </div>
+                    <p>{{ item["message"] }}</p>
+                    <div class="notification-footer">
+                        <span class="muted">{{ format_local_time(item["created_at"]) }}</span>
+                        <div class="inline-actions notification-actions">
+                            {% if not item["is_read"] %}
+                                <form method="post" action="{{ url_for('records.mark_notification_read', notification_id=item['id']) }}" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            {% endif %}
+                            {% if item["link_url"] %}
+                                <form method="post" action="{{ url_for('records.mark_notification_read', notification_id=item['id']) }}" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <input type="hidden" name="next" value="{{ item['link_url'] }}">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+
+    {% if notifications_pagination.total_pages > 1 %}
+        <div class="pagination-bar">
+            {% if notifications_pagination.has_prev %} 
+                <a class="ghost-button" href="{{ url_for('records.notifications_page', page=notifications_pagination.prev_page, q=search_query, category=category_filter, read=read_filter, sort=sort_key) }}#notifications-list-panel">Previous</a>
+            {% endif %}
+            <span class="pagination-summary">Page {{ notifications_pagination.page }} of {{ notifications_pagination.total_pages }}</span>
+            {% if notifications_pagination.has_next %}
+                <a class="ghost-button" href="{{ url_for('records.notifications_page', page=notifications_pagination.next_page, q=search_query, category=category_filter, read=read_filter, sort=sort_key) }}#notifications-list-panel">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

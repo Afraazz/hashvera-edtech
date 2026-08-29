@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">{% if student_view %}Record Preview{% else %}Record Details{% endif %}</p>
+        <h1>{{ block["document_name"] }}</h1>
+        <p class="lead">
+            {% if student_view %}
+                Review your campus record in a cleaner certificate-style view, then preview or download the attachment if needed.
+            {% else %}
+                Review the selected academic record, open its attachment, and use the certificate preview when you need a polished print-style view.
+            {% endif %}
+        </p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel certificate-preview-shell record-view-shell">
+    <article class="certificate-preview-card record-view-card">
+        <div class="certificate-preview-head">
+            <div>
+                <p class="eyebrow">HashVera Academic Ledger</p>
+                <h2>{{ block["document_name"] }}</h2>
+            </div>
+            <div class="tag-row">
+                <span class="tag">{{ block["record_type"] }}</span>
+                <span class="tag">{{ block["record_status"] }}</span>
+                <span class="verification-badge {{ 'verification-badge-valid' if block['record_status'] == 'Active' else 'verification-badge-invalid' }}">
+                    {{ "Verified" if block["record_status"] == "Active" else "Archived" }}
+                </span>
+            </div>
+        </div>
+
+        <div class="certificate-preview-grid">
+            <div class="verification-item">
+                <span>Student Name</span>
+                <strong>{{ block["student_name"] }}</strong>
+            </div>
+            <div class="verification-item">
+                <span>Campus ID</span>
+                <strong>{{ block["student_id"] }}</strong>
+            </div>
+            <div class="verification-item">
+                <span>Course</span>
+                <strong>{{ block["course"] }}</strong>
+            </div>
+            <div class="verification-item">
+                <span>Status</span>
+                <strong>{{ block["record_status"] }}</strong>
+            </div>
+            {% if block["certificate_id"] %}
+                <div class="verification-item">
+                    <span>Certificate ID</span>
+                    <strong>{{ block["certificate_id"] }}</strong>
+                </div>
+            {% endif %}
+            <div class="verification-item">
+                <span>Issued On</span>
+                <strong>{{ format_local_time(block["timestamp"]) }}</strong>
+            </div>
+            <div class="verification-item">
+                <span>Issued By</span>
+                <strong>{{ block["submitted_by"] }}</strong>
+            </div>
+            {% if block["updated_at"] %}
+                <div class="verification-item">
+                    <span>Updated At</span>
+                    <strong>{{ format_local_time(block["updated_at"]) }}</strong>
+                </div>
+            {% endif %}
+            {% if block["marks_obtained"] and block["max_marks"] %}
+                <div class="verification-item">
+                    <span>Marks</span>
+                    <strong>{{ block["marks_obtained"] }} / {{ block["max_marks"] }}</strong>
+                </div>
+            {% endif %}
+            <div class="verification-item">
+                <span>Storage Node</span>
+                <strong>{{ block["storage_node"] }}</strong>
+            </div>
+        </div>
+
+        <div class="verification-hash certificate-preview-hash">
+            <span>Blockchain Hash</span>
+            <strong class="hash">{{ block["block_hash"] }}</strong>
+        </div>
+
+        <div class="record-view-notes">
+            <span>Notes</span>
+            <p class="muted certificate-preview-note">{{ block["record_notes"] }}</p>
+        </div>
+
+        <div class="record-view-actions">
+            <button type="button" class="ghost-button" style="background: linear-gradient(135deg, var(--primary) 0%, #6366f1 100%); color: white; border: none; box-shadow: 0 4px 12px var(--primary-glow);" onclick="navigator.clipboard.writeText('{{ url_for('main.public_verify', block_hash=block['block_hash'], _external=True) }}'); this.innerText='Link Copied!'; setTimeout(() => this.innerText='Copy Magic Link', 2000);">
+                Copy Magic Link
+            </button>
+            {% if block["certificate_id"] %}
+                <a class="ghost-button" href="{{ url_for('records.certificate_preview', block_id=block['id']) }}">Certificate Preview</a>
+                <a class="ghost-button" href="{{ url_for('records.certificate_pdf', block_id=block['id']) }}" style="display: inline-flex; align-items: center; gap: 6px;">
+                    <ion-icon name="document-text-outline"></ion-icon>Download PDF
+                </a>
+            {% endif %}
+            {% if block["file_name"] %}
+                <a class="ghost-button"
+                   href="{{ url_for('main.uploaded_file', stored_name=block['file_path']) }}"
+                   data-attachment-link="true"
+                   data-attachment-name="{{ block['file_name'] }}"
+                   data-attachment-inline="{{ 'true' if inline_preview else 'false' }}"
+                   data-attachment-open-url="{{ url_for('main.uploaded_file', stored_name=block['file_path']) }}"
+                   data-attachment-download-url="{{ url_for('main.uploaded_file', stored_name=block['file_path'], download=1) }}">
+                    {{ "Preview Attachment" if inline_preview else "Attachment Options" }}
+                </a>
+                <a class="ghost-button" href="{{ url_for('main.uploaded_file', stored_name=block['file_path'], download=1) }}">Download Attachment</a>
+            {% endif %}
+        </div>
+
+        {% if not student_view %}
+            <div class="record-view-technical">
+                <h3>Technical Ledger Details</h3>
+                <p><strong>Block:</strong> {{ block["block_index"] }}</p>
+                <p><strong>Last Modified By:</strong> {{ block["last_modified_by"] or block["submitted_by"] }}</p>
+                <p><strong>Previous Hash:</strong> <span class="hash">{{ block["previous_hash"] }}</span></p>
+                {% if block["file_name"] %}
+                    <p><strong>Attachment:</strong> {{ block["file_name"] }} ({{ block["file_size_label"] }})</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

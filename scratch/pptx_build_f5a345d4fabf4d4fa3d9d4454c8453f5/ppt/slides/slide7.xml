@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main">
+  <p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr><p:sp>
+  <p:nvSpPr><p:cNvPr id="2" name="Shape 2"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="12191695" cy="6858000"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="0B1020"/></a:solidFill><a:ln><a:noFill/></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="3" name="Shape 3"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="12191695" cy="164592"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="00B8D9"/></a:solidFill><a:ln><a:noFill/></a:ln></p:spPr>
+</p:sp><p:pic>
+  <p:nvPicPr><p:cNvPr id="4" name="Image 4"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr>
+  <p:blipFill><a:blip r:embed="rLogo"/><a:stretch><a:fillRect/></a:stretch></p:blipFill>
+  <p:spPr><a:xfrm><a:off x="11137392" y="310896"/><a:ext cx="512064" cy="512064"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr>
+</p:pic><p:sp>
+  <p:nvSpPr><p:cNvPr id="5" name="Text 5"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="585216" y="347472"/><a:ext cx="9052560" cy="411480"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="l"/><a:r><a:rPr lang="en-US" sz="2700" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>System Architecture</a:t></a:r><a:endParaRPr lang="en-US" sz="2700" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="6" name="Shape 6"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="585216" y="868680"/><a:ext cx="1417320" cy="54864"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="00B8D9"/></a:solidFill><a:ln><a:noFill/></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="20" name="Shape 20"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="685800" y="1874520"/><a:ext cx="1600200" cy="1051560"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="14305A"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="4B617C"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="120" name="Text 120"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="813816" y="1993392"/><a:ext cx="1344168" cy="256032"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Browser</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="121" name="Text 121"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="832104" y="2331720"/><a:ext cx="1307592" cy="438912"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1100"><a:solidFill><a:srgbClr val="D7E6F4"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Forms, dashboards, verification pages</a:t></a:r><a:endParaRPr lang="en-US" sz="1100"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="24" name="Shape 24"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3090672" y="1874520"/><a:ext cx="1600200" cy="1051560"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="1C3F52"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="4B617C"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="124" name="Text 124"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3218688" y="1993392"/><a:ext cx="1344168" cy="256032"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Flask App</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="125" name="Text 125"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="3236976" y="2331720"/><a:ext cx="1307592" cy="438912"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1100"><a:solidFill><a:srgbClr val="D7E6F4"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Blueprint routes and service helpers</a:t></a:r><a:endParaRPr lang="en-US" sz="1100"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="28" name="Shape 28"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="5504688" y="1874520"/><a:ext cx="1600200" cy="1051560"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="32533B"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="4B617C"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="128" name="Text 128"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="5632704" y="1993392"/><a:ext cx="1344168" cy="256032"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>SQLite</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="129" name="Text 129"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="5650992" y="2331720"/><a:ext cx="1307592" cy="438912"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1100"><a:solidFill><a:srgbClr val="D7E6F4"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Users, records, audit, peers</a:t></a:r><a:endParaRPr lang="en-US" sz="1100"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="32" name="Shape 32"/><p:cNvSpPr/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="7909560" y="1874520"/><a:ext cx="1600200" cy="1051560"/></a:xfrm><a:prstGeom prst="roundRect"><a:avLst/></a:prstGeom><a:solidFill><a:srgbClr val="4A2B43"/></a:solidFill><a:ln w="12700"><a:solidFill><a:srgbClr val="4B617C"/></a:solidFill></a:ln></p:spPr>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="132" name="Text 132"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="8037576" y="1993392"/><a:ext cx="1344168" cy="256032"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1500" b="1"><a:solidFill><a:srgbClr val="FFFFFF"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Peer Node</a:t></a:r><a:endParaRPr lang="en-US" sz="1500" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="133" name="Text 133"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="8055864" y="2331720"/><a:ext cx="1307592" cy="438912"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="1100"><a:solidFill><a:srgbClr val="D7E6F4"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Authenticated chain sync</a:t></a:r><a:endParaRPr lang="en-US" sz="1100"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="44" name="Text 44"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="2359152" y="2212848"/><a:ext cx="502920" cy="274320"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="2400" b="1"><a:solidFill><a:srgbClr val="9FEAF5"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>-&gt;</a:t></a:r><a:endParaRPr lang="en-US" sz="2400" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="45" name="Text 45"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="4773168" y="2212848"/><a:ext cx="502920" cy="274320"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="2400" b="1"><a:solidFill><a:srgbClr val="9FEAF5"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>-&gt;</a:t></a:r><a:endParaRPr lang="en-US" sz="2400" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="46" name="Text 46"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="7178040" y="2212848"/><a:ext cx="502920" cy="274320"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="ctr"/><a:r><a:rPr lang="en-US" sz="2200" b="1"><a:solidFill><a:srgbClr val="9FEAF5"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>&lt;-&gt;</a:t></a:r><a:endParaRPr lang="en-US" sz="2200" b="1"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="50" name="Bullets 50"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="896112" y="4160520"/><a:ext cx="9966960" cy="1051560"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr marL="285750" indent="-171450"><a:buChar char="-"/></a:pPr><a:r><a:rPr lang="en-US" sz="1500"><a:solidFill><a:srgbClr val="DCE7F7"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Browser renders Jinja templates and submits secure form requests.</a:t></a:r><a:endParaRPr lang="en-US" sz="1500"/></a:p><a:p><a:pPr marL="285750" indent="-171450"><a:buChar char="-"/></a:pPr><a:r><a:rPr lang="en-US" sz="1500"><a:solidFill><a:srgbClr val="DCE7F7"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Flask blueprints separate auth, records, admin, public, and API concerns.</a:t></a:r><a:endParaRPr lang="en-US" sz="1500"/></a:p><a:p><a:pPr marL="285750" indent="-171450"><a:buChar char="-"/></a:pPr><a:r><a:rPr lang="en-US" sz="1500"><a:solidFill><a:srgbClr val="DCE7F7"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>SQLite stores users, records, campus directory, audit logs, tickets, and peers.</a:t></a:r><a:endParaRPr lang="en-US" sz="1500"/></a:p><a:p><a:pPr marL="285750" indent="-171450"><a:buChar char="-"/></a:pPr><a:r><a:rPr lang="en-US" sz="1500"><a:solidFill><a:srgbClr val="DCE7F7"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>HashVera API exposes health, chain, and sync endpoints for trusted peers.</a:t></a:r><a:endParaRPr lang="en-US" sz="1500"/></a:p>
+  </p:txBody>
+</p:sp><p:sp>
+  <p:nvSpPr><p:cNvPr id="990" name="Text 990"/><p:cNvSpPr txBox="1"/><p:nvPr/></p:nvSpPr>
+  <p:spPr><a:xfrm><a:off x="10012680" y="6355080"/><a:ext cx="1417320" cy="228600"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom><a:noFill/></p:spPr>
+  <p:txBody><a:bodyPr wrap="square" anchor="t"/><a:lstStyle/><a:p><a:pPr algn="r"/><a:r><a:rPr lang="en-US" sz="900"><a:solidFill><a:srgbClr val="7D91AA"/></a:solidFill><a:latin typeface="Aptos"/></a:rPr><a:t>Slide 7 / 15</a:t></a:r><a:endParaRPr lang="en-US" sz="900"/></a:p>
+  </p:txBody>
+</p:sp></p:spTree></p:cSld>
+  <p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr>
+</p:sld>

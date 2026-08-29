@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar no-print">
+    <div>
+        <p class="eyebrow">Help</p>
+        <h1>Frequently Asked Questions</h1>
+        <p class="lead">Quick answers about records, verification, privacy, and support in HashVera.</p>
+    </div>
+    <div class="topbar-actions">
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') if session.get('user') else url_for('auth.login') }}"><span class="icon-glyph">&lt;</span><span>Back</span></a>
+    </div>
+</header>
+
+<section class="panel ui-reveal" style="max-width: 840px; margin: 40px auto; line-height: 1.6;">
+    <div class="panel-heading">
+        <h2>What can I verify with HashVera?</h2>
+    </div>
+    <p class="muted">
+        You can verify academic records using a certificate ID or block hash. The verification page checks whether the record exists and whether the blockchain ledger remains valid.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 34px;">
+        <h2>Who can add or edit academic records?</h2>
+    </div>
+    <p class="muted">
+        Authorized roles such as administrators, faculty, and exam cell users can manage records based on the permissions configured by the institution.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 34px;">
+        <h2>Can a blockchain record be deleted?</h2>
+    </div>
+    <p class="muted">
+        Active records can be archived or corrected according to role permissions. Corrections should preserve an audit trail so verification history stays transparent.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 34px;">
+        <h2>Is private student information public?</h2>
+    </div>
+    <p class="muted">
+        No. Public verification is designed to confirm record authenticity without exposing unnecessary private profile details.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 34px;">
+        <h2>What should I do if something looks wrong?</h2>
+    </div>
+    <p class="muted">
+        Use the support page to contact the institution team. Students can also request record corrections where the workflow is available.
+    </p>
+</section>
+{% endblock %}

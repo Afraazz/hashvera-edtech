@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="error-shell">
+    <article class="error-card">
+        <div class="error-code">404</div>
+        <p class="eyebrow">Page Not Found</p>
+        <h1>The page you are looking for is not available.</h1>
+        <p class="error-copy">The link may be outdated, the record may have been moved, or the page address may not exist in this HashVera instance.</p>
+        <div class="error-actions">
+            <a class="ghost-button" href="{{ url_for('records.dashboard') }}">Back to Dashboard</a>
+            <a class="ghost-button" href="{{ url_for('records.notifications_page') }}">Open Notifications</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block body_class %}admin-page dashboard-page{% endblock %}
+
+{% block content %}
+{% set total_blocks = total_blocks|default(0, true) %}
+{% set issues = issues|default([], true) %}
+{% set issue_summary = issue_summary|default({}, true) %}
+{% set audit_metrics = audit_metrics|default({
+    "scan_time": "Unavailable",
+    "risk_score": 0,
+    "issue_count": issues|length,
+    "affected_blocks": 0,
+    "verified_blocks": total_blocks,
+    "active_records": 0,
+    "archived_records": 0,
+    "node_count": 0,
+    "latest_block": 0,
+    "latest_hash": "GENESIS",
+    "signing_node": "HashVera Local Node",
+    "signing_key_id": "local-key"
+}, true) %}
+<div class="app-container">
+    {% include "partials/sidebar.html" %}
+    <main class="main-content">
+        <header class="topbar security-audit-topbar">
+            <div>
+                <p class="eyebrow">Security & Forensics</p>
+                <h1>Advanced Security Scan</h1>
+                <p class="muted">Deep cryptographic ledger audit, tamper detection, and recovery guidance.</p>
+            </div>
+            <div class="topbar-actions inline-actions">
+                <a href="{{ url_for('records.dashboard') }}" class="ghost-button">Back to Dashboard</a>
+                <a href="{{ url_for('admin.security_audit') }}" class="ghost-button" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -3px; margin-right: 6px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    Rescan Ledger
+                </a>
+            </div>
+        </header>
+
+        <section class="panel security-audit-panel">
+            <div class="security-audit-hero">
+                <div>
+                    <p class="eyebrow">Forensic Verdict</p>
+                    {% if valid %}
+                    <h2>Ledger Integrity Verified</h2>
+                    <p>No payload manipulation, broken hash links, or genesis mismatches were detected across the local chain.</p>
+                    {% else %}
+                    <h2>Critical Ledger Risk Detected</h2>
+                    <p>{{ audit_metrics.issue_count }} integrity issue{% if audit_metrics.issue_count != 1 %}s{% endif %} found across {{ audit_metrics.affected_blocks }} affected block{% if audit_metrics.affected_blocks != 1 %}s{% endif %}. Review the forensic findings below.</p>
+                    {% endif %}
+                </div>
+                <div class="security-score-card {% if valid %}security-score-good{% else %}security-score-danger{% endif %}">
+                    <span>Trust Score</span>
+                    <strong>{{ audit_metrics.risk_score }}%</strong>
+                    <small>{% if valid %}Operational{% else %}Action required{% endif %}</small>
+                </div>
+            </div>
+
+            <div class="security-audit-metrics">
+                <div class="security-metric">
+                    <span>Total Blocks</span>
+                    <strong>{{ total_blocks }}</strong>
+                    <small>Chain length</small>
+                </div>
+                <div class="security-metric">
+                    <span>Verified Blocks</span>
+                    <strong>{{ audit_metrics.verified_blocks }}</strong>
+                    <small>Clean proofs</small>
+                </div>
+                <div class="security-metric">
+                    <span>Issues</span>
+                    <strong>{{ audit_metrics.issue_count }}</strong>
+                    <small>{% if valid %}No alerts{% else %}Forensic alerts{% endif %}</small>
+                </div>
+                <div class="security-metric">
+                    <span>Network Nodes</span>
+                    <strong>{{ audit_metrics.node_count }}</strong>
+                    <small>Tracked peers</small>
+                </div>
+            </div>
+
+            {% if valid %}
+                <div class="visual-node node-online security-audit-status security-audit-status-valid" style="border: 2px solid var(--success); background: rgba(16, 185, 129, 0.05); max-width: 100%;">
+                    <div class="node-pulse pulse-online"></div>
+                    <h3 style="color: var(--success);"><ion-icon name="shield-checkmark-outline"></ion-icon> Cryptographic Proofs Passed</h3>
+                    <p style="border: none; margin-top: 12px; color: var(--ink);">
+                        All {{ total_blocks }} blocks are cryptographically sound. Latest block #{{ audit_metrics.latest_block }} anchors to <span class="hash-inline">{{ audit_metrics.latest_hash[:18] }}...</span>.
+                    </p>
+                </div>
+            {% else %}
+                <div class="visual-node node-offline security-audit-status security-audit-status-danger" style="border: 2px solid var(--danger); background: rgba(239, 68, 68, 0.05); max-width: 100%; margin-bottom: 24px;">
+                    <div class="node-pulse pulse-offline"></div>
+                    <h3 style="color: var(--danger);"><ion-icon name="warning-outline"></ion-icon> CRITICAL: Ledger Tampering Detected</h3>
+                    <p style="border: none; margin-top: 12px; color: var(--ink);">
+                        Hash mismatches found! The mathematical proofs of one or more blocks are invalid. This indicates unauthorized modification to a record's data payload.
+                    </p>
+                </div>
+
+                <div class="security-issue-summary">
+                    {% for issue_type, count in issue_summary.items() %}
+                    <div>
+                        <span>{{ issue_type.replace("_", " ") }}</span>
+                        <strong>{{ count }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="security-issues-list">
+                    {% for issue in issues %}
+                    <article class="block-card security-issue-card" style="border: 1px solid var(--danger); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);">
+                        <div class="block-head security-issue-head" style="border-bottom: 1px dashed var(--line); padding-bottom: 12px; margin-bottom: 16px;">
+                            <div>
+                                <span class="eyebrow">Affected Block</span>
+                                <h3 style="font-family: monospace; color: var(--danger); font-size: 1.4rem;">BLOCK-{{ issue.block_index }}</h3>
+                            </div>
+                            <span class="security-severity-badge">{{ issue.issue_type }}</span>
+                        </div>
+                        
+                        <p style="color: var(--ink); font-weight: 600; margin-bottom: 16px;">{{ issue.description }}</p>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 12px; background: var(--bg); padding: 16px; border-radius: 12px; border: 1px solid var(--line);">
+                            <div>
+                                <span class="eyebrow" style="color: var(--muted); margin-bottom: 4px; display: block;">Expected Mathematical Hash (Proof)</span>
+                                <div class="hash" style="color: var(--success); background: rgba(16, 185, 129, 0.05); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.2);">{{ issue.expected }}</div>
+                            </div>
+                            <div>
+                                <span class="eyebrow" style="color: var(--muted); margin-bottom: 4px; display: block;">Actual Corrupted Hash (Found)</span>
+                                <div class="hash" style="color: var(--danger); background: rgba(239, 68, 68, 0.05); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.2);">{{ issue.actual }}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-actions" style="margin-top: 20px;">
+                            <form action="{{ url_for('admin.admin_peers') }}" method="get" style="display: inline; width: 100%;">
+                                <button type="submit" class="danger-button" style="width: 100%;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: -3px; margin-right: 6px;"><path d="M21.5 2v6h-6M2.13 15.57a10 10 0 1 0 1.63-7.57l-3.76 3.76"></path></svg>
+                                    Initiate Network Sync (Restore from Peers)
+                                </button>
+                            </form>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="security-audit-details">
+                <div>
+                    <span>Scan Timestamp</span>
+                    <strong>{{ audit_metrics.scan_time.replace("T", " ")[:19] }}</strong>
+                </div>
+                <div>
+                    <span>Signing Node</span>
+                    <strong>{{ audit_metrics.signing_node }}</strong>
+                </div>
+                <div>
+                    <span>Key ID</span>
+                    <strong>{{ audit_metrics.signing_key_id }}</strong>
+                </div>
+                <div>
+                    <span>Record Split</span>
+                    <strong>{{ audit_metrics.active_records }} active / {{ audit_metrics.archived_records }} archived</strong>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

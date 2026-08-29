@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="auth-layout wide-layout">
+    <div class="brand-panel">
+        <p class="eyebrow">Record Editing</p>
+        <h1>Update an academic record with role-based control.</h1>
+        <p class="lead">Administrators and Exam Cell users can revise the stored metadata while the system recalculates the blockchain links and writes an audit log entry.</p>
+    </div>
+
+    <div class="auth-card">
+        <h2>Edit Block {{ block["block_index"] }}</h2>
+        <form method="post" class="auth-form" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input name="student_id" value="{{ block['student_id'] }}" placeholder="Campus ID" required>
+            <input name="student_name" value="{{ block['student_name'] }}" placeholder="Student Name" required>
+            <input name="course" value="{{ block['course'] }}" placeholder="Course / Program" required>
+            <input name="document_name" value="{{ block['document_name'] }}" placeholder="Document Name" required>
+            <input name="certificate_id" value="{{ block['certificate_id'] }}" placeholder="Certificate / Verification ID">
+            <select name="record_type">
+                {% for item in ["Certificate", "Marksheet", "Assignment", "Scholarship Letter", "Compliance Record", block["record_type"]] | unique %}
+                    <option value="{{ item }}" {% if item == block["record_type"] %}selected{% endif %}>{{ item }}</option>
+                {% endfor %}
+            </select>
+            <div class="inline-form-grid">
+                <input type="number" name="marks_obtained" min="0" step="0.01" value="{{ block['marks_obtained'] }}" placeholder="Marks Obtained">
+                <input type="number" name="max_marks" min="0" step="0.01" value="{{ block['max_marks'] }}" placeholder="Maximum Marks">
+            </div>
+            <input name="storage_node" value="{{ block['storage_node'] }}" placeholder="Preferred Storage Node" required>
+            <textarea name="record_notes" required>{{ block["record_notes"] }}</textarea>
+            {% if block["file_name"] %}
+                <p class="muted">Current file: {{ block["file_name"] }} ({{ block["file_size_label"] }})</p>
+            {% endif %}
+            <label class="field-caption">Replace attachment</label>
+            <input type="file" name="document_file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg">
+            <button type="submit">Save Record Changes</button>
+        </form>
+        <p class="switch-link"><a href="{{ url_for('records.dashboard') }}">Back to dashboard</a></p>
+    </div>
+</section>
+{% endblock %}

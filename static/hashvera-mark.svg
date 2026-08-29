@@ -1,0 +1,37 @@
+<svg width="104" height="104" viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="104" height="104" fill="transparent"/>
+  <style>
+    .hv-navy { fill: #233752; }
+    .hv-teal { fill: #085A5A; }
+    .hv-soft-teal { fill: #3D918D; }
+    .hv-copper { fill: #A95931; }
+    .hv-green { fill: #216F4B; }
+    .hv-soft-copper { fill: #BF7957; }
+    .hv-slate { fill: #70839D; }
+
+    @media (prefers-color-scheme: dark) {
+      .hv-navy { fill: #67D1CA; }
+      .hv-teal { fill: #1E8E8C; }
+      .hv-soft-teal { fill: #8FE1DA; }
+      .hv-copper { fill: #FFB178; }
+      .hv-green { fill: #5AD39D; }
+      .hv-soft-copper { fill: #FFD0A9; }
+      .hv-slate { fill: #BACAE2; }
+    }
+  </style>
+  <g transform="translate(12 12)">
+    <rect class="hv-navy" x="10" y="6" width="18" height="18" rx="7"/>
+    <rect class="hv-teal" x="10" y="30" width="18" height="18" rx="7"/>
+    <rect class="hv-soft-teal" x="10" y="54" width="18" height="18" rx="7"/>
+
+    <rect class="hv-copper" x="52" y="6" width="18" height="18" rx="7"/>
+    <rect class="hv-green" x="52" y="30" width="18" height="18" rx="7"/>
+    <rect class="hv-soft-copper" x="52" y="54" width="18" height="18" rx="7"/>
+
+    <rect class="hv-slate" x="28" y="22" width="24" height="10" rx="5"/>
+    <rect class="hv-slate" x="28" y="46" width="24" height="10" rx="5"/>
+
+    <rect class="hv-slate" x="0" y="30" width="8" height="18" rx="4"/>
+    <rect class="hv-slate" x="72" y="30" width="8" height="18" rx="4"/>
+  </g>
+</svg>

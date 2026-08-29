@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Profile Directory</p>
+        <h1>{{ directory_title }}</h1>
+        <p class="lead">{{ directory_message }}</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section id="profiles-list-panel" class="panel">
+    <div class="panel-heading">
+        <h2>Browse Profiles</h2>
+        <p>
+            {% if directory_scope == "all" %}
+                All user profiles are visible here for administrator review.
+            {% else %}
+                Faculty and exam cell users can browse user profile photos and identity details without seeing private campus email ID or phone details.
+            {% endif %}
+        </p>
+    </div>
+    <form class="filter-form admin-filter-form" method="get" action="{{ url_for('records.profile_directory') }}" data-live-search="true" data-live-target=".profile-directory-grid">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search by username, role, about info">
+        <select name="sort">
+            <option value="username" {% if sort_key == "username" %}selected{% endif %}>Username</option>
+            <option value="latest" {% if sort_key == "latest" %}selected{% endif %}>Latest First</option>
+            <option value="role" {% if sort_key == "role" %}selected{% endif %}>Role</option>
+        </select>
+        <div class="inline-actions">
+            <button type="submit">Apply</button>
+            <a class="ghost-button" href="{{ url_for('records.profile_directory') }}">Reset</a>
+        </div>
+    </form>
+
+    {% if not profiles %}
+        <div class="empty-state-card">
+            <h3>No profiles found</h3>
+            <p>Try another search term or reset the filters to browse the directory again.</p>
+        </div>
+    {% endif %}
+
+    <div class="profile-directory-grid admin-user-grid">
+        {% for profile in profiles %}
+            <article class="user-admin-card profile-directory-card">
+                <div class="profile-directory-head">
+                    {% if profile.profile_photo_url %}
+                        <button type="button" class="profile-directory-avatar-link" data-profile-photo="{{ profile.profile_photo_url }}" data-profile-name="{{ profile.username }}" aria-label="Open photo for {{ profile.username }}" title="Open larger photo preview">
+                            <div class="profile-directory-avatar-shell">
+                                <img class="profile-directory-avatar-image" src="{{ profile.profile_photo_url }}" alt="{{ profile.username }} profile photo">
+                            </div>
+                        </button>
+                    {% else %}
+                        <div class="profile-directory-avatar-link profile-directory-avatar-static" aria-hidden="true">
+                            <div class="profile-directory-avatar-shell">
+                                <div class="profile-directory-avatar-fallback">{{ profile.username[:1]|upper }}</div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div>
+                        <h3><a class="profile-directory-name-link" href="{{ url_for('records.view_user_profile', user_id=profile.id) }}">{{ profile.username }}</a></h3>
+                        <div class="tag-row">
+                            <span class="tag">{{ profile.role }}</span>
+                            {% if directory_scope == "all" and profile.disabled %}
+                                <span class="tag tag-danger">Disabled</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                {% if profile.about_info %}
+                    <p><strong>About:</strong> {{ profile.about_info }}</p>
+                {% else %}
+                    <p><strong>About:</strong> Not added yet</p>
+                {% endif %}
+                <p><strong>Campus ID:</strong> {{ profile.campus_id or "Not set" }}</p>
+
+                {% if directory_scope == "all" %}
+                    <p><strong>Campus Email ID:</strong> {{ profile.email or "Not set" }}</p>
+                    <p><strong>Phone:</strong> {{ profile.phone or "Not set" }}</p>
+                {% else %}
+                    <p><strong>Contact:</strong> Hidden for privacy</p>
+                {% endif %}
+
+                <p><strong>Created:</strong> {{ format_local_time(profile.created_at) }}</p>
+            </article>
+        {% endfor %}
+    </div>
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+
+    {% if profiles_pagination.total_pages > 1 %}
+        <div class="pagination-bar">
+            {% if profiles_pagination.has_prev %}
+                <a class="ghost-button" href="{{ url_for('records.profile_directory', q=search_query, sort=sort_key, page=profiles_pagination.prev_page) }}#profiles-list-panel">Previous</a>
+            {% endif %}
+            <span class="pagination-summary">Page {{ profiles_pagination.page }} of {{ profiles_pagination.total_pages }}</span>
+            {% if profiles_pagination.has_next %}
+                <a class="ghost-button" href="{{ url_for('records.profile_directory', q=search_query, sort=sort_key, page=profiles_pagination.next_page) }}#profiles-list-panel">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>
+
+<div class="photo-lightbox" id="profile-photo-lightbox" hidden>
+    <div class="photo-lightbox-card">
+        <button type="button" class="photo-lightbox-close" id="profile-photo-lightbox-close" aria-label="Close photo preview">x</button>
+        <img id="profile-photo-lightbox-image" src="" alt="">
+        <p class="photo-lightbox-name" id="profile-photo-lightbox-name"></p>
+        <small>Press Esc or click outside to close.</small>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const lightbox = document.getElementById("profile-photo-lightbox");
+        const lightboxImage = document.getElementById("profile-photo-lightbox-image");
+        const lightboxName = document.getElementById("profile-photo-lightbox-name");
+        const closeButton = document.getElementById("profile-photo-lightbox-close");
+        const avatarButtons = document.querySelectorAll("[data-profile-photo]");
+
+        function closeLightbox() {
+            lightbox.hidden = true;
+            lightboxImage.src = "";
+            lightboxImage.alt = "";
+            lightboxName.textContent = "";
+        }
+
+        avatarButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                lightboxImage.src = button.getAttribute("data-profile-photo");
+                lightboxImage.alt = button.getAttribute("data-profile-name") + " profile photo";
+                lightboxName.textContent = button.getAttribute("data-profile-name");
+                lightbox.hidden = false;
+            });
+        });
+
+        closeButton.addEventListener("click", closeLightbox);
+        lightbox.addEventListener("click", function (event) {
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && !lightbox.hidden) {
+                closeLightbox();
+            }
+        });
+    });
+</script>
+{% endblock %}

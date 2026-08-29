@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar no-print">
+    <div>
+        <p class="eyebrow">Legal</p>
+        <h1>Privacy Policy</h1>
+        <p class="lead">How we protect and manage your academic data on the HashVera network.</p>
+    </div>
+    <div class="topbar-actions">
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') if session.get('user') else url_for('auth.login') }}"><span class="icon-glyph">&lt;</span><span>Back</span></a>
+    </div>
+</header>
+
+<section class="panel ui-reveal" style="max-width: 800px; margin: 40px auto; line-height: 1.6;">
+    <div class="panel-heading">
+        <h2>1. Data Collection</h2>
+    </div>
+    <p class="muted">
+        We collect only the necessary academic information (Name, Student ID, Course, Marks) provided 
+        by your institution to secure your records on the blockchain.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 40px;">
+        <h2>2. Blockchain & Encryption</h2>
+    </div>
+    <p class="muted">
+        Your sensitive data is encrypted before being stored. Only the cryptographic hash of the 
+        record is permanently stored on the public blockchain ledger. This hash acts as a 
+        digital fingerprint that can verify your document without exposing your private information.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 40px;">
+        <h2>3. Data Access</h2>
+    </div>
+    <p class="muted">
+        Only you and authorized university officials can view the full details of your records. 
+        When you share a "Verification Link" with an employer, they are only granted access to the 
+        specific record associated with that link.
+    </p>
+
+    <div class="panel-heading" style="margin-top: 40px;">
+        <h2>4. Your Rights</h2>
+    </div>
+    <p class="muted">
+        You have the right to view all your records and request corrections. Correction requests 
+        will be processed as new blocks on the chain, ensuring a transparent audit trail of all changes.
+    </p>
+
+    <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--line); text-align: center;">
+        <p class="muted">Last Updated: April 2026</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,858 @@
+{% extends "base.html" %}
+{% block title %}Blockchain Explorer - HashVera{% endblock %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Blockchain Explorer</p>
+        <h1>Chain Visualization</h1>
+        <p class="lead">Visual representation of the HashVera blockchain. Each block is cryptographically linked to the previous block through SHA-256 hashing.</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel" style="overflow: visible;">
+    <div class="panel-heading" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;">
+        <div>
+            <h2 style="display: flex; align-items: center; gap: 12px;">
+                <ion-icon name="git-network-outline" style="font-size: 1.5rem; color: var(--primary);"></ion-icon>
+                Blockchain Ledger
+                {% if chain_valid %}
+                <span style="font-size: 0.7rem; padding: 4px 12px; border-radius: 20px; background: rgba(16, 185, 129, 0.12); color: var(--success); font-weight: 700; letter-spacing: 0.5px;">✓ CHAIN INTACT</span>
+                {% else %}
+                <span style="font-size: 0.7rem; padding: 4px 12px; border-radius: 20px; background: rgba(239, 68, 68, 0.12); color: var(--danger); font-weight: 700; letter-spacing: 0.5px;">⚠ INTEGRITY ISSUE</span>
+                {% endif %}
+            </h2>
+            <p style="color: var(--muted); font-size: 0.9rem;">{{ total_blocks }} blocks on chain · Genesis → Latest</p>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button id="run-integrity-btn" class="ghost-button" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                <ion-icon name="shield-checkmark-outline"></ion-icon> <span>Run Integrity Check</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chain Stats Bar -->
+    <div class="chain-stats-bar">
+        <div class="chain-stat">
+            <span class="chain-stat-label">Total Blocks</span>
+            <strong class="chain-stat-value">{{ total_blocks }}</strong>
+        </div>
+        <div class="chain-stat">
+            <span class="chain-stat-label">Chain Status</span>
+            <strong class="chain-stat-value" style="color: {{ 'var(--success)' if chain_valid else 'var(--danger)' }};">{{ "Verified" if chain_valid else "Review" }}</strong>
+        </div>
+        <div class="chain-stat">
+            <span class="chain-stat-label">Hash Algorithm</span>
+            <strong class="chain-stat-value">SHA-256</strong>
+        </div>
+        <div class="chain-stat">
+            <span class="chain-stat-label">Signing</span>
+            <strong class="chain-stat-value">HMAC</strong>
+        </div>
+    </div>
+
+    {% if not blocks %}
+    <div style="text-align: center; padding: 60px 20px;">
+        <ion-icon name="cube-outline" style="font-size: 3rem; color: var(--muted); opacity: 0.4; margin-bottom: 16px; display: block;"></ion-icon>
+        <p><strong>No blocks on the chain yet.</strong></p>
+        <p class="muted">Add an academic record to begin building the blockchain.</p>
+    </div>
+    {% else %}
+
+    <!-- Visual Chain -->
+    <div class="chain-visual-container">
+        <div class="chain-visual-scroll">
+            <!-- Genesis marker -->
+            <div class="chain-genesis-marker">
+                <div class="genesis-diamond">
+                    <ion-icon name="flash-outline"></ion-icon>
+                </div>
+                <span class="genesis-label">GENESIS</span>
+            </div>
+
+            {% for block in blocks %}
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="{{ block['previous_hash'] }}">
+                    {{ block['previous_hash'][:12] }}…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card {% if loop.last %}chain-block-latest{% endif %} appear-staggered" 
+                 id="chain-block-{{ block['block_index'] }}"
+                 style="animation-delay: {{ loop.index0 * 0.1 + 0.1 }}s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK {{ block['block_index'] }}</span>
+                    {% if loop.last %}
+                    <span class="chain-block-badge chain-block-badge-latest">LATEST</span>
+                    {% endif %}
+                    <span class="chain-block-badge chain-block-badge-{{ block['record_status']|lower }}">{{ block['record_status'] }}</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">{{ block['student_name'] }}</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">{{ block['student_id'] }}</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">{{ block['document_name'] }}</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">{{ block['record_type'] }}</span>
+                        </span>
+                    </div>
+                    {% if block['certificate_id'] %}
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">{{ block['certificate_id'] }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="{{ block['block_hash'] }}">{{ block['block_hash'][:20] }}…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="{{ block['previous_hash'] }}">{{ block['previous_hash'][:20] }}…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">{{ format_local_time(block['timestamp']) }}</span>
+                    {% set allowed = can_view_record_details(block) %}
+                    {% if allowed %}
+                    <a href="{{ url_for('records.view_record', block_id=block['id']) }}" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    {% else %}
+                    <a href="javascript:void(0)" class="chain-block-link restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Chain End Marker -->
+            <div class="chain-end-marker">
+                <div class="chain-connector">
+                    <div class="chain-connector-line"></div>
+                </div>
+                <div class="chain-end-icon">
+                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                </div>
+                <span class="chain-end-label">NEXT BLOCK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Block List (Vertical) -->
+    <div class="chain-detail-list">
+        <h3 style="margin: 32px 0 16px 0; color: var(--primary); display: flex; align-items: center; gap: 8px;">
+            <ion-icon name="list-outline"></ion-icon> Block Detail View
+        </h3>
+        {% for block in blocks|reverse %}
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#{{ block['block_index'] }}</span>
+                {% if loop.first %}
+                <span class="chain-block-badge chain-block-badge-latest" style="font-size: 0.55rem;">LATEST</span>
+                {% endif %}
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>{{ block['document_name'] }}</strong>
+                    <span class="tag" style="font-size: 0.65rem;">{{ block['record_type'] }}</span>
+                    <span class="tag" style="font-size: 0.65rem;">{{ block['record_status'] }}</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>{{ block['student_name'] }} ({{ block['student_id'] }})</span>
+                    <span>{{ block['course'] }}</span>
+                    <span>{{ format_local_time(block['timestamp']) }}</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>{{ block['block_hash'] }}</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>{{ block['previous_hash'] }}</code>
+                    </div>
+                </div>
+            </div>
+            {% set allowed = can_view_record_details(block) %}
+            {% if allowed %}
+            <a href="{{ url_for('records.view_record', block_id=block['id']) }}" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            {% else %}
+            <a href="javascript:void(0)" class="chain-detail-action restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+            </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</section>
+
+<!-- Integrity Check Overlay -->
+<div id="integrity-overlay" class="integrity-overlay">
+    <div class="integrity-overlay-content">
+        <div class="scanner-ring"></div>
+        <div class="integrity-status-text">Verifying Ledger Integrity...</div>
+        <div class="integrity-progress-bar">
+            <div id="integrity-progress-fill" class="integrity-progress-fill"></div>
+        </div>
+        <div id="integrity-block-counter" class="integrity-block-counter">Scanning block 0/{{ total_blocks }}</div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const runBtn = document.getElementById('run-integrity-btn');
+    const overlay = document.getElementById('integrity-overlay');
+    const progressFill = document.getElementById('integrity-progress-fill');
+    const blockCounter = document.getElementById('integrity-block-counter');
+    const statusText = document.querySelector('.integrity-status-text');
+    const blockCards = document.querySelectorAll('.chain-block-card');
+    
+    if (!runBtn) return;
+
+    runBtn.addEventListener('click', async function() {
+        // Show overlay
+        overlay.classList.add('active');
+        runBtn.disabled = true;
+        
+        const totalBlocks = {{ total_blocks }};
+        if (totalBlocks === 0) {
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                runBtn.disabled = false;
+            }, 1000);
+            return;
+        }
+
+        // Simulate scanning blocks for visual effect
+        for (let i = 0; i < totalBlocks; i++) {
+            const progress = ((i + 1) / totalBlocks) * 100;
+            progressFill.style.width = progress + '%';
+            blockCounter.textContent = `Scanning block ${i + 1}/${totalBlocks}`;
+            
+            // Highlight the card being scanned
+            if (blockCards[i]) {
+                blockCards[i].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                blockCards[i].classList.add('scanning-active');
+                await new Promise(r => setTimeout(r, 150)); // Slow down for effect
+                blockCards[i].classList.remove('scanning-active');
+                blockCards[i].classList.add('scanning-verified');
+            }
+        }
+
+        // Perform actual check
+        try {
+            const response = await fetch("/ledger/verify/ajax");
+            const data = await response.json();
+            
+            statusText.textContent = data.valid ? "Integrity Verified!" : "Integrity Issue Detected!";
+            statusText.style.color = data.valid ? "var(--success)" : "var(--danger)";
+            
+            if (data.valid) {
+                // Show success state briefly then reload to update tags
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                // Keep overlay or show errors?
+                // For now, let's reload to show the error banner
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }
+        } catch (error) {
+            console.error("Verification failed:", error);
+            overlay.classList.remove('active');
+            runBtn.disabled = false;
+        }
+    });
+});
+</script>
+
+<style>
+/* ── Chain Stats Bar ── */
+.chain-stats-bar {
+    display: flex;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.chain-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 100px;
+}
+.chain-stat-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+    color: var(--muted);
+}
+.chain-stat-value {
+    font-size: 1.1rem;
+    color: var(--ink);
+}
+
+/* ── Visual Chain (horizontal scroll) ── */
+.chain-visual-container {
+    overflow-x: auto;
+    padding: 20px 0 28px 0;
+    -webkit-overflow-scrolling: touch;
+}
+.chain-visual-scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    min-width: 100%;
+    padding: 40px 24px;
+}
+
+/* ── Genesis Marker ── */
+.chain-genesis-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.genesis-diamond {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 10px;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px var(--primary-glow);
+}
+.genesis-diamond ion-icon {
+    transform: rotate(-45deg);
+    font-size: 1.2rem;
+    color: white;
+}
+.genesis-label {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--primary);
+    opacity: 0.7;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes flow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.appear-staggered {
+    opacity: 0;
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.chain-block-card {
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.chain-block-card:nth-child(even) {
+    animation-delay: 0.2s, 0.5s;
+}
+
+/* ── Connector ── */
+.chain-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    flex-shrink: 0;
+    width: 80px;
+}
+.chain-connector-line {
+    width: 100%;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+.flowing-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    animation: none;
+    opacity: 0.6;
+}
+.chain-connector-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background: var(--panel);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+.chain-connector-arrow ion-icon {
+    font-size: 0.75rem;
+    color: var(--primary);
+}
+.chain-connector-hash {
+    font-size: 0.55rem;
+    font-family: monospace;
+    color: var(--muted);
+    margin-top: 14px;
+    white-space: nowrap;
+    opacity: 0.6;
+}
+
+/* ── Block Card ── */
+.chain-block-card {
+    flex-shrink: 0;
+    width: 240px;
+    background: var(--panel);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+}
+.chain-block-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px var(--primary-glow);
+    border-color: var(--primary);
+    z-index: 5;
+}
+.chain-block-latest {
+    border-color: var(--primary);
+    box-shadow: 0 4px 20px var(--primary-glow);
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.chain-block-header {
+    padding: 12px 16px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
+    background: rgba(15, 118, 110, 0.03);
+}
+.chain-block-number {
+    font-size: 0.7rem;
+    font-weight: 800;
+    font-family: 'Outfit', monospace;
+    color: var(--primary);
+    letter-spacing: 1px;
+}
+.chain-block-badge {
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.chain-block-badge-latest {
+    background: rgba(15, 118, 110, 0.1);
+    color: var(--primary);
+}
+.chain-block-badge-active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+.chain-block-badge-archived {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+.chain-block-content {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.chain-block-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+.chain-field-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    color: var(--muted);
+    flex-shrink: 0;
+}
+.chain-field-value {
+    font-size: 0.8rem;
+    color: var(--ink);
+    font-weight: 600;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 140px;
+}
+.chain-block-hash-section {
+    padding: 8px 16px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.chain-hash-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.chain-hash-label {
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--primary);
+    flex-shrink: 0;
+    min-width: 30px;
+}
+.chain-hash-value {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chain-hash-row-prev .chain-hash-value {
+    opacity: 0.6;
+}
+.chain-block-footer {
+    padding: 8px 16px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+}
+.chain-block-time {
+    font-size: 0.65rem;
+    color: var(--muted);
+}
+.chain-block-link {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(15, 118, 110, 0.08);
+    color: var(--primary);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+.chain-block-link:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ── Chain End Marker ── */
+.chain-end-marker {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+}
+.chain-end-icon {
+    width: 36px;
+    height: 36px;
+    border: 2px dashed var(--line);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    opacity: 0.5;
+}
+.chain-end-label {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    opacity: 0.4;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+/* ── Detail List (Vertical) ── */
+.chain-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.chain-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.2s ease;
+}
+.chain-detail-item:hover {
+    background: rgba(15, 118, 110, 0.02);
+}
+.chain-detail-index {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 60px;
+}
+.chain-detail-num {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--primary);
+    font-family: 'Outfit', monospace;
+}
+.chain-detail-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.chain-detail-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.chain-detail-top strong {
+    font-size: 0.95rem;
+    color: var(--ink);
+}
+.chain-detail-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+.chain-detail-hashes {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+}
+.chain-detail-hashes div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.chain-detail-hashes code {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: var(--muted);
+    word-break: break-all;
+    opacity: 0.7;
+}
+.chain-detail-action {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(15, 118, 110, 0.06);
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    margin-top: 4px;
+}
+.chain-detail-action:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ── Integrity Check Visuals ── */
+.integrity-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 15, 15, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.integrity-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.integrity-overlay-content {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    background: rgba(15, 118, 110, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 1px solid rgba(15, 118, 110, 0.1);
+}
+.integrity-overlay-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    box-shadow: 0 0 15px var(--primary);
+    animation: scanline 2s linear infinite;
+    z-index: 5;
+}
+.scanner-ring {
+    width: 80px;
+    height: 80px;
+    border: 4px solid rgba(15, 118, 110, 0.1);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes scanline {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+.integrity-status-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 16px;
+    font-family: 'Outfit', sans-serif;
+}
+.integrity-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+.integrity-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.1s linear;
+}
+.integrity-block-counter {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: monospace;
+}
+
+/* Card scanning effects */
+.chain-block-card.scanning-active {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--primary-glow);
+    transform: scale(1.05);
+    z-index: 10;
+}
+.chain-block-card.scanning-verified {
+    border-color: var(--success);
+}
+}
+
+/* Restricted access styling */
+.restricted-access {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    background: rgba(239, 68, 68, 0.08) !important;
+    color: var(--danger) !important;
+}
+.restricted-access:hover {
+    transform: none !important;
+    background: rgba(239, 68, 68, 0.12) !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .chain-block-card {
+        width: 200px;
+    }
+    .chain-connector {
+        width: 50px;
+    }
+    .chain-detail-meta {
+        gap: 8px;
+    }
+    .chain-detail-hashes code {
+        font-size: 0.55rem;
+    }
+}
+</style>
+{% endblock %}

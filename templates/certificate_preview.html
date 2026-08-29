@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}Official Record - {{ block["certificate_id"] }}{% endblock %}
+
+{% block content %}
+<header class="topbar no-print" style="margin-bottom: 20px;">
+    <div>
+        <p class="eyebrow">Official Verification Result</p>
+        <h1>{{ block["certificate_id"] }}</h1>
+    </div>
+    <div class="topbar-actions">
+        <a class="ghost-button" href="{{ url_for('records.certificate_pdf', block_id=block['id']) }}" style="background: linear-gradient(135deg, #0f766e 0%, #6366f1 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+            <ion-icon name="document-text-outline"></ion-icon>
+            Download PDF
+        </a>
+        <button type="button" class="primary-button" onclick="window.print()" style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;">Print Official Proof</button>
+        <a class="ghost-button" href="{{ url_for('records.view_record', block_id=block['id']) }}">Back</a>
+    </div>
+</header>
+
+<section class="auth-card" style="max-width: 800px; margin: 0 auto; background: white; border: 1px solid var(--line); border-radius: 20px; padding: 40px;">
+    <!-- Verification Status Header -->
+    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 40px;">
+        <div style="background: var(--success); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 0.8rem; letter-spacing: 1px;">VALID</div>
+        <div>
+            <div style="text-transform: uppercase; font-size: 0.7rem; font-weight: 800; color: var(--primary); letter-spacing: 1px;">Verification Result</div>
+            <h2 style="margin: 0; font-size: 1.5rem; color: var(--ink);">Official Record Confirmed</h2>
+        </div>
+    </div>
+
+    <!-- Top ID Row -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+        <div style="background: var(--bg); border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Verification ID</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["certificate_id"] }}</strong>
+        </div>
+        <div style="background: var(--bg); border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Verification Source</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">HashVera Blockchain Portal</strong>
+        </div>
+    </div>
+
+    <!-- Validation Seal Section -->
+    <div style="display: flex; align-items: center; gap: 25px; background: rgba(16, 185, 129, 0.03); border: 1px solid rgba(16, 185, 129, 0.1); border-radius: 16px; padding: 25px; margin-bottom: 40px;">
+        <div style="width: 80px; height: 80px; border: 3px double var(--success); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: var(--success); flex-shrink: 0;">
+            <strong style="font-size: 0.9rem; line-height: 1;">OK</strong>
+            <span style="font-size: 0.4rem; font-weight: 800; letter-spacing: 0.5px;">BLOCKCHAIN<br>VERIFIED</span>
+        </div>
+        <div>
+            <div style="text-transform: uppercase; font-size: 0.7rem; font-weight: 800; color: var(--primary); letter-spacing: 1px; margin-bottom: 4px;">Institution Check</div>
+            <h4 style="margin: 0 0 5px 0; color: var(--ink);">Official HashVera Validation Seal</h4>
+            <p style="margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.4;">This certificate record is active, linked to the blockchain, and has passed the current integrity verification.</p>
+        </div>
+    </div>
+
+    <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 20px; color: var(--muted);">This record is active and matches the current blockchain ledger.</p>
+
+    <!-- Detailed Information Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px;">
+        <div style="background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Student</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["student_name"] }}</strong>
+        </div>
+        <div style="background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Campus ID</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["student_id"] }}</strong>
+        </div>
+        <div style="background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Course</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["course"] }}</strong>
+        </div>
+        <div style="background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Document</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["document_name"] }}</strong>
+        </div>
+        <div style="background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Record Type</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["record_type"] }}</strong>
+        </div>
+        <div style="background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Certificate ID</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["certificate_id"] }}</strong>
+        </div>
+        {% if block["marks_obtained"] %}
+        <div style="grid-column: span 2; background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Marks</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["marks_obtained"] }} / {{ block["max_marks"] }}</strong>
+        </div>
+        {% endif %}
+        <div style="grid-column: span 2; background: white; border: 1px solid var(--line); padding: 15px 20px; border-radius: 12px;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Issued In Block</div>
+            <strong style="font-size: 1.1rem; color: var(--ink);">{{ block["block_index"] }}</strong>
+        </div>
+    </div>
+
+    <!-- QR Code Verification Section -->
+    <div style="display: flex; align-items: center; gap: 24px; background: var(--bg); border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin-bottom: 30px;">
+        <div style="flex-shrink: 0;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ url_for('main.public_verify', block_hash=block['block_hash'], _external=True)|urlencode }}" loading="lazy"
+                 alt="Verification QR Code" 
+                 style="width: 120px; height: 120px; border-radius: 8px; border: 2px solid var(--line); display: block;">
+        </div>
+        <div style="flex: 1;">
+            <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--primary); letter-spacing: 1px; margin-bottom: 6px;">Scan to Verify</div>
+            <h4 style="margin: 0 0 6px 0; color: var(--ink); font-size: 1rem;">Quick Verification QR Code</h4>
+            <p style="margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.5;">
+                Scan this QR code with any mobile device to instantly verify this record against the HashVera blockchain. 
+                External parties such as employers and institutions can use this for independent validation.
+            </p>
+        </div>
+    </div>
+
+    <!-- Blockchain Proof Footer -->
+    <div style="border-top: 1px dashed var(--line); padding-top: 20px; word-break: break-all;">
+        <div style="text-transform: uppercase; font-size: 0.65rem; font-weight: 800; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px;">Blockchain Hash</div>
+        <code style="font-family: monospace; font-size: 0.8rem; color: var(--primary);">{{ block["block_hash"] }}</code>
+    </div>
+</section>
+
+<style>
+    @media print {
+        .no-print, .topbar, .app-footer, .theme-toggle {
+            display: none !important;
+        }
+        body {
+            background: white !important;
+            padding: 0 !important;
+        }
+        .auth-card {
+            box-shadow: none !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            max-width: 100% !important;
+            width: 100% !important;
+        }
+        @page {
+            size: A4 portrait;
+            margin: 15mm;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Verify Credentials - HashVera Secure Ledger{% endblock %}
+
+{% block content %}
+<main class="verify-terminal-shell" style="min-height: 100vh; padding: 100px 20px; position: relative; overflow: hidden;">
+    <!-- Abstract Tech Background -->
+    <div style="position: absolute; inset: 0; opacity: 0.05; pointer-events: none;">
+        <div style="position: absolute; top: -10%; right: -10%; width: 60%; height: 60%; background: var(--primary); filter: blur(150px); border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: -10%; left: -10%; width: 40%; height: 40%; background: var(--secondary); filter: blur(150px); border-radius: 50%;"></div>
+    </div>
+
+    <div class="verify-container" style="max-width: 1000px; margin: 0 auto; position: relative; z-index: 10;">
+        <nav style="margin-bottom: 40px; display: flex; justify-content: flex-end;">
+            <a href="{{ url_for('records.dashboard') if session.get('user') else url_for('auth.login') }}" style="display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s;">
+                <ion-icon name="arrow-back-outline" style="font-size: 1.1rem;"></ion-icon>
+                Back to Dashboard
+            </a>
+        </nav>
+        <header style="text-align: center; margin-bottom: 60px;">
+            <div class="trust-pulse" style="display: inline-flex; align-items: center; gap: 8px; background: var(--primary-glow); color: var(--primary); padding: 6px 14px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border: 1px solid var(--line); margin-bottom: 24px;">
+                <span style="width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); animation: pulse-dot 1.5s infinite;"></span>
+                Network Status: Operational
+            </div>
+            <h1 class="premium-gradient-text" style="font-family: 'Outfit', sans-serif; font-size: 4.5rem; letter-spacing: -2px; line-height: 1; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--primary-glow));">HashVera Trust.</h1>
+            <p class="lead" style="color: var(--muted); font-size: 1.25rem; max-width: 650px; margin: 0 auto; font-family: 'Outfit', sans-serif;">Securely validate academic credentials on the global HashVera decentralized ledger. Enter any Certificate ID or Blockchain Hash to begin.</p>
+        </header>
+
+        <div class="verify-grid-layout" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: start;">
+            <!-- Verification Terminal -->
+            <section class="panel ui-reveal" style="padding: 48px; border-radius: 32px; box-shadow: var(--shadow);">
+                <form method="post" action="{{ url_for('main.verify_portal') }}" id="verification-form">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    
+                    <div style="margin-bottom: 32px;">
+                        <label style="color: var(--ink); font-weight: 700; font-size: 1.1rem; margin-bottom: 12px; display: block;">Credential Identifier</label>
+                        <div style="position: relative;">
+                            <input type="text" name="identifier" 
+                                   placeholder="Enter ID (e.g., CERT26-100x) or Hash" 
+                                   style="height: 72px; background: var(--bg); border: 2px solid var(--line); color: var(--ink); padding-left: 64px; font-size: 1.2rem; border-radius: 20px; width: 100%; transition: all 0.3s ease;"
+                                   required autofocus>
+                            <div style="position: absolute; left: 24px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1.5rem;">
+                                <ion-icon name="search-outline"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if error %}
+                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171; padding: 16px; border-radius: 14px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; font-weight: 600;">
+                        <ion-icon name="alert-circle-outline" style="font-size: 1.2rem;"></ion-icon>
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <button type="submit" style="width: 100%; height: 72px; font-size: 1.3rem; font-weight: 800; border-radius: 20px; background: linear-gradient(135deg, #0ea5e9, #6366f1); border: none; color: white; cursor: pointer; box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3); transition: transform 0.2s ease;">
+                        Perform Secure Audit
+                    </button>
+                </form>
+
+                <div id="verifying-animation" style="display: none; text-align: center; padding: 20px 0;">
+                    <div class="scanning-lines" style="width: 100%; height: 60px; background: rgba(14, 165, 233, 0.05); border-radius: 8px; position: relative; overflow: hidden; margin-bottom: 24px;">
+                        <div style="position: absolute; width: 100%; height: 2px; background: #0ea5e9; box-shadow: 0 0 15px #0ea5e9; animation: scan-move 1.5s infinite;"></div>
+                    </div>
+                    <h3 style="color: #0ea5e9; font-family: monospace; letter-spacing: 3px; font-size: 1.1rem;">INITIALIZING BLOCKCHAIN AUDIT...</h3>
+                    <p style="color: #64748b; font-size: 0.9rem; margin-top: 8px;">Synchronizing with decentralized peer nodes.</p>
+                </div>
+            </section>
+
+            <!-- Trust Sidebar -->
+            <aside style="display: grid; gap: 24px;">
+                <div class="panel" style="padding: 24px; border-radius: 24px;">
+                    <h4 style="color: var(--ink); margin-bottom: 16px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Recent Ledger Activity</h4>
+                    <div style="display: grid; gap: 12px;" id="trust-feed">
+                        <div class="feed-item" style="display: flex; gap: 12px; font-size: 0.85rem; color: var(--muted); animation: slide-in 0.5s ease;">
+                            <div style="width: 8px; height: 8px; background: var(--success); border-radius: 50%; margin-top: 5px;"></div>
+                            <div>
+                                <div style="color: var(--ink); font-weight: 600;">Block #249 Secured</div>
+                                <div style="font-size: 0.75rem;">Verified 2 minutes ago</div>
+                            </div>
+                        </div>
+                        <div class="feed-item" style="display: flex; gap: 12px; font-size: 0.85rem; color: var(--muted);">
+                            <div style="width: 8px; height: 8px; background: var(--success); border-radius: 50%; margin-top: 5px;"></div>
+                            <div>
+                                <div style="color: var(--ink); font-weight: 600;">Credential Audit Passed</div>
+                                <div style="font-size: 0.75rem;">Verified 5 minutes ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: var(--primary-glow); border: 1px solid var(--line); padding: 24px; border-radius: 24px; position: relative;">
+                    <svg style="position: absolute; top: 20px; right: 20px; opacity: 0.2;" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <h4 style="color: var(--primary); font-weight: 800; margin-bottom: 8px;">100% Immutable</h4>
+                    <p style="color: var(--muted); font-size: 0.85rem; line-height: 1.5;">Every record is cryptographically signed by the local node and synchronized across the HashVera private network.</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>
+
+<style>
+    @media (max-width: 768px) {
+        .verify-terminal-shell { padding: 40px 15px !important; }
+        .verify-terminal-shell header { margin-bottom: 28px !important; }
+        .verify-terminal-shell .lead { font-size: 1rem !important; }
+        .verify-terminal-shell .premium-gradient-text { font-size: clamp(1.9rem, 9.2vw, 2.3rem) !important; letter-spacing: 0 !important; }
+        .verify-grid-layout { grid-template-columns: 1fr !important; gap: 20px !important; }
+        .verify-terminal-shell .panel { padding: 24px !important; border-radius: 24px !important; }
+    }
+    
+    @keyframes pulse-dot {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes scan-move {
+        0% { transform: translateY(-30px); }
+        100% { transform: translateY(30px); }
+    }
+    
+    @keyframes slide-in {
+        from { transform: translateX(20px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    input:focus {
+        border-color: #0ea5e9 !important;
+        box-shadow: 0 0 25px rgba(14, 165, 233, 0.1) !important;
+        outline: none;
+    }
+    .premium-gradient-text {
+        background: linear-gradient(135deg, var(--ink) 0%, var(--primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    body[data-theme="dark"] .premium-gradient-text {
+        background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+
+<script>
+    document.getElementById('verification-form').addEventListener('submit', function() {
+        this.style.display = 'none';
+        document.getElementById('verifying-animation').style.display = 'block';
+    });
+</script>
+{% endblock %}

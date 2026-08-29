@@ -1,0 +1,32 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+    "livePreview.openPreviewTarget": "External Browser",
+    "livePreview.customExternalBrowser": "Edge",
+    "livePreview.useIntegratedBrowser": false,
+    "livePreview.tasks.runTaskWithExternalPreview": true,
+    "liveServer.settings.CustomBrowser": "microsoft-edge",
+    "liveServer.settings.NoBrowser": false,
+    "files.associations": {
+        "*.html": "html"
+    },
+    "files.exclude": {
+        "**/.venv": true,
+        "**/__pycache__": true,
+        "**/instance/legacy_archive": true,
+        ".eduledger_secret_key": true,
+        ".eduledger_node_signing_secret": true
+    },
+    "files.watcherExclude": {
+        "**/.venv/**": true
+    },
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "test_*.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "python-envs.defaultEnvManager": "ms-python.python:system"
+}

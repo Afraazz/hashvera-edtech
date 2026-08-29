@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HashVera</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+    <link rel="icon" type="image/svg+xml" href="/static/hashvera-mark.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/static/hashvera-mark.svg">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=1.8">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule defer src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="" data-theme="auto">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3"></path><path d="M12 19v3"></path><path d="M4.93 4.93l2.12 2.12"></path><path d="M16.95 16.95l2.12 2.12"></path><path d="M2 12h3"></path><path d="M19 12h3"></path><path d="M4.93 19.07l2.12-2.12"></path><path d="M16.95 7.05l2.12-2.12"></path></svg>
+            </span>
+            <span class="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 9 9 0 1 0 20 15.2z"></path></svg>
+            </span>
+            <span class="theme-toggle-thumb" aria-hidden="true"></span>
+        </span>
+    </button>
+    <div class="page-shell">
+        <main class="main-content">
+            <header class="no-print header-logo-bar" aria-label="HashVera header">
+                <a class="header-logo" href="/dashboard" aria-label="HashVera home">
+                    <img class="header-logo-mark" src="/static/hashvera-mark.svg" alt="">
+                    <span class="header-logo-wordmark">
+                        <span class="brand-text-primary">Hash</span><span class="brand-text-secondary">Vera</span>
+                    </span>
+                </a>
+                <div class="header-nav-actions">
+                    <a class="header-verify-link" href="/verify">
+                        <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+                        <span>Verify Credentials</span>
+                    </a>
+                    
+                </div>
+            </header>
+            
+            
+        
+        
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Notifications</p>
+        <h1>Activity Updates</h1>
+        <p class="lead">See account, record, request, and system updates related to your HashVera access.</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">Aswin Raj - Student</div>
+        <a class="ghost-button icon-button back-nav-button" href="/dashboard"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section id="notifications-list-panel" class="panel">
+    <div class="panel-heading">
+        <h2>Your Notifications</h2>
+        <p>Unread notifications help you track record updates, corrections, and account changes.</p>
+    </div>
+    <form class="filter-form admin-filter-form" method="get" action="/notifications" data-live-search="true" data-live-target=".notifications-list">
+        <input type="text" name="q" value="" placeholder="Search title, message, or category">
+        <select name="category">
+            <option value="" selected>All Categories</option>
+            <option value="record" >Record</option>
+            <option value="request" >Request</option>
+            <option value="account" >Account</option>
+            <option value="system" >System</option>
+        </select>
+        <select name="read">
+            <option value="" selected>All Statuses</option>
+            <option value="unread" >Unread Only</option>
+            <option value="read" >Read Only</option>
+        </select>
+        <select name="sort">
+            <option value="latest" selected>Latest First</option>
+            <option value="oldest" >Oldest First</option>
+        </select>
+        <div class="inline-actions">
+            <button type="submit">Apply</button>
+            <a class="ghost-button" href="/notifications">Reset</a>
+        </div>
+    </form>
+    <div class="notifications-toolbar">
+        <span class="muted">Unread notifications: <strong>40</strong></span>
+        <form method="post" action="/notifications/mark-read" class="inline-form">
+            <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+            <button type="submit" class="ghost-button">Mark All as Read</button>
+        </form>
+    </div>
+
+    
+        <div class="notifications-list">
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">29 Aug 2026, 09:19 AM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/101/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/101/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">29 Aug 2026, 09:18 AM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/100/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/100/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">28 Aug 2026, 09:56 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/98/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/98/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">28 Aug 2026, 09:48 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/97/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/97/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">28 Aug 2026, 09:34 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/95/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/95/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">28 Aug 2026, 09:26 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/94/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/94/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">28 Aug 2026, 07:48 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/93/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/93/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">28 Aug 2026, 07:48 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/92/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/92/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">21 Jul 2026, 03:29 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/91/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/91/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+                <article class="user-admin-card notification-card notification-card-unread">
+                    <div class="notification-top">
+                        <div>
+                            <h3>New Login Detected</h3>
+                            <p class="muted">Security</p>
+                        </div>
+                        <span class="tag">Unread</span>
+                    </div>
+                    <p>Your account was successfully signed in.</p>
+                    <div class="notification-footer">
+                        <span class="muted">21 Jul 2026, 03:10 PM IST</span>
+                        <div class="inline-actions notification-actions">
+                            
+                                <form method="post" action="/notifications/90/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <button type="submit" class="ghost-button">Mark as Read</button>
+                                </form>
+                            
+                            
+                                <form method="post" action="/notifications/90/read" class="inline-form">
+                                    <input type="hidden" name="csrf_token" value="5562f2ac9fd01820b4692680ea59db519af5e57f9dd4062dcbb6a661e76586c5">
+                                    <input type="hidden" name="next" value="/dashboard">
+                                    <button type="submit" class="ghost-button">Open</button>
+                                </form>
+                            
+                        </div>
+                    </div>
+                </article>
+            
+        </div>
+    
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+
+    
+        <div class="pagination-bar">
+            
+            <span class="pagination-summary">Page 1 of 7</span>
+            
+                <a class="ghost-button" href="/notifications?page=2&amp;q=&amp;category=&amp;read=&amp;sort=latest#notifications-list-panel">Next</a>
+            
+        </div>
+    
+</section>
+
+        <footer class="app-footer no-print">
+            <div class="footer-container">
+                <div class="footer-left">
+                    <p>&copy; <span id="current-year"></span> <span class="brand-text-primary">Hash</span><span class="brand-text-secondary">Vera</span> Academic Network.</p>
+                </div>
+                <div class="footer-right">
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        Blockchain Secured
+                    </div>
+                    <nav class="footer-nav">
+                        <a href="/support">Support</a>
+                        <a href="/faq">FAQ</a>
+                        <a href="/network/audit">Network Audit</a>
+                        <a href="/terms">Terms</a>
+                        <a href="/privacy">Privacy</a>
+                    </nav>
+                </div>
+            </div>
+        </footer>
+        </main>
+    </div>
+        <div class="ai-assistant-theme" id="ai-assistant-theme">
+            <section class="ai-assistant no-print" id="ai-assistant" aria-label="HashVera AI assistant" data-endpoint="/api/assistant" data-user="Aswin Raj">
+                <button type="button" class="ai-assistant-toggle" id="ai-assistant-toggle" aria-expanded="false" aria-controls="ai-assistant-panel" title="HashVera Assist">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; display: block; stroke: currentColor; fill: none;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-toggle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z" stroke="currentColor" stroke-width="2" fill="none"></path><path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5Z" stroke="currentColor" stroke-width="2" fill="none"></path><path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1Z" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+                    <span class="sr-only">Open HashVera Assist</span>
+                </button>
+                <div class="ai-assistant-panel" id="ai-assistant-panel" hidden>
+                    <header class="ai-assistant-header">
+                        <div>
+                            <p class="eyebrow">AI Assistant</p>
+                            <h2>HashVera Assist</h2>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button type="button" class="ai-assistant-clear" id="ai-assistant-clear" title="Clear chat history" aria-label="Clear chat">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 18px; height: 18px; display: block; stroke: currentColor; fill: none;" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="ai-btn-icon"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2.2" fill="none"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2.2" fill="none"></path><line x1="10" y1="11" x2="10" y2="17" stroke="currentColor" stroke-width="2.2" fill="none"></line><line x1="14" y1="11" x2="14" y2="17" stroke="currentColor" stroke-width="2.2" fill="none"></line></svg>
+                            </button>
+                            <button type="button" class="ai-assistant-close" id="ai-assistant-close" aria-label="Close assistant">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 18px; height: 18px; display: block; stroke: currentColor; fill: none;" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="ai-btn-icon"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.2" fill="none"></line><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.2" fill="none"></line></svg>
+                            </button>
+                        </div>
+                    </header>
+            <div class="ai-assistant-messages" id="ai-assistant-messages" role="log" aria-live="polite"></div>
+            <div class="ai-assistant-prompts" id="ai-assistant-prompts">
+                <button type="button" data-ai-prompt="How do I verify a certificate?">Verify a certificate</button>
+                <button type="button" data-ai-prompt="How do I request a record correction?">Request correction</button>
+                <button type="button" data-ai-prompt="What can I do from my role?">My shortcuts</button>
+            </div>
+            <form class="ai-assistant-form" id="ai-assistant-form">
+                <label class="sr-only" for="ai-assistant-input">Ask HashVera Assist</label>
+                <textarea id="ai-assistant-input" maxlength="900" rows="1" placeholder="Ask about records, verification, or support"></textarea>
+                <button type="submit" aria-label="Send message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 18px; height: 18px; display: block; stroke: currentColor; fill: none;" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="ai-btn-icon"><line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" stroke-width="2.2" fill="none"></line><polygon points="22 2 15 22 11 13 2 9 22 2" stroke="currentColor" stroke-width="2.2" fill="none"></polygon></svg>
+                </button>
+            </form>
+        </div>
+    </section>
+    <div class="modal-overlay" id="action-modal" hidden>
+        <div class="modal-card">
+            <p class="eyebrow">Confirm Action</p>
+            <h2 id="modal-title">Please Confirm</h2>
+            <p class="muted" id="modal-message">Do you want to continue?</p>
+            <div class="inline-actions modal-actions">
+                <button type="button" class="ghost-button" id="modal-cancel">Cancel</button>
+                <button type="button" class="ghost-button" id="modal-download" hidden>Download</button>
+                <button type="button" id="modal-confirm">Continue</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.showToast = function(message, category = 'success') {
+            let stack = document.querySelector('.flash-stack');
+            if (!stack) {
+                stack = document.createElement('div');
+                stack.className = 'flash-stack';
+                const shell = document.querySelector('.page-shell');
+                if (shell) shell.insertBefore(stack, shell.firstChild);
+                else document.body.appendChild(stack);
+            }
+            const flash = document.createElement('div');
+            flash.className = `flash flash-${category} ui-reveal`;
+            flash.innerHTML = `
+                <span class="toast-icon">${category === 'success' ? '&#10003;' : (category === 'info' ? 'i' : '&#10005;')}</span>
+                <span>${message}</span>
+                <button type="button" class="toast-close" aria-label="Dismiss notification" onclick="this.closest('.flash').remove()">x</button>
+            `;
+            stack.appendChild(flash);
+            setTimeout(() => {
+                flash.style.opacity = "0";
+                flash.style.transform = "translateX(12px)";
+                setTimeout(() => flash.remove(), 220);
+            }, 3000);
+        };
+
+        // Update footer year
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const savedTheme = localStorage.getItem("hashvera-theme") || "auto";
+            const themeToggle = document.getElementById("theme-toggle");
+            function applyTheme(theme) {
+                let actualTheme = theme;
+                if (theme === "auto") {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    actualTheme = prefersDark ? "dark" : "light";
+                }
+                document.body.setAttribute("data-theme", actualTheme);
+                themeToggle.setAttribute("aria-pressed", actualTheme === "dark" ? "true" : "false");
+                themeToggle.setAttribute("aria-label", actualTheme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+                if (window.renderDashboardCharts) {
+                    window.renderDashboardCharts();
+                }
+            }
+
+            applyTheme(savedTheme);
+
+            themeToggle.addEventListener("click", function () {
+                const currentTheme = document.body.getAttribute("data-theme") === "dark" ? "dark" : "light";
+                const nextTheme = currentTheme === "dark" ? "light" : "dark";
+                applyTheme(nextTheme);
+                localStorage.setItem("hashvera-theme", nextTheme);
+            });
+
+            const animatedItems = document.querySelectorAll(".panel, .metric-card, .block-card, .node-card, .chart-card, .audit-card, .user-admin-card, .auth-card, .brand-panel");
+
+            animatedItems.forEach(function (item, index) {
+                item.classList.add("ui-reveal");
+                item.style.setProperty("--reveal-delay", (index * 45) + "ms");
+            });
+
+            document.querySelectorAll("[data-counter]").forEach(function (counter) {
+                const target = Number(counter.getAttribute("data-counter")) || 0;
+                const suffix = counter.getAttribute("data-counter-suffix") || "";
+                const duration = 700;
+                const startTime = performance.now();
+
+                function updateCounter(timestamp) {
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.round(target * eased) + suffix;
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+
+                requestAnimationFrame(updateCounter);
+            });
+
+            document.querySelectorAll("[data-collapsible-trigger]").forEach(function (trigger) {
+                trigger.addEventListener("click", function () {
+                    const targetId = trigger.getAttribute("data-collapsible-trigger");
+                    const panel = document.getElementById(targetId);
+                    if (!panel) {
+                        return;
+                    }
+
+                    const isOpen = panel.getAttribute("data-open") === "true";
+                    panel.setAttribute("data-open", String(!isOpen));
+                    const openLabel = trigger.getAttribute("data-open-label") || "Open Filters";
+                    const closeLabel = trigger.getAttribute("data-close-label") || "Close Filters";
+                    trigger.textContent = isOpen ? openLabel : closeLabel;
+
+                    const layout = document.getElementById("filter-chart-grid");
+                    if (layout) {
+                        layout.classList.toggle("filter-chart-grid-collapsed", isOpen);
+                    }
+                });
+            });
+
+            document.querySelectorAll(".toast-close").forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const flash = button.closest(".flash");
+                    if (flash) {
+                        flash.remove();
+                    }
+                });
+            });
+
+            document.querySelectorAll(".flash").forEach(function (flash, index) {
+                setTimeout(function () {
+                    flash.style.opacity = "0";
+                    flash.style.transform = "translateX(12px)";
+                    setTimeout(function () {
+                    flash.remove();
+                }, 220);
+            }, 2200 + (index * 180));
+        });
+
+        const paginationStorageKey = "hashvera-pagination-scroll";
+        document.querySelectorAll(".pagination-bar a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                if (link.hash) {
+                    sessionStorage.removeItem(paginationStorageKey);
+                    return;
+                }
+                const scrollTarget = link.closest("section, .panel, main, .main-content") || document.scrollingElement || document.documentElement;
+                const targetTop = scrollTarget === document.scrollingElement || scrollTarget === document.documentElement
+                    ? window.scrollY
+                    : Math.max(scrollTarget.getBoundingClientRect().top + window.scrollY - 16, 0);
+                sessionStorage.setItem(paginationStorageKey, JSON.stringify({
+                    path: window.location.pathname,
+                    top: targetTop,
+                    time: Date.now()
+                }));
+            });
+        });
+
+        try {
+            const savedPaginationScroll = JSON.parse(sessionStorage.getItem(paginationStorageKey) || "null");
+            const hasPaginationQuery = Array.from(new URLSearchParams(window.location.search).keys()).some(function (key) {
+                return key === "page" || key.endsWith("_page");
+            });
+            if (
+                savedPaginationScroll &&
+                savedPaginationScroll.path === window.location.pathname &&
+                hasPaginationQuery &&
+                Date.now() - savedPaginationScroll.time < 10000
+            ) {
+                sessionStorage.removeItem(paginationStorageKey);
+                requestAnimationFrame(function () {
+                    window.scrollTo({ top: savedPaginationScroll.top, behavior: "smooth" });
+                });
+            }
+        } catch (error) {
+            sessionStorage.removeItem(paginationStorageKey);
+        }
+
+        document.querySelectorAll("form[data-live-search='true']").forEach(function (form) {
+            const textInput = form.querySelector("input[name='q']");
+            const sortSelect = form.querySelector("select[name='sort']");
+            const targetSelector = form.getAttribute("data-live-target");
+            const targetGrid = targetSelector ? document.querySelector(targetSelector) : null;
+            const emptyState = form.closest(".panel")?.querySelector(".page-live-empty");
+            const applyButton = form.querySelector("button[type='submit']");
+
+            function updateLiveFilter() {
+                if (!textInput || !targetGrid) {
+                    return;
+                }
+
+                const query = textInput.value.trim().toLowerCase();
+                const items = Array.from(targetGrid.children).filter(function (item) {
+                    return item.matches("article, .audit-card, .block-card, .user-admin-card");
+                });
+                let visibleCount = 0;
+
+                items.forEach(function (item) {
+                    const matches = !query || item.textContent.toLowerCase().includes(query);
+                    item.hidden = !matches;
+                    if (matches) {
+                        visibleCount += 1;
+                    }
+                });
+
+                if (emptyState) {
+                    emptyState.hidden = visibleCount !== 0 || !query;
+                }
+            }
+
+            if (textInput) {
+                textInput.addEventListener("input", updateLiveFilter);
+            }
+
+            if (sortSelect) {
+                sortSelect.addEventListener("change", function () {
+                    form.submit();
+                });
+            }
+
+            if (applyButton && textInput) {
+                applyButton.addEventListener("click", function (event) {
+                    if (textInput.value.trim()) {
+                        event.preventDefault();
+                        updateLiveFilter();
+                    }
+                });
+            }
+        });
+        });
+
+        document.addEventListener("click", function (event) {
+            const toggle = event.target.closest("[data-password-toggle]");
+            if (!toggle) {
+                return;
+            }
+
+            const targetId = toggle.getAttribute("data-password-toggle");
+            const input = document.getElementById(targetId);
+            if (!input) {
+                return;
+            }
+
+            const showing = input.type === "text";
+            input.type = showing ? "password" : "text";
+            toggle.innerHTML = showing
+                ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18" /><path d="M10.6 10.7a3 3 0 0 0 4 4" /><path d="M9.9 5.2A10.9 10.9 0 0 1 12 5c5 0 9.3 3.1 11 7-1 2.3-2.8 4.2-5 5.4" /><path d="M6.2 6.3C4.3 7.6 2.8 9.5 2 12c.7 1.7 1.9 3.3 3.4 4.5A10.5 10.5 0 0 0 12 19c1.5 0 2.9-.3 4.2-.8" /></svg>'
+                : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>';
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("action-modal");
+            const modalTitle = document.getElementById("modal-title");
+            const modalMessage = document.getElementById("modal-message");
+            const modalCancel = document.getElementById("modal-cancel");
+            const modalDownload = document.getElementById("modal-download");
+            const modalConfirm = document.getElementById("modal-confirm");
+            let pendingAction = null;
+            let pendingAttachment = null;
+
+            modal.hidden = true;
+
+            function closeModal() {
+                modal.hidden = true;
+                pendingAction = null;
+                pendingAttachment = null;
+                modalDownload.hidden = true;
+                modalConfirm.hidden = false;
+                modalConfirm.textContent = "Continue";
+            }
+
+            document.addEventListener("click", function (event) {
+                const attachment = event.target.closest("[data-attachment-link='true']");
+                if (attachment) {
+                    event.preventDefault();
+                    pendingAction = null;
+                    pendingAttachment = {
+                        openUrl: attachment.getAttribute("data-attachment-open-url"),
+                        downloadUrl: attachment.getAttribute("data-attachment-download-url"),
+                        name: attachment.getAttribute("data-attachment-name") || "this attachment",
+                        inlinePreview: attachment.getAttribute("data-attachment-inline") === "true"
+                    };
+                    modalTitle.textContent = "Attachment Options";
+                    if (pendingAttachment.inlinePreview) {
+                        modalMessage.textContent = `What do you want to do with ${pendingAttachment.name}?`;
+                        modalConfirm.textContent = "Open";
+                        modalConfirm.hidden = false;
+                    } else {
+                        modalMessage.textContent = `${pendingAttachment.name} cannot be previewed directly in most browsers, so download it to open it with the right app.`;
+                        modalConfirm.hidden = true;
+                    }
+                    modalDownload.hidden = false;
+                    modal.hidden = false;
+                    return;
+                }
+
+                const trigger = event.target.closest("[data-confirm-message]");
+                if (!trigger) {
+                    return;
+                }
+
+                event.preventDefault();
+                pendingAction = trigger;
+                pendingAttachment = null;
+                modalTitle.textContent = trigger.getAttribute("data-confirm-title") || "Please Confirm";
+                modalMessage.textContent = trigger.getAttribute("data-confirm-message");
+                modalConfirm.textContent = trigger.getAttribute("data-confirm-button") || "Continue";
+                modalConfirm.hidden = false;
+                modalDownload.hidden = true;
+                modal.hidden = false;
+            });
+
+            modalCancel.addEventListener("click", closeModal);
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            modalConfirm.addEventListener("click", function () {
+                if (pendingAttachment) {
+                    const openUrl = pendingAttachment.openUrl;
+                    closeModal();
+                    if (openUrl) {
+                        window.open(openUrl, "_blank", "noopener");
+                    }
+                    return;
+                }
+
+                if (!pendingAction) {
+                    return;
+                }
+
+                if (pendingAction.tagName === "A") {
+                    window.location.href = pendingAction.href;
+                    return;
+                }
+
+                const form = pendingAction.tagName === "FORM" ? pendingAction : pendingAction.closest("form");
+                if (form) {
+                    if (form.hasAttribute("data-ajax-action")) {
+                        closeModal();
+                        const formData = new FormData(form);
+                        fetch(form.action, {
+                            method: form.method,
+                            body: formData,
+                            headers: { "X-Requested-With": "XMLHttpRequest" }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const event = new CustomEvent("ajax-action-success", { detail: { form, data } });
+                                document.dispatchEvent(event);
+                            } else {
+                                alert(data.message || "Action failed.");
+                            }
+                        })
+                        .catch(err => {
+                            console.error("AJAX error:", err);
+                            alert("A network error occurred.");
+                        });
+                        return;
+                    }
+                    form.submit();
+                    return;
+                }
+            });
+
+            modalDownload.addEventListener("click", function () {
+                if (!pendingAttachment) {
+                    return;
+                }
+
+                const downloadUrl = pendingAttachment.downloadUrl;
+                closeModal();
+                if (downloadUrl) {
+                    window.location.href = downloadUrl;
+                }
+            });
+
+        });
+    </script>
+    <script src="/static/ai-assistant.js?v=1.6" defer></script>
+</body>
+</html>

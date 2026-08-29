@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div class="hero-copy">
+        <p class="eyebrow">Archived Ledger</p>
+        <h1>Archived Academic Records</h1>
+        <p class="lead">Review archived records separately from the main dashboard and restore them only when required.</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Archived Record Filters</h2>
+        <p>Search only within archived records.</p>
+    </div>
+    <div class="filter-panel-shell">
+        <button type="button" class="ghost-button filter-toggle" data-collapsible-trigger="archived-filter-panel">Open Filters</button>
+        <form class="filter-form collapsible-panel" id="archived-filter-panel" data-open="false" method="get" action="{{ url_for('records.archived_records') }}" data-live-search="true" data-live-target=".block-list">
+            <input type="text" name="q" value="{{ search_query }}" placeholder="Search archived records">
+            <select name="course">
+                <option value="">All Courses</option>
+                {% for course in course_options %}
+                    <option value="{{ course }}" {% if course_filter == course %}selected{% endif %}>{{ course }}</option>
+                {% endfor %}
+            </select>
+            <select name="node">
+                <option value="">All Nodes</option>
+                {% for node_name in node_options %}
+                    <option value="{{ node_name }}" {% if node_filter == node_name %}selected{% endif %}>{{ node_name }}</option>
+                {% endfor %}
+            </select>
+            <select name="sort">
+                <option value="latest" {% if sort_key == "latest" %}selected{% endif %}>Latest First</option>
+                <option value="oldest" {% if sort_key == "oldest" %}selected{% endif %}>Oldest First</option>
+                <option value="student" {% if sort_key == "student" %}selected{% endif %}>Student Name</option>
+            </select>
+            <div class="inline-actions">
+                <button type="submit">Apply Filters</button>
+                <a class="ghost-button" href="{{ url_for('records.archived_records') }}">Reset</a>
+            </div>
+            <p class="muted">Showing {{ archived_pagination.start_item }}-{{ archived_pagination.end_item }} of {{ all_archived_count }} archived records.</p>
+        </form>
+    </div>
+</section>
+
+<section id="archived-records-list-panel" class="panel">
+    <div class="panel-heading">
+        <h2>Archived Records</h2>
+        <p>These records remain available for audit history and can be restored by an administrator.</p>
+    </div>
+    {% if not archived_blocks %}
+        <div class="audit-card">
+            <p><strong>No archived records found.</strong></p>
+            <p class="muted">Archive records from the main dashboard to see them here.</p>
+        </div>
+    {% endif %}
+
+    <div class="block-list">
+        {% for block in archived_blocks %}
+            <article class="block-card status-{{ block['record_status']|lower }}">
+                <div class="block-head">
+                    <h3>Block {{ block["block_index"] }}</h3>
+                    <span>{{ format_local_time(block["timestamp"]) }}</span>
+                </div>
+                <div class="tag-row">
+                    <span class="tag">{{ block["record_type"] }}</span>
+                    <span class="tag">{{ block["record_status"] }}</span>
+                </div>
+                <p><strong>Campus ID:</strong> {{ block["student_id"] }}</p>
+                <p><strong>Student Name:</strong> {{ block["student_name"] }}</p>
+                <p><strong>Course:</strong> {{ block["course"] }}</p>
+                <p><strong>Document:</strong> {{ block["document_name"] }}</p>
+                {% if block["certificate_id"] %}
+                    <p><strong>Certificate ID:</strong> {{ block["certificate_id"] }}</p>
+                {% endif %}
+                {% if block["marks_obtained"] and block["max_marks"] %}
+                    <p><strong>Marks:</strong> {{ block["marks_obtained"] }} / {{ block["max_marks"] }}</p>
+                {% endif %}
+                <p><strong>Storage Node:</strong> {{ block["storage_node"] }}</p>
+                <p><strong>Notes:</strong> {{ block["record_notes"] }}</p>
+                <p><strong>Submitted By:</strong> {{ block["submitted_by"] }}</p>
+                {% if block["file_name"] %}
+                    {% set inline_preview = block["file_name"].lower().endswith((".pdf", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg", ".txt")) %}
+                    <p><strong>Attachment:</strong> <a href="{{ url_for('main.uploaded_file', stored_name=block['file_path']) }}"
+                           data-attachment-link="true"
+                           data-attachment-name="{{ block['file_name'] }}"
+                           data-attachment-inline="{{ 'true' if inline_preview else 'false' }}"
+                           data-attachment-open-url="{{ url_for('main.uploaded_file', stored_name=block['file_path']) }}"
+                           data-attachment-download-url="{{ url_for('main.uploaded_file', stored_name=block['file_path'], download=1) }}">{{ block["file_name"] }}</a> ({{ block["file_size_label"] }})</p>
+                {% endif %}
+                <p><strong>Previous Hash:</strong> <span class="hash">{{ block["previous_hash"] }}</span></p>
+                <p><strong>Block Hash:</strong> <span class="hash">{{ block["block_hash"] }}</span></p>
+                <div class="card-actions">
+                    <form method="post" action="{{ url_for('records.restore_block', block_id=block['id']) }}"
+                          data-confirm-title="Restore Record"
+                          data-confirm-message="Restore {{ block['student_name'] }}'s record to the active ledger?"
+                          data-confirm-button="Restore Record">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit">Restore</button>
+                    </form>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+    {% if archived_pagination.total_pages > 1 %}
+        <div class="pagination-bar">
+            {% if archived_pagination.has_prev %}
+                <a class="ghost-button" href="{{ url_for('records.archived_records', q=search_query, course=course_filter, node=node_filter, sort=sort_key, page=archived_pagination.prev_page) }}#archived-records-list-panel">Previous</a>
+            {% endif %}
+            <span class="pagination-summary">Page {{ archived_pagination.page }} of {{ archived_pagination.total_pages }}</span>
+            {% if archived_pagination.has_next %}
+                <a class="ghost-button" href="{{ url_for('records.archived_records', q=search_query, course=course_filter, node=node_filter, sort=sort_key, page=archived_pagination.next_page) }}#archived-records-list-panel">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

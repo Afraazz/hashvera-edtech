@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar" style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+    <div>
+        <p class="eyebrow">Audit Logs</p>
+        <h1 style="font-size: 1.8rem; line-height: 1.1; margin-bottom: 10px;">Activity History</h1>
+    </div>
+    <div class="topbar-actions">
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><ion-icon name="arrow-back-outline"></ion-icon><span>Dashboard</span></a>
+    </div>
+</header>
+
+<section id="audit-logs-list-panel" class="panel">
+    <div class="panel-heading">
+        <h2>Recent Log Entries</h2>
+        <p>Every major operation is captured here for traceability.</p>
+    </div>
+    <form class="filter-form admin-filter-form" method="get" action="{{ url_for('admin.audit_logs') }}" data-live-search="true" data-live-target=".audit-grid">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search action, user, target, or details">
+        <select name="sort">
+            <option value="latest" {% if sort_key == "latest" %}selected{% endif %}>Latest First</option>
+            <option value="oldest" {% if sort_key == "oldest" %}selected{% endif %}>Oldest First</option>
+        </select>
+        <div class="inline-actions">
+            <button type="submit">Apply</button>
+            <a class="ghost-button" href="{{ url_for('admin.audit_logs') }}">Reset</a>
+        </div>
+    </form>
+    {% if not logs %}
+        <div class="empty-state-card">
+            <h3>No audit logs found</h3>
+            <p>Try another search term or reset the filters to view recent activity.</p>
+        </div>
+    {% endif %}
+    <div class="audit-grid">
+        {% for log in logs %}
+            <article class="audit-card">
+                <p><strong>{{ log["action"] }}</strong></p>
+                <p><strong>User:</strong> {{ log["user_name"] }}</p>
+                <p><strong>Target:</strong> {{ log["target_type"] }} #{{ log["target_id"] }}</p>
+                <p>{{ log["details"] }}</p>
+                <p class="muted">{{ format_local_time(log["created_at"]) }}</p>
+            </article>
+        {% endfor %}
+    </div>
+    <div class="quick-search-empty page-live-empty" hidden>No matching results.</div>
+    {% if logs_pagination.total_pages > 1 %}
+        <div class="pagination-bar">
+            {% if logs_pagination.has_prev %}
+                <a class="ghost-button" href="{{ url_for('admin.audit_logs', q=search_query, sort=sort_key, page=logs_pagination.prev_page) }}#audit-logs-list-panel">Previous</a>
+            {% endif %}
+            <span class="pagination-summary">Page {{ logs_pagination.page }} of {{ logs_pagination.total_pages }}</span>
+            {% if logs_pagination.has_next %}
+                <a class="ghost-button" href="{{ url_for('admin.audit_logs', q=search_query, sort=sort_key, page=logs_pagination.next_page) }}#audit-logs-list-panel">Next</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block body_class %}auth-page{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="brand-panel">
+        <p class="eyebrow">Security Verification</p>
+        <h1>Protecting your HashVera identity with multi-factor recovery.</h1>
+        <p class="lead">
+            We've sent a 6-digit security code to your registered mobile device. 
+            Enter it below to verify your identity and unlock the password reset form.
+        </p>
+    </div>
+
+    <div class="auth-card">
+        <h2>Enter SMS Verification Code</h2>
+        <p class="muted">We've sent a 6-digit code to your registered mobile number. It will expire in 15 minutes.</p>
+        
+        <form method="post" class="auth-form" id="otp-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <label>Security Code</label>
+            <div class="otp-input-container" style="display: flex; gap: 10px; margin-bottom: 24px;">
+                <input type="text" name="otp" id="otp" 
+                       placeholder="000000" 
+                       maxlength="6" 
+                       pattern="\d{6}" 
+                       required 
+                       style="text-align: center; font-size: 2rem; letter-spacing: 12px; font-weight: 700; font-family: monospace;"
+                       autocomplete="one-time-code">
+            </div>
+
+            <button type="submit">Verify Code</button>
+        </form>
+        <form method="post" action="{{ url_for('auth.resend_otp_code') }}" class="resend-code-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <span>Didn't get the code?</span>
+            <button type="submit" class="text-action-button">Resend code</button>
+        </form>
+        <p class="switch-link"><a href="{{ url_for('auth.forgot_password') }}">Use another recovery method</a></p>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const otpInput = document.getElementById('otp');
+    otpInput.focus();
+    
+    // Auto-submit when 6 digits are entered
+    otpInput.addEventListener('input', function() {
+        if (this.value.length === 6) {
+            document.getElementById('otp-form').submit();
+        }
+    });
+});
+</script>
+{% endblock %}

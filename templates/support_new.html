@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Contact Support - HashVera{% endblock %}
+{% block content %}
+<main class="auth-container" style="max-width: 600px; padding-top: 60px; margin: 0 auto;">
+    <header style="text-align: center; margin-bottom: 40px;">
+        <h1 class="premium-gradient-text" style="font-size: 2.5rem;">Contact Support</h1>
+        <p class="lead">Submit a new inquiry to the HashVera technical team.</p>
+    </header>
+
+    {% if success %}
+        <div class="panel ui-reveal" style="text-align: center; padding: 40px;">
+            <div style="font-size: 3rem; color: var(--success); margin-bottom: 20px;">&#10004;</div>
+            <h2>Message Sent Successfully!</h2>
+            <p>Our team has received your request. You can track the status in your support history.</p>
+            <div style="margin-top: 30px; display: flex; gap: 12px; justify-content: center;">
+                <a href="{{ url_for('main.support') }}" class="ghost-button">View History</a>
+                <a href="{{ url_for('records.dashboard') }}" class="ghost-button">Back to Dashboard</a>
+            </div>
+        </div>
+    {% else %}
+        <section class="panel ui-reveal">
+            {% if error %}
+                <div class="alert alert-error" style="margin-bottom: 20px;">{{ error }}</div>
+            {% endif %}
+            
+            <form action="{{ url_for('main.support_new') }}" method="post" class="auth-form">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" value="{{ session.get('user', '') }}" required placeholder="Your display name">
+                </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" required placeholder="Where should we reach you?">
+                </div>
+                
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category" required>
+                        <option value="access">Account Access Issue</option>
+                        <option value="verification">Verification Inquiry</option>
+                        <option value="technical">Technical Support</option>
+                        <option value="records">Record Correction</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" required style="min-height: 150px;" placeholder="Describe your issue in detail..."></textarea>
+                </div>
+                
+                <button type="submit" class="premium-button" style="width: 100%;">Send Message</button>
+            </form>
+            
+            <div style="margin-top: 24px; text-align: center;">
+                <a href="{{ url_for('main.support') }}" class="ghost-button">Cancel and Go Back</a>
+            </div>
+        </section>
+    {% endif %}
+</main>
+
+<script>
+    // Show toast if success
+    {% if success %}
+    window.addEventListener('DOMContentLoaded', () => {
+        if (window.showToast) {
+            window.showToast("Support request submitted!", "success");
+        }
+    });
+    {% endif %}
+</script>
+{% endblock %}

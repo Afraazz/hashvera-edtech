@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Admin Utilities</p>
+        <h1>Bulk Record Issuance</h1>
+        <p class="lead">Upload a standard CSV file to cryptographically sign and insert hundreds of records into the HashVera blockchain at once.</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">{{ session["user"] }} - {{ session["role"] }}</div>
+        <a class="ghost-button icon-button back-nav-button" href="{{ url_for('records.dashboard') }}"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel">
+    <div class="panel-heading">
+        <h2>Upload CSV Roster</h2>
+        <p>Ensure your CSV file contains the following exact headers (case-sensitive): <br>
+            <code style="display:inline-block; margin-top:8px; padding:4px 8px; background: rgba(0,0,0,0.05); border-radius: 4px; font-family: monospace; color: var(--secondary);">student_id, student_name, course, document_name, record_type, certificate_id, record_notes, marks_obtained, max_marks</code>
+        </p>
+    </div>
+
+    <form method="post" action="{{ url_for('admin.admin_bulk_issue') }}" enctype="multipart/form-data" style="max-width: 600px; padding: 32px; border: 2px dashed var(--primary); border-radius: 16px; background: rgba(15, 118, 110, 0.02);">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        
+        <div style="margin-bottom: 24px;">
+            <label style="display:block; font-weight: 600; margin-bottom: 8px; color: var(--primary);">Select CSV File</label>
+            <input type="file" name="csv_file" accept=".csv" required style="width: 100%; padding: 12px; background: var(--panel-strong); border: 1px solid var(--line); border-radius: 8px; font-family: inherit;">
+        </div>
+        
+        <button type="submit" style="width: 100%; font-size: 1.1rem; padding: 14px;">Upload and Process Records</button>
+        <p class="muted" style="font-size: 0.85rem; margin-top: 16px; text-align: center;">This process cryptographically signs each record. It may take a few moments. Do not close the window.</p>
+    </form>
+    
+    <div style="margin-top: 48px;">
+        <h3>Example CSV Format</h3>
+        <p class="muted" style="margin-bottom: 16px;">Download this example as a template to ensure your uploads succeed.</p>
+        <div style="overflow-x: auto;">
+            <table class="data-table" style="min-width: 800px;">
+                <thead>
+                    <tr>
+                        <th>student_id</th>
+                        <th>student_name</th>
+                        <th>course</th>
+                        <th>document_name</th>
+                        <th>record_type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>CS-2023-01</td>
+                        <td>Alice Johnson</td>
+                        <td>B.Tech Comp Sci</td>
+                        <td>Semester 4 Marksheet</td>
+                        <td>Marksheet</td>
+                    </tr>
+                    <tr>
+                        <td>EE-2022-44</td>
+                        <td>Bob Smith</td>
+                        <td>B.Tech Electrical</td>
+                        <td>Graduation Certificate</td>
+                        <td>Certificate</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

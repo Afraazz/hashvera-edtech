@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="error-shell">
+    <article class="error-card">
+        <div class="error-code">500</div>
+        <p class="eyebrow">Internal Server Error</p>
+        <h1>Something went wrong inside the app.</h1>
+        <p class="error-copy">The request could not be completed right now. Refresh once, and if it still fails, reopen the page from the dashboard so the latest session and route state can reload cleanly.</p>
+        <div class="error-actions">
+            <a class="ghost-button" href="{{ url_for('records.dashboard') }}">Back to Dashboard</a>
+            <a class="ghost-button" href="{{ url_for('auth.login') }}">Open Login</a>
+        </div>
+    </article>
+</section>
+{% endblock %}

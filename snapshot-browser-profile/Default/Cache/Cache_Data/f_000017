@@ -1,0 +1,4209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HashVera</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+    <link rel="icon" type="image/svg+xml" href="/static/hashvera-mark.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="shortcut icon" href="/static/hashvera-mark.svg">
+    <link rel="manifest" href="/static/site.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=1.8">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule defer src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body class="" data-theme="auto">
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-toggle-track">
+            <span class="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v3"></path><path d="M12 19v3"></path><path d="M4.93 4.93l2.12 2.12"></path><path d="M16.95 16.95l2.12 2.12"></path><path d="M2 12h3"></path><path d="M19 12h3"></path><path d="M4.93 19.07l2.12-2.12"></path><path d="M16.95 7.05l2.12-2.12"></path></svg>
+            </span>
+            <span class="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 9 9 0 1 0 20 15.2z"></path></svg>
+            </span>
+            <span class="theme-toggle-thumb" aria-hidden="true"></span>
+        </span>
+    </button>
+    <div class="page-shell">
+        <main class="main-content">
+            <header class="no-print header-logo-bar" aria-label="HashVera header">
+                <a class="header-logo" href="/dashboard" aria-label="HashVera home">
+                    <img class="header-logo-mark" src="/static/hashvera-mark.svg" alt="">
+                    <span class="header-logo-wordmark">
+                        <span class="brand-text-primary">Hash</span><span class="brand-text-secondary">Vera</span>
+                    </span>
+                </a>
+                <div class="header-nav-actions">
+                    <a class="header-verify-link" href="/verify">
+                        <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+                        <span>Verify Credentials</span>
+                    </a>
+                    
+                </div>
+            </header>
+            
+            
+        
+        
+<header class="topbar">
+    <div>
+        <p class="eyebrow">Blockchain Explorer</p>
+        <h1>Chain Visualization</h1>
+        <p class="lead">Visual representation of the HashVera blockchain. Each block is cryptographically linked to the previous block through SHA-256 hashing.</p>
+    </div>
+    <div class="topbar-actions">
+        <div class="user-chip">Aswin Raj - Student</div>
+        <a class="ghost-button icon-button back-nav-button" href="/dashboard"><span class="icon-glyph">&lt;</span><span>Back to Dashboard</span></a>
+    </div>
+</header>
+
+<section class="panel" style="overflow: visible;">
+    <div class="panel-heading" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center;">
+        <div>
+            <h2 style="display: flex; align-items: center; gap: 12px;">
+                <ion-icon name="git-network-outline" style="font-size: 1.5rem; color: var(--primary);"></ion-icon>
+                Blockchain Ledger
+                
+                <span style="font-size: 0.7rem; padding: 4px 12px; border-radius: 20px; background: rgba(16, 185, 129, 0.12); color: var(--success); font-weight: 700; letter-spacing: 0.5px;">✓ CHAIN INTACT</span>
+                
+            </h2>
+            <p style="color: var(--muted); font-size: 0.9rem;">28 blocks on chain · Genesis → Latest</p>
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button id="run-integrity-btn" class="ghost-button" style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer;">
+                <ion-icon name="shield-checkmark-outline"></ion-icon> <span>Run Integrity Check</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Chain Stats Bar -->
+    <div class="chain-stats-bar">
+        <div class="chain-stat">
+            <span class="chain-stat-label">Total Blocks</span>
+            <strong class="chain-stat-value">28</strong>
+        </div>
+        <div class="chain-stat">
+            <span class="chain-stat-label">Chain Status</span>
+            <strong class="chain-stat-value" style="color: var(--success);">Verified</strong>
+        </div>
+        <div class="chain-stat">
+            <span class="chain-stat-label">Hash Algorithm</span>
+            <strong class="chain-stat-value">SHA-256</strong>
+        </div>
+        <div class="chain-stat">
+            <span class="chain-stat-label">Signing</span>
+            <strong class="chain-stat-value">HMAC</strong>
+        </div>
+    </div>
+
+    
+
+    <!-- Visual Chain -->
+    <div class="chain-visual-container">
+        <div class="chain-visual-scroll">
+            <!-- Genesis marker -->
+            <div class="chain-genesis-marker">
+                <div class="genesis-diamond">
+                    <ion-icon name="flash-outline"></ion-icon>
+                </div>
+                <span class="genesis-label">GENESIS</span>
+            </div>
+
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.0s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="GENESIS">
+                    GENESIS…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-1"
+                 style="animation-delay: 0.1s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 1</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-archived">Archived</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Riya Sharma</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">EDU001</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Semester 1 Marksheet</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Academic Record</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-1001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="1660f4f9738ffaa58603604345722adf8ecc389ac5456cf892e34ad45a92b40b">1660f4f9738ffaa58603…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="GENESIS">GENESIS…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">20 Mar 2026, 02:30 PM IST</span>
+                    
+                    
+                    <a href="javascript:void(0)" class="chain-block-link restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.1s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="1660f4f9738ffaa58603604345722adf8ecc389ac5456cf892e34ad45a92b40b">
+                    1660f4f9738f…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-3"
+                 style="animation-delay: 0.2s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 3</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Neha Verma</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">EDU003</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Internship Completion Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Academic Record</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-1002</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="edd376f6d31f3424ee5f8c40fcf00301b6e8192eea41060c6b592a45c4ef7203">edd376f6d31f3424ee5f…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="1660f4f9738ffaa58603604345722adf8ecc389ac5456cf892e34ad45a92b40b">1660f4f9738ffaa58603…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">20 Mar 2026, 02:50 PM IST</span>
+                    
+                    
+                    <a href="javascript:void(0)" class="chain-block-link restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.2s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="edd376f6d31f3424ee5f8c40fcf00301b6e8192eea41060c6b592a45c4ef7203">
+                    edd376f6d31f…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-4"
+                 style="animation-delay: 0.30000000000000004s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 4</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Result</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Marksheet</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-1003</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="7fea875c1bcd317d634aacdbeeee49380a9b458828001c63b6497e15ba827196">7fea875c1bcd317d634a…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="edd376f6d31f3424ee5f8c40fcf00301b6e8192eea41060c6b592a45c4ef7203">edd376f6d31f3424ee5f…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">26 Apr 2026, 09:16 PM IST</span>
+                    
+                    
+                    <a href="/records/43" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.30000000000000004s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="7fea875c1bcd317d634aacdbeeee49380a9b458828001c63b6497e15ba827196">
+                    7fea875c1bcd…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-5"
+                 style="animation-delay: 0.4s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 5</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Rifan</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">15837</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">d</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Assignment</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-1004</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="e20a3e015eabb5e7f02b53bf59445799ced188ab5342b719e48d88ca8a948c02">e20a3e015eabb5e7f02b…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="7fea875c1bcd317d634aacdbeeee49380a9b458828001c63b6497e15ba827196">7fea875c1bcd317d634a…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">26 Apr 2026, 10:26 PM IST</span>
+                    
+                    
+                    <a href="javascript:void(0)" class="chain-block-link restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.4s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="e20a3e015eabb5e7f02b53bf59445799ced188ab5342b719e48d88ca8a948c02">
+                    e20a3e015eab…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-6"
+                 style="animation-delay: 0.5s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 6</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="7cbf2873ee2a4c52a83962f8be7325f977251ba20d9b3097368db82da9a27ff9">7cbf2873ee2a4c52a839…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="e20a3e015eabb5e7f02b53bf59445799ced188ab5342b719e48d88ca8a948c02">e20a3e015eabb5e7f02b…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">26 Apr 2026, 11:05 PM IST</span>
+                    
+                    
+                    <a href="/records/47" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.5s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="7cbf2873ee2a4c52a83962f8be7325f977251ba20d9b3097368db82da9a27ff9">
+                    7cbf2873ee2a…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-7"
+                 style="animation-delay: 0.6s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 7</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="90f7d962c9bc424c73471000d3137ac6e8e1421c85ec7d95e0f777b902487e6f">90f7d962c9bc424c7347…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="7cbf2873ee2a4c52a83962f8be7325f977251ba20d9b3097368db82da9a27ff9">7cbf2873ee2a4c52a839…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">26 Apr 2026, 11:06 PM IST</span>
+                    
+                    
+                    <a href="/records/48" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.6000000000000001s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="90f7d962c9bc424c73471000d3137ac6e8e1421c85ec7d95e0f777b902487e6f">
+                    90f7d962c9bc…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-8"
+                 style="animation-delay: 0.7000000000000001s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 8</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="68a9be1a95837c9801916c5cd1749a480849b8a8eb0e0fa0d55deddeea14cc66">68a9be1a95837c980191…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="90f7d962c9bc424c73471000d3137ac6e8e1421c85ec7d95e0f777b902487e6f">90f7d962c9bc424c7347…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">26 Apr 2026, 11:06 PM IST</span>
+                    
+                    
+                    <a href="/records/49" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.7000000000000001s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="68a9be1a95837c9801916c5cd1749a480849b8a8eb0e0fa0d55deddeea14cc66">
+                    68a9be1a9583…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-9"
+                 style="animation-delay: 0.8s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 9</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="12fe3d06400909ce7f28869f32121ca5d650e2c2898da7163de02d94f755cd4a">12fe3d06400909ce7f28…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="68a9be1a95837c9801916c5cd1749a480849b8a8eb0e0fa0d55deddeea14cc66">68a9be1a95837c980191…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:33 AM IST</span>
+                    
+                    
+                    <a href="/records/50" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.8s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="12fe3d06400909ce7f28869f32121ca5d650e2c2898da7163de02d94f755cd4a">
+                    12fe3d064009…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-10"
+                 style="animation-delay: 0.9s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 10</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="7032bd5a823e2158fd6bacc2f18fd4e2e16448af0880cf5c1c80e4daf7581349">7032bd5a823e2158fd6b…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="12fe3d06400909ce7f28869f32121ca5d650e2c2898da7163de02d94f755cd4a">12fe3d06400909ce7f28…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:33 AM IST</span>
+                    
+                    
+                    <a href="/records/51" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 0.9s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="7032bd5a823e2158fd6bacc2f18fd4e2e16448af0880cf5c1c80e4daf7581349">
+                    7032bd5a823e…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-11"
+                 style="animation-delay: 1.0s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 11</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="25eebdc84c5ab899b1937fe2fdabeb8e10db53759af5389f2010cf774c5e2ca5">25eebdc84c5ab899b193…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="7032bd5a823e2158fd6bacc2f18fd4e2e16448af0880cf5c1c80e4daf7581349">7032bd5a823e2158fd6b…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:34 AM IST</span>
+                    
+                    
+                    <a href="/records/52" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.0s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="25eebdc84c5ab899b1937fe2fdabeb8e10db53759af5389f2010cf774c5e2ca5">
+                    25eebdc84c5a…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-12"
+                 style="animation-delay: 1.1s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 12</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="859c53353b1bc7a2e57b6db58acb2813608320878d39ea8d9d1da49d4fc1956f">859c53353b1bc7a2e57b…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="25eebdc84c5ab899b1937fe2fdabeb8e10db53759af5389f2010cf774c5e2ca5">25eebdc84c5ab899b193…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:34 AM IST</span>
+                    
+                    
+                    <a href="/records/53" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.1s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="859c53353b1bc7a2e57b6db58acb2813608320878d39ea8d9d1da49d4fc1956f">
+                    859c53353b1b…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-13"
+                 style="animation-delay: 1.2000000000000002s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 13</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="302d5f21516b1144ad3a4cc1c206281b5bab12a76a9352df9277eabdda699045">302d5f21516b1144ad3a…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="859c53353b1bc7a2e57b6db58acb2813608320878d39ea8d9d1da49d4fc1956f">859c53353b1bc7a2e57b…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:34 AM IST</span>
+                    
+                    
+                    <a href="/records/54" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.2000000000000002s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="302d5f21516b1144ad3a4cc1c206281b5bab12a76a9352df9277eabdda699045">
+                    302d5f21516b…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-14"
+                 style="animation-delay: 1.3000000000000003s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 14</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="7a5bbf387e51c9b89249a3a420ac1745b82621f67174f6351a447035a4b4e471">7a5bbf387e51c9b89249…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="302d5f21516b1144ad3a4cc1c206281b5bab12a76a9352df9277eabdda699045">302d5f21516b1144ad3a…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:37 AM IST</span>
+                    
+                    
+                    <a href="/records/55" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.3s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="7a5bbf387e51c9b89249a3a420ac1745b82621f67174f6351a447035a4b4e471">
+                    7a5bbf387e51…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-15"
+                 style="animation-delay: 1.4000000000000001s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 15</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="155f5ec8089657d3d0f0fc05a6ceabfc8b89324055957683e911b38ab307a564">155f5ec8089657d3d0f0…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="7a5bbf387e51c9b89249a3a420ac1745b82621f67174f6351a447035a4b4e471">7a5bbf387e51c9b89249…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:37 AM IST</span>
+                    
+                    
+                    <a href="/records/56" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.4000000000000001s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="155f5ec8089657d3d0f0fc05a6ceabfc8b89324055957683e911b38ab307a564">
+                    155f5ec80896…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-16"
+                 style="animation-delay: 1.5000000000000002s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 16</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="d9f4d20046d37fe2eafec717558928246a21e645460fccdc75d9a0e277c43695">d9f4d20046d37fe2eafe…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="155f5ec8089657d3d0f0fc05a6ceabfc8b89324055957683e911b38ab307a564">155f5ec8089657d3d0f0…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:39 AM IST</span>
+                    
+                    
+                    <a href="/records/57" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.5s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="d9f4d20046d37fe2eafec717558928246a21e645460fccdc75d9a0e277c43695">
+                    d9f4d20046d3…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-17"
+                 style="animation-delay: 1.6s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 17</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="a0a105dce152cefc743cc482dacaf638a75d86f6a169f1ac3f02cb1e86b3ef8c">a0a105dce152cefc743c…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="d9f4d20046d37fe2eafec717558928246a21e645460fccdc75d9a0e277c43695">d9f4d20046d37fe2eafe…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:39 AM IST</span>
+                    
+                    
+                    <a href="/records/58" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.6s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="a0a105dce152cefc743cc482dacaf638a75d86f6a169f1ac3f02cb1e86b3ef8c">
+                    a0a105dce152…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-18"
+                 style="animation-delay: 1.7000000000000002s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 18</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="e1b609eacb7119380963cbc2a5ba845be0cdb6a918a8e7ba30228f3261e56d21">e1b609eacb7119380963…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="a0a105dce152cefc743cc482dacaf638a75d86f6a169f1ac3f02cb1e86b3ef8c">a0a105dce152cefc743c…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:39 AM IST</span>
+                    
+                    
+                    <a href="/records/59" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.7000000000000002s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="e1b609eacb7119380963cbc2a5ba845be0cdb6a918a8e7ba30228f3261e56d21">
+                    e1b609eacb71…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-19"
+                 style="animation-delay: 1.8000000000000003s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 19</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="2da8d7c597d6fadbb66243895b7ee82f4668861053c3569a72eae8f5159aca8e">2da8d7c597d6fadbb662…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="e1b609eacb7119380963cbc2a5ba845be0cdb6a918a8e7ba30228f3261e56d21">e1b609eacb7119380963…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:39 AM IST</span>
+                    
+                    
+                    <a href="/records/60" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.8s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="2da8d7c597d6fadbb66243895b7ee82f4668861053c3569a72eae8f5159aca8e">
+                    2da8d7c597d6…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-20"
+                 style="animation-delay: 1.9000000000000001s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 20</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="15660364cceb9267d7630844020c64d169985a8624bce4a2a43703f5b078b54b">15660364cceb9267d763…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="2da8d7c597d6fadbb66243895b7ee82f4668861053c3569a72eae8f5159aca8e">2da8d7c597d6fadbb662…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:41 AM IST</span>
+                    
+                    
+                    <a href="/records/61" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 1.9000000000000001s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="15660364cceb9267d7630844020c64d169985a8624bce4a2a43703f5b078b54b">
+                    15660364cceb…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-21"
+                 style="animation-delay: 2.0s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 21</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="98f2b586cea80932b1bdade7e7e1cad0335d36c06a264605555b337b963b2edd">98f2b586cea80932b1bd…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="15660364cceb9267d7630844020c64d169985a8624bce4a2a43703f5b078b54b">15660364cceb9267d763…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:41 AM IST</span>
+                    
+                    
+                    <a href="/records/62" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.0s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="98f2b586cea80932b1bdade7e7e1cad0335d36c06a264605555b337b963b2edd">
+                    98f2b586cea8…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-22"
+                 style="animation-delay: 2.1s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 22</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="d21837f1b610cc9dd0619ff2377a1bd8eb2ec1073dfdc84e84936d7a5139570b">d21837f1b610cc9dd061…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="98f2b586cea80932b1bdade7e7e1cad0335d36c06a264605555b337b963b2edd">98f2b586cea80932b1bd…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:43 AM IST</span>
+                    
+                    
+                    <a href="/records/63" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.1s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="d21837f1b610cc9dd0619ff2377a1bd8eb2ec1073dfdc84e84936d7a5139570b">
+                    d21837f1b610…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-23"
+                 style="animation-delay: 2.2s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 23</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="f2d394e9fc5b2dbeee48f8872713a66e104e8a9b34b5fd1f943c30abc428b249">f2d394e9fc5b2dbeee48…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="d21837f1b610cc9dd0619ff2377a1bd8eb2ec1073dfdc84e84936d7a5139570b">d21837f1b610cc9dd061…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:45 AM IST</span>
+                    
+                    
+                    <a href="/records/64" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.2s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="f2d394e9fc5b2dbeee48f8872713a66e104e8a9b34b5fd1f943c30abc428b249">
+                    f2d394e9fc5b…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-24"
+                 style="animation-delay: 2.3000000000000003s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 24</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="50dc003e97134e20d558b79c4831dc33e218522d46e12e3b55fb291f8585f7fc">50dc003e97134e20d558…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="f2d394e9fc5b2dbeee48f8872713a66e104e8a9b34b5fd1f943c30abc428b249">f2d394e9fc5b2dbeee48…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:49 AM IST</span>
+                    
+                    
+                    <a href="/records/65" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.3000000000000003s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="50dc003e97134e20d558b79c4831dc33e218522d46e12e3b55fb291f8585f7fc">
+                    50dc003e9713…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-25"
+                 style="animation-delay: 2.4000000000000004s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 25</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="70328fda121900c76c6ae282b782ad373fe86ee21fc2ea61dd81df5b7428a960">70328fda121900c76c6a…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="50dc003e97134e20d558b79c4831dc33e218522d46e12e3b55fb291f8585f7fc">50dc003e97134e20d558…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:53 AM IST</span>
+                    
+                    
+                    <a href="/records/66" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.4000000000000004s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="70328fda121900c76c6ae282b782ad373fe86ee21fc2ea61dd81df5b7428a960">
+                    70328fda1219…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-26"
+                 style="animation-delay: 2.5000000000000004s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 26</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="995a8c3a3b728051d3ff00830a449ea8495bad2f88841d5584d1558ad2af57de">995a8c3a3b728051d3ff…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="70328fda121900c76c6ae282b782ad373fe86ee21fc2ea61dd81df5b7428a960">70328fda121900c76c6a…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 01:57 AM IST</span>
+                    
+                    
+                    <a href="/records/67" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.5s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="995a8c3a3b728051d3ff00830a449ea8495bad2f88841d5584d1558ad2af57de">
+                    995a8c3a3b72…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-27"
+                 style="animation-delay: 2.6s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 27</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="7377895ce22a393d0b29bf7c2370efabcf26a2cac04c8b3e040bb4a92c192c77">7377895ce22a393d0b29…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="995a8c3a3b728051d3ff00830a449ea8495bad2f88841d5584d1558ad2af57de">995a8c3a3b728051d3ff…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 02:06 AM IST</span>
+                    
+                    
+                    <a href="/records/68" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.6s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="7377895ce22a393d0b29bf7c2370efabcf26a2cac04c8b3e040bb4a92c192c77">
+                    7377895ce22a…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card  appear-staggered" 
+                 id="chain-block-28"
+                 style="animation-delay: 2.7s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 28</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Aswin</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">10482</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Degree Certificate</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                        </span>
+                    </div>
+                    
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Cert ID</span>
+                        <span class="chain-field-value" style="font-family: monospace; font-size: 0.75rem;">CERT26-9001</span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="a7684de984843e03e3cd3ea5098f14cc2194ca3c030dc1d9afbe708f40a77262">a7684de984843e03e3cd…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="7377895ce22a393d0b29bf7c2370efabcf26a2cac04c8b3e040bb4a92c192c77">7377895ce22a393d0b29…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 06:26 PM IST</span>
+                    
+                    
+                    <a href="/records/69" class="chain-block-link" title="View record">
+                        <ion-icon name="open-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+            <!-- Connector line -->
+            <div class="chain-connector" style="animation-delay: 2.7s;">
+                <div class="chain-connector-line">
+                    <div class="flowing-gradient"></div>
+                </div>
+                <div class="chain-connector-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
+                <div class="chain-connector-hash" title="a7684de984843e03e3cd3ea5098f14cc2194ca3c030dc1d9afbe708f40a77262">
+                    a7684de98484…
+                </div>
+            </div>
+
+            <!-- Block Card -->
+            <div class="chain-block-card chain-block-latest appear-staggered" 
+                 id="chain-block-29"
+                 style="animation-delay: 2.8000000000000003s;">
+                <div class="chain-block-header">
+                    <span class="chain-block-number">BLOCK 29</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-latest">LATEST</span>
+                    
+                    <span class="chain-block-badge chain-block-badge-active">Active</span>
+                </div>
+
+                <div class="chain-block-content">
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Student</span>
+                        <span class="chain-field-value">Adil</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Campus ID</span>
+                        <span class="chain-field-value">38605</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Document</span>
+                        <span class="chain-field-value">Scholorship</span>
+                    </div>
+                    <div class="chain-block-field">
+                        <span class="chain-field-label">Type</span>
+                        <span class="chain-field-value">
+                            <span class="tag" style="font-size: 0.65rem;">Scholarship Letter</span>
+                        </span>
+                    </div>
+                    
+                </div>
+
+                <div class="chain-block-hash-section">
+                    <div class="chain-hash-row">
+                        <span class="chain-hash-label">HASH</span>
+                        <span class="chain-hash-value" title="f7443899f45d91fda93c42b9bc91f7f2ac59cc8d0d3d6926336da2bec8c9231f">f7443899f45d91fda93c…</span>
+                    </div>
+                    <div class="chain-hash-row chain-hash-row-prev">
+                        <span class="chain-hash-label">PREV</span>
+                        <span class="chain-hash-value" title="a7684de984843e03e3cd3ea5098f14cc2194ca3c030dc1d9afbe708f40a77262">a7684de984843e03e3cd…</span>
+                    </div>
+                </div>
+
+                <div class="chain-block-footer">
+                    <span class="chain-block-time">28 Apr 2026, 07:37 PM IST</span>
+                    
+                    
+                    <a href="javascript:void(0)" class="chain-block-link restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                    </a>
+                    
+                </div>
+            </div>
+            
+
+            <!-- Chain End Marker -->
+            <div class="chain-end-marker">
+                <div class="chain-connector">
+                    <div class="chain-connector-line"></div>
+                </div>
+                <div class="chain-end-icon">
+                    <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+                </div>
+                <span class="chain-end-label">NEXT BLOCK</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Block List (Vertical) -->
+    <div class="chain-detail-list">
+        <h3 style="margin: 32px 0 16px 0; color: var(--primary); display: flex; align-items: center; gap: 8px;">
+            <ion-icon name="list-outline"></ion-icon> Block Detail View
+        </h3>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#29</span>
+                
+                <span class="chain-block-badge chain-block-badge-latest" style="font-size: 0.55rem;">LATEST</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Scholorship</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Scholarship Letter</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Adil (38605)</span>
+                    <span>MCA</span>
+                    <span>28 Apr 2026, 07:37 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>f7443899f45d91fda93c42b9bc91f7f2ac59cc8d0d3d6926336da2bec8c9231f</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>a7684de984843e03e3cd3ea5098f14cc2194ca3c030dc1d9afbe708f40a77262</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="javascript:void(0)" class="chain-detail-action restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#28</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 06:26 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>a7684de984843e03e3cd3ea5098f14cc2194ca3c030dc1d9afbe708f40a77262</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>7377895ce22a393d0b29bf7c2370efabcf26a2cac04c8b3e040bb4a92c192c77</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/69" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#27</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 02:06 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>7377895ce22a393d0b29bf7c2370efabcf26a2cac04c8b3e040bb4a92c192c77</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>995a8c3a3b728051d3ff00830a449ea8495bad2f88841d5584d1558ad2af57de</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/68" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#26</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:57 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>995a8c3a3b728051d3ff00830a449ea8495bad2f88841d5584d1558ad2af57de</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>70328fda121900c76c6ae282b782ad373fe86ee21fc2ea61dd81df5b7428a960</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/67" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#25</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:53 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>70328fda121900c76c6ae282b782ad373fe86ee21fc2ea61dd81df5b7428a960</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>50dc003e97134e20d558b79c4831dc33e218522d46e12e3b55fb291f8585f7fc</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/66" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#24</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:49 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>50dc003e97134e20d558b79c4831dc33e218522d46e12e3b55fb291f8585f7fc</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>f2d394e9fc5b2dbeee48f8872713a66e104e8a9b34b5fd1f943c30abc428b249</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/65" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#23</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:45 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>f2d394e9fc5b2dbeee48f8872713a66e104e8a9b34b5fd1f943c30abc428b249</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>d21837f1b610cc9dd0619ff2377a1bd8eb2ec1073dfdc84e84936d7a5139570b</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/64" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#22</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:43 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>d21837f1b610cc9dd0619ff2377a1bd8eb2ec1073dfdc84e84936d7a5139570b</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>98f2b586cea80932b1bdade7e7e1cad0335d36c06a264605555b337b963b2edd</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/63" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#21</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:41 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>98f2b586cea80932b1bdade7e7e1cad0335d36c06a264605555b337b963b2edd</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>15660364cceb9267d7630844020c64d169985a8624bce4a2a43703f5b078b54b</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/62" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#20</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:41 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>15660364cceb9267d7630844020c64d169985a8624bce4a2a43703f5b078b54b</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>2da8d7c597d6fadbb66243895b7ee82f4668861053c3569a72eae8f5159aca8e</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/61" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#19</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:39 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>2da8d7c597d6fadbb66243895b7ee82f4668861053c3569a72eae8f5159aca8e</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>e1b609eacb7119380963cbc2a5ba845be0cdb6a918a8e7ba30228f3261e56d21</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/60" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#18</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:39 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>e1b609eacb7119380963cbc2a5ba845be0cdb6a918a8e7ba30228f3261e56d21</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>a0a105dce152cefc743cc482dacaf638a75d86f6a169f1ac3f02cb1e86b3ef8c</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/59" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#17</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:39 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>a0a105dce152cefc743cc482dacaf638a75d86f6a169f1ac3f02cb1e86b3ef8c</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>d9f4d20046d37fe2eafec717558928246a21e645460fccdc75d9a0e277c43695</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/58" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#16</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:39 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>d9f4d20046d37fe2eafec717558928246a21e645460fccdc75d9a0e277c43695</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>155f5ec8089657d3d0f0fc05a6ceabfc8b89324055957683e911b38ab307a564</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/57" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#15</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:37 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>155f5ec8089657d3d0f0fc05a6ceabfc8b89324055957683e911b38ab307a564</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>7a5bbf387e51c9b89249a3a420ac1745b82621f67174f6351a447035a4b4e471</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/56" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#14</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:37 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>7a5bbf387e51c9b89249a3a420ac1745b82621f67174f6351a447035a4b4e471</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>302d5f21516b1144ad3a4cc1c206281b5bab12a76a9352df9277eabdda699045</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/55" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#13</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:34 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>302d5f21516b1144ad3a4cc1c206281b5bab12a76a9352df9277eabdda699045</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>859c53353b1bc7a2e57b6db58acb2813608320878d39ea8d9d1da49d4fc1956f</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/54" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#12</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:34 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>859c53353b1bc7a2e57b6db58acb2813608320878d39ea8d9d1da49d4fc1956f</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>25eebdc84c5ab899b1937fe2fdabeb8e10db53759af5389f2010cf774c5e2ca5</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/53" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#11</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:34 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>25eebdc84c5ab899b1937fe2fdabeb8e10db53759af5389f2010cf774c5e2ca5</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>7032bd5a823e2158fd6bacc2f18fd4e2e16448af0880cf5c1c80e4daf7581349</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/52" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#10</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:33 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>7032bd5a823e2158fd6bacc2f18fd4e2e16448af0880cf5c1c80e4daf7581349</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>12fe3d06400909ce7f28869f32121ca5d650e2c2898da7163de02d94f755cd4a</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/51" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#9</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>28 Apr 2026, 01:33 AM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>12fe3d06400909ce7f28869f32121ca5d650e2c2898da7163de02d94f755cd4a</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>68a9be1a95837c9801916c5cd1749a480849b8a8eb0e0fa0d55deddeea14cc66</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/50" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#8</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>26 Apr 2026, 11:06 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>68a9be1a95837c9801916c5cd1749a480849b8a8eb0e0fa0d55deddeea14cc66</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>90f7d962c9bc424c73471000d3137ac6e8e1421c85ec7d95e0f777b902487e6f</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/49" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#7</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>26 Apr 2026, 11:06 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>90f7d962c9bc424c73471000d3137ac6e8e1421c85ec7d95e0f777b902487e6f</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>7cbf2873ee2a4c52a83962f8be7325f977251ba20d9b3097368db82da9a27ff9</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/48" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#6</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Degree Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Degree</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>26 Apr 2026, 11:05 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>7cbf2873ee2a4c52a83962f8be7325f977251ba20d9b3097368db82da9a27ff9</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>e20a3e015eabb5e7f02b53bf59445799ced188ab5342b719e48d88ca8a948c02</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/47" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#5</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>d</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Assignment</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Rifan (15837)</span>
+                    <span>BCA</span>
+                    <span>26 Apr 2026, 10:26 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>e20a3e015eabb5e7f02b53bf59445799ced188ab5342b719e48d88ca8a948c02</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>7fea875c1bcd317d634aacdbeeee49380a9b458828001c63b6497e15ba827196</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="javascript:void(0)" class="chain-detail-action restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#4</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Result</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Marksheet</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Aswin (10482)</span>
+                    <span>BCA</span>
+                    <span>26 Apr 2026, 09:16 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>7fea875c1bcd317d634aacdbeeee49380a9b458828001c63b6497e15ba827196</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>edd376f6d31f3424ee5f8c40fcf00301b6e8192eea41060c6b592a45c4ef7203</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="/records/43" class="chain-detail-action" title="Open Record">
+                <ion-icon name="open-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#3</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Internship Completion Certificate</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Academic Record</span>
+                    <span class="tag" style="font-size: 0.65rem;">Active</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Neha Verma (EDU003)</span>
+                    <span>MBA</span>
+                    <span>20 Mar 2026, 02:50 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>edd376f6d31f3424ee5f8c40fcf00301b6e8192eea41060c6b592a45c4ef7203</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>1660f4f9738ffaa58603604345722adf8ecc389ac5456cf892e34ad45a92b40b</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="javascript:void(0)" class="chain-detail-action restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+        <div class="chain-detail-item">
+            <div class="chain-detail-index">
+                <span class="chain-detail-num">#1</span>
+                
+            </div>
+            <div class="chain-detail-body">
+                <div class="chain-detail-top">
+                    <strong>Semester 1 Marksheet</strong>
+                    <span class="tag" style="font-size: 0.65rem;">Academic Record</span>
+                    <span class="tag" style="font-size: 0.65rem;">Archived</span>
+                </div>
+                <div class="chain-detail-meta">
+                    <span>Riya Sharma (EDU001)</span>
+                    <span>BSc Computer Science</span>
+                    <span>20 Mar 2026, 02:30 PM IST</span>
+                </div>
+                <div class="chain-detail-hashes">
+                    <div>
+                        <span class="chain-hash-label">HASH</span>
+                        <code>1660f4f9738ffaa58603604345722adf8ecc389ac5456cf892e34ad45a92b40b</code>
+                    </div>
+                    <div>
+                        <span class="chain-hash-label">PREV</span>
+                        <code>GENESIS</code>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <a href="javascript:void(0)" class="chain-detail-action restricted-access" title="Permission Denied" onclick="showToast('You do not have permission to view this specific record.', 'error')">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+            </a>
+            
+        </div>
+        
+    </div>
+    
+</section>
+
+<!-- Integrity Check Overlay -->
+<div id="integrity-overlay" class="integrity-overlay">
+    <div class="integrity-overlay-content">
+        <div class="scanner-ring"></div>
+        <div class="integrity-status-text">Verifying Ledger Integrity...</div>
+        <div class="integrity-progress-bar">
+            <div id="integrity-progress-fill" class="integrity-progress-fill"></div>
+        </div>
+        <div id="integrity-block-counter" class="integrity-block-counter">Scanning block 0/28</div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const runBtn = document.getElementById('run-integrity-btn');
+    const overlay = document.getElementById('integrity-overlay');
+    const progressFill = document.getElementById('integrity-progress-fill');
+    const blockCounter = document.getElementById('integrity-block-counter');
+    const statusText = document.querySelector('.integrity-status-text');
+    const blockCards = document.querySelectorAll('.chain-block-card');
+    
+    if (!runBtn) return;
+
+    runBtn.addEventListener('click', async function() {
+        // Show overlay
+        overlay.classList.add('active');
+        runBtn.disabled = true;
+        
+        const totalBlocks = 28;
+        if (totalBlocks === 0) {
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                runBtn.disabled = false;
+            }, 1000);
+            return;
+        }
+
+        // Simulate scanning blocks for visual effect
+        for (let i = 0; i < totalBlocks; i++) {
+            const progress = ((i + 1) / totalBlocks) * 100;
+            progressFill.style.width = progress + '%';
+            blockCounter.textContent = `Scanning block ${i + 1}/${totalBlocks}`;
+            
+            // Highlight the card being scanned
+            if (blockCards[i]) {
+                blockCards[i].scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+                blockCards[i].classList.add('scanning-active');
+                await new Promise(r => setTimeout(r, 150)); // Slow down for effect
+                blockCards[i].classList.remove('scanning-active');
+                blockCards[i].classList.add('scanning-verified');
+            }
+        }
+
+        // Perform actual check
+        try {
+            const response = await fetch("/ledger/verify/ajax");
+            const data = await response.json();
+            
+            statusText.textContent = data.valid ? "Integrity Verified!" : "Integrity Issue Detected!";
+            statusText.style.color = data.valid ? "var(--success)" : "var(--danger)";
+            
+            if (data.valid) {
+                // Show success state briefly then reload to update tags
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
+            } else {
+                // Keep overlay or show errors?
+                // For now, let's reload to show the error banner
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }
+        } catch (error) {
+            console.error("Verification failed:", error);
+            overlay.classList.remove('active');
+            runBtn.disabled = false;
+        }
+    });
+});
+</script>
+
+<style>
+/* ── Chain Stats Bar ── */
+.chain-stats-bar {
+    display: flex;
+    gap: 16px;
+    padding: 16px 20px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+.chain-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 100px;
+}
+.chain-stat-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+    color: var(--muted);
+}
+.chain-stat-value {
+    font-size: 1.1rem;
+    color: var(--ink);
+}
+
+/* ── Visual Chain (horizontal scroll) ── */
+.chain-visual-container {
+    overflow-x: auto;
+    padding: 20px 0 28px 0;
+    -webkit-overflow-scrolling: touch;
+}
+.chain-visual-scroll {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    min-width: 100%;
+    padding: 40px 24px;
+}
+
+/* ── Genesis Marker ── */
+.chain-genesis-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+.genesis-diamond {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 10px;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px var(--primary-glow);
+}
+.genesis-diamond ion-icon {
+    transform: rotate(-45deg);
+    font-size: 1.2rem;
+    color: white;
+}
+.genesis-label {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--primary);
+    opacity: 0.7;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes flow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+.appear-staggered {
+    opacity: 0;
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.chain-block-card {
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.chain-block-card:nth-child(even) {
+    animation-delay: 0.2s, 0.5s;
+}
+
+/* ── Connector ── */
+.chain-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+    flex-shrink: 0;
+    width: 80px;
+}
+.chain-connector-line {
+    width: 100%;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+.flowing-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    animation: none;
+    opacity: 0.6;
+}
+.chain-connector-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 24px;
+    height: 24px;
+    background: var(--panel);
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+.chain-connector-arrow ion-icon {
+    font-size: 0.75rem;
+    color: var(--primary);
+}
+.chain-connector-hash {
+    font-size: 0.55rem;
+    font-family: monospace;
+    color: var(--muted);
+    margin-top: 14px;
+    white-space: nowrap;
+    opacity: 0.6;
+}
+
+/* ── Block Card ── */
+.chain-block-card {
+    flex-shrink: 0;
+    width: 240px;
+    background: var(--panel);
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+}
+.chain-block-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px var(--primary-glow);
+    border-color: var(--primary);
+    z-index: 5;
+}
+.chain-block-latest {
+    border-color: var(--primary);
+    box-shadow: 0 4px 20px var(--primary-glow);
+    animation: fadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.chain-block-header {
+    padding: 12px 16px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--line);
+    background: rgba(15, 118, 110, 0.03);
+}
+.chain-block-number {
+    font-size: 0.7rem;
+    font-weight: 800;
+    font-family: 'Outfit', monospace;
+    color: var(--primary);
+    letter-spacing: 1px;
+}
+.chain-block-badge {
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.chain-block-badge-latest {
+    background: rgba(15, 118, 110, 0.1);
+    color: var(--primary);
+}
+.chain-block-badge-active {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+.chain-block-badge-archived {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+.chain-block-content {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.chain-block-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+.chain-field-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    color: var(--muted);
+    flex-shrink: 0;
+}
+.chain-field-value {
+    font-size: 0.8rem;
+    color: var(--ink);
+    font-weight: 600;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 140px;
+}
+.chain-block-hash-section {
+    padding: 8px 16px;
+    border-top: 1px dashed var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.chain-hash-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.chain-hash-label {
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--primary);
+    flex-shrink: 0;
+    min-width: 30px;
+}
+.chain-hash-value {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.chain-hash-row-prev .chain-hash-value {
+    opacity: 0.6;
+}
+.chain-block-footer {
+    padding: 8px 16px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+}
+.chain-block-time {
+    font-size: 0.65rem;
+    color: var(--muted);
+}
+.chain-block-link {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(15, 118, 110, 0.08);
+    color: var(--primary);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+.chain-block-link:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ── Chain End Marker ── */
+.chain-end-marker {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+}
+.chain-end-icon {
+    width: 36px;
+    height: 36px;
+    border: 2px dashed var(--line);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    opacity: 0.5;
+}
+.chain-end-label {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--muted);
+    opacity: 0.4;
+    margin-left: 8px;
+    white-space: nowrap;
+}
+
+/* ── Detail List (Vertical) ── */
+.chain-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.chain-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.2s ease;
+}
+.chain-detail-item:hover {
+    background: rgba(15, 118, 110, 0.02);
+}
+.chain-detail-index {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    min-width: 60px;
+}
+.chain-detail-num {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: var(--primary);
+    font-family: 'Outfit', monospace;
+}
+.chain-detail-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.chain-detail-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.chain-detail-top strong {
+    font-size: 0.95rem;
+    color: var(--ink);
+}
+.chain-detail-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+.chain-detail-hashes {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 4px;
+}
+.chain-detail-hashes div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.chain-detail-hashes code {
+    font-size: 0.65rem;
+    font-family: monospace;
+    color: var(--muted);
+    word-break: break-all;
+    opacity: 0.7;
+}
+.chain-detail-action {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(15, 118, 110, 0.06);
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    margin-top: 4px;
+}
+.chain-detail-action:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ── Integrity Check Visuals ── */
+.integrity-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(10, 15, 15, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+.integrity-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.integrity-overlay-content {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    background: rgba(15, 118, 110, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    border: 1px solid rgba(15, 118, 110, 0.1);
+}
+.integrity-overlay-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    box-shadow: 0 0 15px var(--primary);
+    animation: scanline 2s linear infinite;
+    z-index: 5;
+}
+.scanner-ring {
+    width: 80px;
+    height: 80px;
+    border: 4px solid rgba(15, 118, 110, 0.1);
+    border-top: 4px solid var(--primary);
+    border-radius: 50%;
+    margin: 0 auto 24px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes scanline {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+.integrity-status-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 16px;
+    font-family: 'Outfit', sans-serif;
+}
+.integrity-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+.integrity-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.1s linear;
+}
+.integrity-block-counter {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: monospace;
+}
+
+/* Card scanning effects */
+.chain-block-card.scanning-active {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--primary-glow);
+    transform: scale(1.05);
+    z-index: 10;
+}
+.chain-block-card.scanning-verified {
+    border-color: var(--success);
+}
+}
+
+/* Restricted access styling */
+.restricted-access {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    background: rgba(239, 68, 68, 0.08) !important;
+    color: var(--danger) !important;
+}
+.restricted-access:hover {
+    transform: none !important;
+    background: rgba(239, 68, 68, 0.12) !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .chain-block-card {
+        width: 200px;
+    }
+    .chain-connector {
+        width: 50px;
+    }
+    .chain-detail-meta {
+        gap: 8px;
+    }
+    .chain-detail-hashes code {
+        font-size: 0.55rem;
+    }
+}
+</style>
+
+        <footer class="app-footer no-print">
+            <div class="footer-container">
+                <div class="footer-left">
+                    <p>&copy; <span id="current-year"></span> <span class="brand-text-primary">Hash</span><span class="brand-text-secondary">Vera</span> Academic Network.</p>
+                </div>
+                <div class="footer-right">
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        Blockchain Secured
+                    </div>
+                    <nav class="footer-nav">
+                        <a href="/support">Support</a>
+                        <a href="/faq">FAQ</a>
+                        <a href="/network/audit">Network Audit</a>
+                        <a href="/terms">Terms</a>
+                        <a href="/privacy">Privacy</a>
+                    </nav>
+                </div>
+            </div>
+        </footer>
+        </main>
+    </div>
+        <div class="ai-assistant-theme" id="ai-assistant-theme">
+            <section class="ai-assistant no-print" id="ai-assistant" aria-label="HashVera AI assistant" data-endpoint="/api/assistant" data-user="Aswin Raj">
+                <button type="button" class="ai-assistant-toggle" id="ai-assistant-toggle" aria-expanded="false" aria-controls="ai-assistant-panel" title="HashVera Assist">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; display: block; stroke: currentColor; fill: none;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ai-toggle-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z" stroke="currentColor" stroke-width="2" fill="none"></path><path d="m5 3 1 2.5L8.5 6 6 7 5 9.5 4 7 1.5 6 4 5.5Z" stroke="currentColor" stroke-width="2" fill="none"></path><path d="m19 17 1 2.5 2.5.5-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1Z" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+                    <span class="sr-only">Open HashVera Assist</span>
+                </button>
+                <div class="ai-assistant-panel" id="ai-assistant-panel" hidden>
+                    <header class="ai-assistant-header">
+                        <div>
+                            <p class="eyebrow">AI Assistant</p>
+                            <h2>HashVera Assist</h2>
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <button type="button" class="ai-assistant-clear" id="ai-assistant-clear" title="Clear chat history" aria-label="Clear chat">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 18px; height: 18px; display: block; stroke: currentColor; fill: none;" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="ai-btn-icon"><polyline points="3 6 5 6 21 6" stroke="currentColor" stroke-width="2.2" fill="none"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="2.2" fill="none"></path><line x1="10" y1="11" x2="10" y2="17" stroke="currentColor" stroke-width="2.2" fill="none"></line><line x1="14" y1="11" x2="14" y2="17" stroke="currentColor" stroke-width="2.2" fill="none"></line></svg>
+                            </button>
+                            <button type="button" class="ai-assistant-close" id="ai-assistant-close" aria-label="Close assistant">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 18px; height: 18px; display: block; stroke: currentColor; fill: none;" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="ai-btn-icon"><line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2.2" fill="none"></line><line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2.2" fill="none"></line></svg>
+                            </button>
+                        </div>
+                    </header>
+            <div class="ai-assistant-messages" id="ai-assistant-messages" role="log" aria-live="polite"></div>
+            <div class="ai-assistant-prompts" id="ai-assistant-prompts">
+                <button type="button" data-ai-prompt="How do I verify a certificate?">Verify a certificate</button>
+                <button type="button" data-ai-prompt="How do I request a record correction?">Request correction</button>
+                <button type="button" data-ai-prompt="What can I do from my role?">My shortcuts</button>
+            </div>
+            <form class="ai-assistant-form" id="ai-assistant-form">
+                <label class="sr-only" for="ai-assistant-input">Ask HashVera Assist</label>
+                <textarea id="ai-assistant-input" maxlength="900" rows="1" placeholder="Ask about records, verification, or support"></textarea>
+                <button type="submit" aria-label="Send message">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width: 18px; height: 18px; display: block; stroke: currentColor; fill: none;" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="ai-btn-icon"><line x1="22" y1="2" x2="11" y2="13" stroke="currentColor" stroke-width="2.2" fill="none"></line><polygon points="22 2 15 22 11 13 2 9 22 2" stroke="currentColor" stroke-width="2.2" fill="none"></polygon></svg>
+                </button>
+            </form>
+        </div>
+    </section>
+    <div class="modal-overlay" id="action-modal" hidden>
+        <div class="modal-card">
+            <p class="eyebrow">Confirm Action</p>
+            <h2 id="modal-title">Please Confirm</h2>
+            <p class="muted" id="modal-message">Do you want to continue?</p>
+            <div class="inline-actions modal-actions">
+                <button type="button" class="ghost-button" id="modal-cancel">Cancel</button>
+                <button type="button" class="ghost-button" id="modal-download" hidden>Download</button>
+                <button type="button" id="modal-confirm">Continue</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.showToast = function(message, category = 'success') {
+            let stack = document.querySelector('.flash-stack');
+            if (!stack) {
+                stack = document.createElement('div');
+                stack.className = 'flash-stack';
+                const shell = document.querySelector('.page-shell');
+                if (shell) shell.insertBefore(stack, shell.firstChild);
+                else document.body.appendChild(stack);
+            }
+            const flash = document.createElement('div');
+            flash.className = `flash flash-${category} ui-reveal`;
+            flash.innerHTML = `
+                <span class="toast-icon">${category === 'success' ? '&#10003;' : (category === 'info' ? 'i' : '&#10005;')}</span>
+                <span>${message}</span>
+                <button type="button" class="toast-close" aria-label="Dismiss notification" onclick="this.closest('.flash').remove()">x</button>
+            `;
+            stack.appendChild(flash);
+            setTimeout(() => {
+                flash.style.opacity = "0";
+                flash.style.transform = "translateX(12px)";
+                setTimeout(() => flash.remove(), 220);
+            }, 3000);
+        };
+
+        // Update footer year
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const savedTheme = localStorage.getItem("hashvera-theme") || "auto";
+            const themeToggle = document.getElementById("theme-toggle");
+            function applyTheme(theme) {
+                let actualTheme = theme;
+                if (theme === "auto") {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    actualTheme = prefersDark ? "dark" : "light";
+                }
+                document.body.setAttribute("data-theme", actualTheme);
+                themeToggle.setAttribute("aria-pressed", actualTheme === "dark" ? "true" : "false");
+                themeToggle.setAttribute("aria-label", actualTheme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+                if (window.renderDashboardCharts) {
+                    window.renderDashboardCharts();
+                }
+            }
+
+            applyTheme(savedTheme);
+
+            themeToggle.addEventListener("click", function () {
+                const currentTheme = document.body.getAttribute("data-theme") === "dark" ? "dark" : "light";
+                const nextTheme = currentTheme === "dark" ? "light" : "dark";
+                applyTheme(nextTheme);
+                localStorage.setItem("hashvera-theme", nextTheme);
+            });
+
+            const animatedItems = document.querySelectorAll(".panel, .metric-card, .block-card, .node-card, .chart-card, .audit-card, .user-admin-card, .auth-card, .brand-panel");
+
+            animatedItems.forEach(function (item, index) {
+                item.classList.add("ui-reveal");
+                item.style.setProperty("--reveal-delay", (index * 45) + "ms");
+            });
+
+            document.querySelectorAll("[data-counter]").forEach(function (counter) {
+                const target = Number(counter.getAttribute("data-counter")) || 0;
+                const suffix = counter.getAttribute("data-counter-suffix") || "";
+                const duration = 700;
+                const startTime = performance.now();
+
+                function updateCounter(timestamp) {
+                    const progress = Math.min((timestamp - startTime) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    counter.textContent = Math.round(target * eased) + suffix;
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+
+                requestAnimationFrame(updateCounter);
+            });
+
+            document.querySelectorAll("[data-collapsible-trigger]").forEach(function (trigger) {
+                trigger.addEventListener("click", function () {
+                    const targetId = trigger.getAttribute("data-collapsible-trigger");
+                    const panel = document.getElementById(targetId);
+                    if (!panel) {
+                        return;
+                    }
+
+                    const isOpen = panel.getAttribute("data-open") === "true";
+                    panel.setAttribute("data-open", String(!isOpen));
+                    const openLabel = trigger.getAttribute("data-open-label") || "Open Filters";
+                    const closeLabel = trigger.getAttribute("data-close-label") || "Close Filters";
+                    trigger.textContent = isOpen ? openLabel : closeLabel;
+
+                    const layout = document.getElementById("filter-chart-grid");
+                    if (layout) {
+                        layout.classList.toggle("filter-chart-grid-collapsed", isOpen);
+                    }
+                });
+            });
+
+            document.querySelectorAll(".toast-close").forEach(function (button) {
+                button.addEventListener("click", function () {
+                    const flash = button.closest(".flash");
+                    if (flash) {
+                        flash.remove();
+                    }
+                });
+            });
+
+            document.querySelectorAll(".flash").forEach(function (flash, index) {
+                setTimeout(function () {
+                    flash.style.opacity = "0";
+                    flash.style.transform = "translateX(12px)";
+                    setTimeout(function () {
+                    flash.remove();
+                }, 220);
+            }, 2200 + (index * 180));
+        });
+
+        const paginationStorageKey = "hashvera-pagination-scroll";
+        document.querySelectorAll(".pagination-bar a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                if (link.hash) {
+                    sessionStorage.removeItem(paginationStorageKey);
+                    return;
+                }
+                const scrollTarget = link.closest("section, .panel, main, .main-content") || document.scrollingElement || document.documentElement;
+                const targetTop = scrollTarget === document.scrollingElement || scrollTarget === document.documentElement
+                    ? window.scrollY
+                    : Math.max(scrollTarget.getBoundingClientRect().top + window.scrollY - 16, 0);
+                sessionStorage.setItem(paginationStorageKey, JSON.stringify({
+                    path: window.location.pathname,
+                    top: targetTop,
+                    time: Date.now()
+                }));
+            });
+        });
+
+        try {
+            const savedPaginationScroll = JSON.parse(sessionStorage.getItem(paginationStorageKey) || "null");
+            const hasPaginationQuery = Array.from(new URLSearchParams(window.location.search).keys()).some(function (key) {
+                return key === "page" || key.endsWith("_page");
+            });
+            if (
+                savedPaginationScroll &&
+                savedPaginationScroll.path === window.location.pathname &&
+                hasPaginationQuery &&
+                Date.now() - savedPaginationScroll.time < 10000
+            ) {
+                sessionStorage.removeItem(paginationStorageKey);
+                requestAnimationFrame(function () {
+                    window.scrollTo({ top: savedPaginationScroll.top, behavior: "smooth" });
+                });
+            }
+        } catch (error) {
+            sessionStorage.removeItem(paginationStorageKey);
+        }
+
+        document.querySelectorAll("form[data-live-search='true']").forEach(function (form) {
+            const textInput = form.querySelector("input[name='q']");
+            const sortSelect = form.querySelector("select[name='sort']");
+            const targetSelector = form.getAttribute("data-live-target");
+            const targetGrid = targetSelector ? document.querySelector(targetSelector) : null;
+            const emptyState = form.closest(".panel")?.querySelector(".page-live-empty");
+            const applyButton = form.querySelector("button[type='submit']");
+
+            function updateLiveFilter() {
+                if (!textInput || !targetGrid) {
+                    return;
+                }
+
+                const query = textInput.value.trim().toLowerCase();
+                const items = Array.from(targetGrid.children).filter(function (item) {
+                    return item.matches("article, .audit-card, .block-card, .user-admin-card");
+                });
+                let visibleCount = 0;
+
+                items.forEach(function (item) {
+                    const matches = !query || item.textContent.toLowerCase().includes(query);
+                    item.hidden = !matches;
+                    if (matches) {
+                        visibleCount += 1;
+                    }
+                });
+
+                if (emptyState) {
+                    emptyState.hidden = visibleCount !== 0 || !query;
+                }
+            }
+
+            if (textInput) {
+                textInput.addEventListener("input", updateLiveFilter);
+            }
+
+            if (sortSelect) {
+                sortSelect.addEventListener("change", function () {
+                    form.submit();
+                });
+            }
+
+            if (applyButton && textInput) {
+                applyButton.addEventListener("click", function (event) {
+                    if (textInput.value.trim()) {
+                        event.preventDefault();
+                        updateLiveFilter();
+                    }
+                });
+            }
+        });
+        });
+
+        document.addEventListener("click", function (event) {
+            const toggle = event.target.closest("[data-password-toggle]");
+            if (!toggle) {
+                return;
+            }
+
+            const targetId = toggle.getAttribute("data-password-toggle");
+            const input = document.getElementById(targetId);
+            if (!input) {
+                return;
+            }
+
+            const showing = input.type === "text";
+            input.type = showing ? "password" : "text";
+            toggle.innerHTML = showing
+                ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18" /><path d="M10.6 10.7a3 3 0 0 0 4 4" /><path d="M9.9 5.2A10.9 10.9 0 0 1 12 5c5 0 9.3 3.1 11 7-1 2.3-2.8 4.2-5 5.4" /><path d="M6.2 6.3C4.3 7.6 2.8 9.5 2 12c.7 1.7 1.9 3.3 3.4 4.5A10.5 10.5 0 0 0 12 19c1.5 0 2.9-.3 4.2-.8" /></svg>'
+                : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>';
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("action-modal");
+            const modalTitle = document.getElementById("modal-title");
+            const modalMessage = document.getElementById("modal-message");
+            const modalCancel = document.getElementById("modal-cancel");
+            const modalDownload = document.getElementById("modal-download");
+            const modalConfirm = document.getElementById("modal-confirm");
+            let pendingAction = null;
+            let pendingAttachment = null;
+
+            modal.hidden = true;
+
+            function closeModal() {
+                modal.hidden = true;
+                pendingAction = null;
+                pendingAttachment = null;
+                modalDownload.hidden = true;
+                modalConfirm.hidden = false;
+                modalConfirm.textContent = "Continue";
+            }
+
+            document.addEventListener("click", function (event) {
+                const attachment = event.target.closest("[data-attachment-link='true']");
+                if (attachment) {
+                    event.preventDefault();
+                    pendingAction = null;
+                    pendingAttachment = {
+                        openUrl: attachment.getAttribute("data-attachment-open-url"),
+                        downloadUrl: attachment.getAttribute("data-attachment-download-url"),
+                        name: attachment.getAttribute("data-attachment-name") || "this attachment",
+                        inlinePreview: attachment.getAttribute("data-attachment-inline") === "true"
+                    };
+                    modalTitle.textContent = "Attachment Options";
+                    if (pendingAttachment.inlinePreview) {
+                        modalMessage.textContent = `What do you want to do with ${pendingAttachment.name}?`;
+                        modalConfirm.textContent = "Open";
+                        modalConfirm.hidden = false;
+                    } else {
+                        modalMessage.textContent = `${pendingAttachment.name} cannot be previewed directly in most browsers, so download it to open it with the right app.`;
+                        modalConfirm.hidden = true;
+                    }
+                    modalDownload.hidden = false;
+                    modal.hidden = false;
+                    return;
+                }
+
+                const trigger = event.target.closest("[data-confirm-message]");
+                if (!trigger) {
+                    return;
+                }
+
+                event.preventDefault();
+                pendingAction = trigger;
+                pendingAttachment = null;
+                modalTitle.textContent = trigger.getAttribute("data-confirm-title") || "Please Confirm";
+                modalMessage.textContent = trigger.getAttribute("data-confirm-message");
+                modalConfirm.textContent = trigger.getAttribute("data-confirm-button") || "Continue";
+                modalConfirm.hidden = false;
+                modalDownload.hidden = true;
+                modal.hidden = false;
+            });
+
+            modalCancel.addEventListener("click", closeModal);
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            modalConfirm.addEventListener("click", function () {
+                if (pendingAttachment) {
+                    const openUrl = pendingAttachment.openUrl;
+                    closeModal();
+                    if (openUrl) {
+                        window.open(openUrl, "_blank", "noopener");
+                    }
+                    return;
+                }
+
+                if (!pendingAction) {
+                    return;
+                }
+
+                if (pendingAction.tagName === "A") {
+                    window.location.href = pendingAction.href;
+                    return;
+                }
+
+                const form = pendingAction.tagName === "FORM" ? pendingAction : pendingAction.closest("form");
+                if (form) {
+                    if (form.hasAttribute("data-ajax-action")) {
+                        closeModal();
+                        const formData = new FormData(form);
+                        fetch(form.action, {
+                            method: form.method,
+                            body: formData,
+                            headers: { "X-Requested-With": "XMLHttpRequest" }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const event = new CustomEvent("ajax-action-success", { detail: { form, data } });
+                                document.dispatchEvent(event);
+                            } else {
+                                alert(data.message || "Action failed.");
+                            }
+                        })
+                        .catch(err => {
+                            console.error("AJAX error:", err);
+                            alert("A network error occurred.");
+                        });
+                        return;
+                    }
+                    form.submit();
+                    return;
+                }
+            });
+
+            modalDownload.addEventListener("click", function () {
+                if (!pendingAttachment) {
+                    return;
+                }
+
+                const downloadUrl = pendingAttachment.downloadUrl;
+                closeModal();
+                if (downloadUrl) {
+                    window.location.href = downloadUrl;
+                }
+            });
+
+        });
+    </script>
+    <script src="/static/ai-assistant.js?v=1.6" defer></script>
+</body>
+</html>
