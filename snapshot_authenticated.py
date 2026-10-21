@@ -1,13 +1,4 @@
-from importlib import import_module
-
-try:
-    sync_playwright = import_module("playwright.sync_api").sync_playwright
-except ModuleNotFoundError as error:
-    raise SystemExit(
-        "Playwright is required. Install it with "
-        "'python -m pip install playwright' and then run "
-        "'python -m playwright install chromium'."
-    ) from error
+from playwright.sync_api import sync_playwright
 from pathlib import Path
 import re
 

@@ -392,8 +392,10 @@ def _local_answer(message, session_data):
     bye_words = {"bye", "goodbye", "see you", "see ya", "later", "good night", "gn",
                  "take care", "cya", "bye bye"}
 
+    message_words = set(clean_nopunct.split())
+
     # Greeting
-    if clean_nopunct in greeting_words or any(clean_nopunct.startswith(g) for g in greeting_words):
+    if clean_nopunct in greeting_words or any(clean_nopunct.startswith(g + " ") for g in greeting_words) or any(w in message_words for w in {"hi", "hello", "hey", "hii", "hiii", "helo", "hola", "yo", "sup", "namaste", "howdy", "greetings"}):
         if display_name:
             ans = f"Hey **{display_name}**! 👋 Welcome back to HashVera.\n\n"
         else:
@@ -459,14 +461,14 @@ def _local_answer(message, session_data):
         return {"answer": ans, "actions": actions, "mode": "local"}
 
     # Thank you
-    if any(p in clean_nopunct for p in thank_words):
+    if any(w in message_words for w in {"thanks", "thankyou", "ty", "thx"}) or any(p in clean_nopunct for p in {"thank you", "thank u", "thanks a lot", "thank you so much", "appreciated", "great thanks"}):
         name_part = f" **{display_name}**" if display_name else ""
         ans = f"You're welcome{name_part}! 😊 Happy to help. Let me know if you need anything else! 💬"
         actions = ROLE_ACTIONS.get(role, [{"label": "FAQ", "href": "/faq"}])[:2]
         return {"answer": ans, "actions": actions, "mode": "local"}
 
     # Goodbye
-    if clean_nopunct in bye_words or any(clean_nopunct.startswith(g) for g in bye_words):
+    if clean_nopunct in bye_words or any(clean_nopunct.startswith(g + " ") for g in bye_words) or any(w in message_words for w in {"bye", "goodbye", "cya"}):
         name_part = f", **{display_name}**" if display_name else ""
         ans = f"Goodbye{name_part}! 👋 Have a great day. I'll be right here whenever you need me! ✨"
         actions = []

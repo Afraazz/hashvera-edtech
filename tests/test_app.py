@@ -24,6 +24,7 @@ class HashVeraAppTests(unittest.TestCase):
         hashvera_app.app.config["TESTING"] = True
         hashvera_app.app.config["SECRET_KEY"] = "test-secret-key"
         hashvera_app.AppConfig.OPENAI_API_KEY = ""
+        hashvera_app.AppConfig.GEMINI_API_KEY = ""
 
         hashvera_app.init_db()
         self.client = hashvera_app.app.test_client()
