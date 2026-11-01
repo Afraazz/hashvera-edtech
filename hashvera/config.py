@@ -3,25 +3,34 @@ import socket
 import secrets
 import json
 
+
 class Config:
     APP_TITLE = "HashVera"
     BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+    # Environment configuration
     ENV_PATH = os.path.join(BASE_DIR, ".env")
-    INSTANCE_DIR = os.path.join(BASE_DIR, "instance")
-    DB_PATH = os.path.join(BASE_DIR, "hashvera.db")
+
+    # Persistent storage directory
+    DATA_DIR = os.environ.get("HASHVERA_DATA_DIR", BASE_DIR)
+
+    # Application storage
+    INSTANCE_DIR = os.path.join(DATA_DIR, "instance")
+    DB_PATH = os.path.join(DATA_DIR, "hashvera.db")
     SAMPLE_DATA_PATH = os.path.join(BASE_DIR, "data", "edtech_sample_records.csv")
-    UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+    UPLOAD_DIR = os.path.join(DATA_DIR, "uploads")
     BACKUP_DIR = os.path.join(INSTANCE_DIR, "backups")
-    
+
     SECRET_KEY_PATH = os.path.join(INSTANCE_DIR, "secret_key")
     NODE_SIGNING_SECRET_PATH = os.path.join(INSTANCE_DIR, "node_signing_secret")
-    
+
     ALLOWED_EXTENSIONS = {"pdf", "png", "jpg", "jpeg"}
     PROFILE_PHOTO_EXTENSIONS = {"png", "jpg", "jpeg"}
-    
+
     MAX_CONTENT_LENGTH = 10 * 1024 * 1024
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
+
 
     @staticmethod
     def load_local_env():
