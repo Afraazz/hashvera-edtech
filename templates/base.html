@@ -41,7 +41,47 @@
                         <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
                         <span>Verify Credentials</span>
                     </a>
-                    {% block top_nav %}{% endblock %}
+                    {% block top_nav %}
+                    {% if session.get('user') %}
+                    <div class="dashboard-profile-row">
+                        <div class="profile-dropdown" id="profile-dropdown">
+                            <button class="profile-dropdown-trigger" onclick="document.getElementById('profile-dropdown').classList.toggle('is-open')" type="button" aria-label="User menu">
+                                <div class="dashboard-profile-avatar">
+                                    <span>{{ session["user"][:1]|upper }}</span>
+                                </div>
+                                <ion-icon name="chevron-down-outline" class="profile-chevron"></ion-icon>
+                            </button>
+                            <div class="profile-dropdown-menu">
+                                <div class="profile-dropdown-header">
+                                    <strong>{{ session["user"] }}</strong>
+                                    <span class="role-badge" style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">{{ session["role"] }}</span>
+                                </div>
+                                <div class="profile-dropdown-divider"></div>
+                                <a class="profile-dropdown-item" href="{{ url_for('records.dashboard') }}">
+                                    <ion-icon name="grid-outline"></ion-icon> Dashboard
+                                </a>
+                                <a class="profile-dropdown-item" href="{{ url_for('records.profile_settings') }}">
+                                    <ion-icon name="person-outline"></ion-icon> Profile Settings
+                                </a>
+                                <a class="profile-dropdown-item" href="{{ url_for('auth.change_password') }}">
+                                    <ion-icon name="key-outline"></ion-icon> Change Password
+                                </a>
+                                <a class="profile-dropdown-item" href="{{ url_for('records.notifications_page') }}">
+                                    <ion-icon name="notifications-outline"></ion-icon> Notifications
+                                    {% if notification_unread_count %}<span class="action-badge" style="margin-left: auto;">{{ notification_unread_count }}</span>{% endif %}
+                                </a>
+                                <div class="profile-dropdown-divider"></div>
+                                <form method="post" action="{{ url_for('auth.logout') }}" style="margin: 0;">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="profile-dropdown-item profile-dropdown-logout">
+                                        <ion-icon name="log-out-outline"></ion-icon> Sign Out
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endblock %}
                 </div>
             </header>
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -341,6 +381,11 @@
         });
 
         document.addEventListener("click", function (event) {
+            const dropdown = document.getElementById("profile-dropdown");
+            if (dropdown && !dropdown.contains(event.target)) {
+                dropdown.classList.remove("is-open");
+            }
+
             const toggle = event.target.closest("[data-password-toggle]");
             if (!toggle) {
                 return;

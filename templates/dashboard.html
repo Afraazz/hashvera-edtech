@@ -1167,6 +1167,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 setSidebarHidden(dashboardShell.classList.contains("dashboard-sidebar-open"), { skipPersist: startsOnMobile });
             });
         });
+
+        // Close mobile drawer when tapping backdrop or pressing Escape
+        dashboardShell.addEventListener("click", (e) => {
+            if (window.matchMedia("(max-width: 960px)").matches && dashboardShell.classList.contains("dashboard-sidebar-open")) {
+                const toolbar = dashboardShell.querySelector(".dashboard-toolbar");
+                const isToggle = e.target.closest("[data-dashboard-sidebar-toggle]");
+                if (toolbar && !toolbar.contains(e.target) && !isToggle) {
+                    setSidebarHidden(true, { skipPersist: true });
+                }
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && dashboardShell.classList.contains("dashboard-sidebar-open")) {
+                setSidebarHidden(true, { skipPersist: true });
+            }
+        });
     }
 
     // 1. Visual Integrity Scanner

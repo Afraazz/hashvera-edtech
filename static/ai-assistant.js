@@ -124,16 +124,25 @@
         const panel = document.getElementById("ai-assistant-panel");
         const aiThemeRoot = document.getElementById('ai-assistant-theme');
 
-        // Auto OS-based theming — scoped only to the AI assistant wrapper
+        // Synchronize assistant theme with HashVera data-theme or system preference
         function applyTheme() {
             if (!aiThemeRoot) return;
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            aiThemeRoot.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+            const currentTheme = document.body.getAttribute('data-theme') || 
+                                 (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            aiThemeRoot.setAttribute('data-theme', currentTheme);
         }
 
-        // Apply immediately and listen for OS theme changes
+        // Apply immediately and listen for both system and HashVera theme toggle changes
         applyTheme();
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+        const themeObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
+                    applyTheme();
+                }
+            });
+        });
+        themeObserver.observe(document.body, { attributes: true, attributeFilter: ["data-theme"] });
 
         const messages = document.getElementById("ai-assistant-messages");
         const form = document.getElementById("ai-assistant-form");
