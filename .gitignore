@@ -23,3 +23,19 @@ uploads/
 
 .DS_Store
 Thumbs.db
+
+
+# Local development and browser data
+.vscode/
+project-snapshots/
+scratch/
+snapshot-browser-profile/
+
+# Secrets and databases
+.env
+.env.*
+!.env.example
+*.db
+*.sqlite
+*.sqlite3
+instance/
